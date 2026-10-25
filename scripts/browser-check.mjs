@@ -65,10 +65,10 @@ try {
     await page.keyboard.press('Tab');
     const skip = await page.evaluate(() => { const a = document.activeElement; return a.getAttribute('href') === '#main' && a.getBoundingClientRect().width > 50; });
     expect(where, skip, 'first Tab should reach a visible skip link');
-    await page.focus('.a11y-widget__toggle');
+    await page.focus('[data-part="toggle"]');
     await page.keyboard.press('Enter');
-    expect(where, await page.getAttribute('.a11y-widget__toggle', 'aria-expanded') === 'true', 'Enter should open the panel');
-    expect(where, await page.evaluate(() => document.activeElement.classList.contains('a11y-widget__title')), 'focus should move into the panel');
+    expect(where, await page.getAttribute('[data-part="toggle"]', 'aria-expanded') === 'true', 'Enter should open the panel');
+    expect(where, await page.evaluate(() => document.activeElement.dataset.part === 'title'), 'focus should move into the panel');
     await page.keyboard.press('Tab'); // close button
     await page.keyboard.press('Tab'); // first radio of "Text size" (checked one)
     await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
@@ -79,12 +79,12 @@ try {
     await page.check('input[role="switch"][name="spacing"]');
     expect(where, await page.getAttribute('html', 'data-a11y-spacing') === 'on', 'switch should turn spacing on');
     await page.keyboard.press('Escape');
-    expect(where, await page.getAttribute('.a11y-widget__toggle', 'aria-expanded') === 'false', 'Escape should close');
-    expect(where, await page.evaluate(() => document.activeElement.classList.contains('a11y-widget__toggle')), 'focus should return to the toggle');
+    expect(where, await page.getAttribute('[data-part="toggle"]', 'aria-expanded') === 'false', 'Escape should close');
+    expect(where, await page.evaluate(() => document.activeElement.dataset.part === 'toggle'), 'focus should return to the toggle');
     await page.keyboard.press('Alt+Shift+KeyA');
-    expect(where, await page.isVisible('.a11y-widget__panel'), 'Alt+Shift+A should open');
+    expect(where, await page.isVisible('[data-part="panel"]'), 'Alt+Shift+A should open');
     await page.mouse.click(10, 450);
-    expect(where, !(await page.isVisible('.a11y-widget__panel')), 'outside click should close');
+    expect(where, !(await page.isVisible('[data-part="panel"]')), 'outside click should close');
     await page.reload();
     await page.waitForFunction(() => globalThis.a11yWidget);
     expect(where, await page.getAttribute('html', 'data-a11y-text') === '130', 'setting should persist after reload');
@@ -116,7 +116,7 @@ try {
     const {context, page} = await open({viewport: {width: 320, height: 640}}, where, state);
     expect(where, !(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)), 'horizontal scroll at 320px');
     await page.evaluate(() => globalThis.a11yWidget.open());
-    const box = await page.evaluate(() => { const r = document.querySelector('.a11y-widget__panel').getBoundingClientRect(); return {left: r.left, right: r.right, top: r.top}; });
+    const box = await page.evaluate(() => { const r = document.querySelector('[data-part="panel"]').getBoundingClientRect(); return {left: r.left, right: r.right, top: r.top}; });
     expect(where, box.left >= 0 && box.right <= 320 && box.top >= 0, `panel off-screen ${JSON.stringify(box)}`);
     await context.close();
   }
@@ -191,6 +191,29 @@ try {
       await context.close();
     }
     console.log(`  content scan: ${(small.length / 1024).toFixed(1)} KB (full ${(full.length / 1024).toFixed(0)} KB) in ${ms} ms`);
+  }
+  // 10. The atomic grid (create() styles) renders exactly like grid.css.
+  for (const width of [390, 1024, 1100, 1300, 1500]) {
+    const where = `atomic-grid/${width}`;
+    const context = await browser.newContext({viewport: {width, height: 900}});
+    const page = await context.newPage();
+    page.on('pageerror', error => fail(where, error.message));
+    await page.goto(base + 'test/fixtures/grid.html');
+    await page.waitForSelector('body[data-ready]');
+    const diffs = await page.evaluate(() => {
+      const props = ['display', 'gridTemplateColumns', 'rowGap', 'columnGap', 'paddingTop', 'paddingRight', 'paddingBottom', 'paddingLeft', 'marginLeft', 'marginRight', 'width', 'maxWidth', 'flexDirection', 'alignItems', 'justifyContent', 'order', 'textAlign', 'overflow', 'backgroundColor', 'gridColumnStart', 'gridColumnEnd'];
+      const a = [...document.querySelectorAll('#classic *')], b = [...document.querySelectorAll('#atomic *')];
+      if (a.length !== b.length) return [`element count ${a.length} vs ${b.length}`];
+      const out = [];
+      a.forEach((el, i) => {
+        const x = getComputedStyle(el), y = getComputedStyle(b[i]);
+        for (const p of props) if (x[p] !== y[p]) out.push(`${el.tagName.toLowerCase()}.${el.className} ${p}: ${x[p]} vs ${y[p]}`);
+      });
+      return out;
+    });
+    checks++;
+    for (const d of diffs.slice(0, 5)) fail(where, d);
+    await context.close();
   }
 } finally {
   await browser.close();

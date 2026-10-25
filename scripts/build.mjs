@@ -3,17 +3,21 @@
 //
 //   node scripts/build.mjs                          → full dist/ bundle
 //   node scripts/build.mjs --content "_site/**/*.html" --out site.css
-//                                                   → only the classes those files use
+//                                                   → only the Tailwind classes those files use
+//   … --styles "src/**/*.styles.js"                  → plus atomic rules from your create() modules
 //
-// Cascade layers (same names as Tailwind v4, plus a11y last):
-//   theme → base → components (grid.css, widget) → utilities → a11y (widget modes)
-// so utilities beat the grid and widget, your own unlayered CSS beats utilities,
-// and the reader's widget choices (!important in a layer) beat everything.
+// Cascade layers:
+//   theme → base → components (grid.css) → atomic (Facebook/StyleX-style classes
+//   from create(): grid, widget, your style modules) → utilities (Tailwind names) → a11y (widget modes)
+// so Tailwind classes can override atomic styles, your own unlayered CSS beats
+// both, and the reader's widget choices (!important in a layer) beat everything.
 import {readFile, writeFile, mkdir, glob} from 'node:fs/promises';
 import {pathToFileURL} from 'node:url';
 import path from 'node:path';
 import * as tokens from '../src/tokens.mjs';
-import {SETTINGS} from '../src/widget.js';
+import {SETTINGS} from '../src/widget.js'; // also registers the widget's atomic styles
+import {registry, isShorthand} from '../src/atomic.js';
+import '../src/grid.styles.js';
 
 const read = file => readFile(new URL(`../src/${file}`, import.meta.url), 'utf8');
 const pkg = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'));
@@ -332,6 +336,41 @@ function utilitiesCss(used) {
   return out.filter(Boolean).join('\n');
 }
 
+// ---------- atomic layer (rules registered by create()) ----------
+const minWidth = text => Math.max(0, ...[...String(text).matchAll(/min-width:\s*(\d+)px/g)].map(m => Number(m[1])));
+
+/** Every registered atomic rule as {className, css, order}; one declaration each. */
+export function atomicRules() {
+  const out = [];
+  let index = 0;
+  for (const [className, rule] of registry) {
+    const pseudos = rule.conditions.filter(c => c.startsWith(':')).join('');
+    const atRules = rule.conditions.filter(c => /^@(media|supports|container) /.test(c));
+    const shortcuts = rule.conditions.filter(c => c.startsWith('@') && !atRules.includes(c)).map(c => VARIANTS[c.slice(1)]);
+    if (shortcuts.filter(v => v.ctx.some(([prefix]) => prefix)).length > 1) throw new Error(`${className}: combine at most one widget condition (${rule.conditions})`);
+    let contexts = [['', []]];
+    for (const v of shortcuts) contexts = contexts.flatMap(([prefix, media]) => v.ctx.map(([p, m]) => [prefix + p, m ? [...media, `@media ${m}`] : media]));
+    const decl = `${rule.property}: ${rule.value};`;
+    const weight = minWidth(rule.conditions.join(' ')) || Math.max(0, ...shortcuts.map(v => minWidth(v.ctx[0][1] || '')));
+    const rank = (pseudos ? 1 : 0) + (atRules.length || shortcuts.length ? 2 : 0);
+    const order = [rank, weight, isShorthand(rule.property) ? 0 : 1, index++];
+    const css = contexts.map(([prefix, media]) => {
+      const selector = `${prefix}.${className}${pseudos}${rule.pseudoElement || ''}`;
+      return [...atRules, ...media].reduceRight((inner, at) => `${at} { ${inner} }`, `${selector} { ${decl} }`);
+    }).join('\n');
+    out.push({className, css, order});
+  }
+  const cmp = (a, b) => a.order.findIndex((v, i) => v !== b.order[i]);
+  return out.sort((a, b) => { const i = cmp(a, b); return i < 0 ? 0 : a.order[i] - b.order[i]; });
+}
+
+/** Import style modules (they register rules by calling create()). */
+export async function loadStyles(patterns, cwd = process.cwd()) {
+  for (const pattern of [].concat(patterns || [])) {
+    for await (const file of glob(pattern, {cwd})) await import(pathToFileURL(path.resolve(cwd, file)).href);
+  }
+}
+
 // Pre-paint script: applies saved settings before first render so pages do not flash.
 function initScript() {
   const allowed = Object.fromEntries(SETTINGS.map(s => [s.key, s.options.map(([v]) => v).filter(v => v !== s.default)]));
@@ -345,14 +384,16 @@ export const minify = css => css.replace(/\/\*(?!!)[\s\S]*?\*\//g, '').replace(/
 const layer = (name, css) => `@layer ${name} {\n${css}\n}`;
 
 /** Build the CSS. Pass {content: globs} to keep only classes those files use. */
-export async function build({content, cwd} = {}) {
+export async function build({content, styles, cwd} = {}) {
+  await loadStyles(styles, cwd);
   const used = content ? await scan(content, cwd) : null;
   return [
     `/*! a11y-atomic v${pkg.version} | MIT | Tailwind-compatible atomic CSS on accessibility tokens */`,
-    '@layer theme, base, components, utilities, a11y;',
+    '@layer theme, base, components, atomic, utilities, a11y;',
     layer('theme', themeCss()),
     layer('base', await read('base.css')),
-    layer('components', `/* src/grid.css — andrewrico eleventy grid, unchanged */\n${await read('grid.css')}\n\n/* src/widget.css */\n${await read('widget.css')}`),
+    layer('components', `/* src/grid.css — andrewrico eleventy grid, unchanged */\n${await read('grid.css')}`),
+    layer('atomic', atomicRules().map(r => r.css).join('\n')),
     layer('utilities', utilitiesCss(used)),
     layer('a11y', await read('modes.css')),
   ].join('\n\n') + '\n';
@@ -373,7 +414,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const opt = flag => { const i = args.indexOf(flag); return i > -1 ? args[i + 1] : undefined; };
   const t = performance.now();
   if (opt('--content')) {
-    const css = minify(await build({content: opt('--content').split(',')}));
+    const css = minify(await build({content: opt('--content').split(','), styles: opt('--styles')?.split(',')}));
     const out = opt('--out') || 'a11y-atomic.site.css';
     await writeFile(out, css + '\n');
     console.log(`${out} ${(css.length / 1024).toFixed(1)} KB in ${Math.round(performance.now() - t)} ms`);

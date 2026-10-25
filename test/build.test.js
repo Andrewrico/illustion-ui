@@ -12,14 +12,14 @@ const grid = await readFile(new URL('../src/grid.css', import.meta.url), 'utf8')
 const list = utilities();
 const names = list.map(([n]) => n);
 
-test('layers are declared in Tailwind v4 order with a11y last', () => {
-  assert.ok(css.includes('@layer theme, base, components, utilities, a11y;'));
-  const order = ['theme', 'base', 'components', 'utilities', 'a11y'].map(l => css.indexOf(`@layer ${l} {`));
+test('layers: Tailwind v4 names, atomic before utilities, a11y last', () => {
+  assert.ok(css.includes('@layer theme, base, components, atomic, utilities, a11y;'));
+  const order = ['theme', 'base', 'components', 'atomic', 'utilities', 'a11y'].map(l => css.indexOf(`@layer ${l} {`));
   assert.deepEqual([...order].sort((a, b) => a - b), order);
 });
 
 test('grid.css ships unchanged in the components layer', () => {
-  const components = css.slice(css.indexOf('@layer components {'), css.indexOf('@layer utilities {'));
+  const components = css.slice(css.indexOf('@layer components {'), css.indexOf('@layer atomic {'));
   assert.ok(components.includes(grid));
 });
 

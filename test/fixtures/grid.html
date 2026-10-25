@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>grid.css vs atomic grid</title>
+  <link rel="stylesheet" href="/dist/a11y-atomic.css">
+</head>
+<body>
+  <main>
+    <div id="classic">
+      <section class="grid__section" style="--background: #eef">
+        <h2 class="grid__title">Title</h2>
+        <div class="grid__wrapper" style="--column-table: repeat(2, 1fr); --column-laptop: repeat(3, 1fr); --column-desktop: repeat(4, 1fr); --gap: 1.5rem">
+          <div class="grid__row">Row</div>
+          <div class="grid__column">One</div>
+          <div class="grid__column" style="--flow: row; --align-items: center">Two</div>
+          <div class="grid__column">Three</div>
+          <div class="grid__column">Four</div>
+        </div>
+        <div class="grid__wrapper" style="--column-count: repeat(3, 1fr)">
+          <div class="grid__column">A</div>
+          <div class="grid__column">B</div>
+        </div>
+      </section>
+    </div>
+    <div id="atomic"></div>
+  </main>
+  <script type="module">
+    import {grid} from '/src/grid.styles.js';
+    import {classes} from '/src/atomic.js';
+    const map = {grid__section: grid.section, grid__title: grid.title, grid__wrapper: grid.wrapper, grid__row: grid.row, grid__column: grid.column};
+    const copy = document.getElementById('classic').cloneNode(true);
+    for (const el of copy.querySelectorAll('[class]')) el.className = classes(map[el.className]);
+    // grid.css's ".grid__wrapper + .grid__wrapper" sibling rule → wrapperNext
+    const second = copy.querySelectorAll('section > div')[1];
+    second.className = classes(grid.wrapper, grid.wrapperNext);
+    document.getElementById('atomic').append(...copy.children);
+    document.body.dataset.ready = 'true';
+  </script>
+</body>
+</html>

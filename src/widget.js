@@ -2,6 +2,9 @@
 // Settings become data-a11y-<key> attributes on <html>; the CSS framework reads
 // them. Pure helpers (sanitize/apply/load/save) work without a DOM for tests.
 
+import {classes as cx} from './atomic.js';
+import {styles as st} from './widget.styles.js';
+
 export const STORAGE_KEY = 'a11y-atomic';
 
 // type 'choice' renders a radio group, 'toggle' a switch (options = [off, on]).
@@ -88,31 +91,39 @@ export function mount(options = {}) {
   const id = `a11y-widget-${++uid}`;
   let state = applySettings(root, loadState(storage));
 
+  const left = options.position === 'bottom-left';
   const el = doc.createElement('div');
-  el.className = 'a11y-widget';
-  el.dataset.position = options.position === 'bottom-left' ? 'bottom-left' : 'bottom-right';
+  // .a11y-widget is a hook (modes.css keeps the widget legible); styling is atomic.
+  el.className = `a11y-widget ${cx(st.root, left && st.rootLeft)}`;
+  el.dataset.position = left ? 'bottom-left' : 'bottom-right';
+  const sr = cx(st.srOnly);
   el.innerHTML = `
-    <button type="button" class="a11y-widget__toggle min-h-target min-w-target" aria-expanded="false" aria-controls="${id}-panel">${ICON}<span class="sr-only">${title} settings</span></button>
-    <section id="${id}-panel" class="a11y-widget__panel" role="dialog" aria-modal="false" aria-labelledby="${id}-title" hidden>
-      <div class="a11y-widget__header">
-        <h2 id="${id}-title" class="a11y-widget__title" tabindex="-1">${title}</h2>
-        <button type="button" class="a11y-widget__close min-h-target min-w-target" data-a11y-close><span aria-hidden="true">&times;</span><span class="sr-only">Close ${title.toLowerCase()} settings</span></button>
+    <button type="button" data-part="toggle" class="${cx(st.toggle)}" aria-expanded="false" aria-controls="${id}-panel">${ICON}<span class="${sr}">${title} settings</span></button>
+    <section id="${id}-panel" data-part="panel" class="${cx(st.panel, left && st.panelLeft)}" role="dialog" aria-modal="false" aria-labelledby="${id}-title" hidden>
+      <div class="${cx(st.header)}">
+        <h2 id="${id}-title" data-part="title" class="${cx(st.title)}" tabindex="-1">${title}</h2>
+        <button type="button" class="${cx(st.button, st.close)}" data-a11y-close><span aria-hidden="true">&times;</span><span class="${sr}">Close ${title.toLowerCase()} settings</span></button>
       </div>
-      <form class="a11y-widget__form">
+      <form class="${cx(st.form)}">
         ${SETTINGS.map(s => (s.type === 'toggle' ? toggleHtml(id, s) : choiceHtml(id, s))).join('')}
       </form>
-      <div class="a11y-widget__footer">
-        <button type="button" class="a11y-widget__reset min-h-target min-w-target" data-a11y-reset>Reset all</button>
+      <div class="${cx(st.footer)}">
+        <button type="button" class="${cx(st.button, st.reset)}" data-a11y-reset>Reset all</button>
       </div>
-      <p class="sr-only" aria-live="polite" data-a11y-status></p>
+      <p class="${sr}" aria-live="polite" data-a11y-status></p>
     </section>`;
   (options.container || doc.body).append(el);
 
-  const toggle = el.querySelector('.a11y-widget__toggle');
-  const panel = el.querySelector('.a11y-widget__panel');
+  const toggle = el.querySelector('[data-part="toggle"]');
+  const panel = el.querySelector('[data-part="panel"]');
   const form = el.querySelector('form');
   const status = el.querySelector('[data-a11y-status]');
-  const heading = el.querySelector('.a11y-widget__title');
+  const heading = el.querySelector('[data-part="title"]');
+  const setOpen = isOpen => {
+    panel.hidden = !isOpen;
+    toggle.setAttribute('aria-expanded', String(isOpen));
+    toggle.className = cx(st.toggle, isOpen && st.toggleOpen);
+  };
 
   const sync = () => {
     for (const s of SETTINGS) {
@@ -130,14 +141,12 @@ export function mount(options = {}) {
   };
 
   const open = () => {
-    panel.hidden = false;
-    toggle.setAttribute('aria-expanded', 'true');
+    setOpen(true);
     heading.focus();
   };
   const close = (returnFocus = true) => {
     if (panel.hidden) return;
-    panel.hidden = true;
-    toggle.setAttribute('aria-expanded', 'false');
+    setOpen(false);
     if (returnFocus) toggle.focus();
   };
   const reset = () => commit(defaults(), 'All accessibility settings reset');
@@ -176,18 +185,18 @@ export function mount(options = {}) {
 }
 
 function choiceHtml(id, s) {
-  return `<fieldset class="a11y-widget__group">
-      <legend class="a11y-widget__legend">${s.label}</legend>
-      <div class="a11y-widget__options">
-        ${s.options.map(([value, label]) => `<label class="a11y-widget__option"><input type="radio" name="${s.key}" value="${value}"><span>${label}</span></label>`).join('')}
+  return `<fieldset class="${cx(st.group)}">
+      <legend class="${cx(st.legend)}">${s.label}</legend>
+      <div class="${cx(st.options)}">
+        ${s.options.map(([value, label]) => `<label class="${cx(st.option)}"><input class="${cx(st.optionInput)}" type="radio" name="${s.key}" value="${value}"><span>${label}</span></label>`).join('')}
       </div>
     </fieldset>`;
 }
 
 function toggleHtml(id, s) {
-  return `<label class="a11y-widget__switch" for="${id}-${s.key}">
+  return `<label class="${cx(st.switchRow)}" for="${id}-${s.key}">
       <span>${s.label}</span>
-      <input type="checkbox" role="switch" id="${id}-${s.key}" name="${s.key}">
+      <input class="${cx(st.switch)}" type="checkbox" role="switch" id="${id}-${s.key}" name="${s.key}">
     </label>`;
 }
 
