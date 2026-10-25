@@ -53,12 +53,14 @@ export function hash(text) {
   return (h >>> 0).toString(36);
 }
 
-function register(property, value, conditions, pseudoElement) {
-  const signature = `${conditions.join('&')}|${pseudoElement || ''}|${property}:${value}`;
+// layer: the cascade layer the rule is emitted in ('atomic' unless compiled from
+// a component or utility, which keep their original layer so precedence is unchanged).
+function register(property, value, conditions, pseudoElement, layer = 'atomic') {
+  const signature = `${layer === 'atomic' ? '' : `${layer}#`}${conditions.join('&')}|${pseudoElement || ''}|${property}:${value}`;
   const className = `${PREFIX}_${hash(signature)}`;
   const existing = registry.get(className);
   if (existing && existing.signature !== signature) throw new Error(`atomic class collision: ${className} (${existing.signature} vs ${signature})`);
-  if (!existing) registry.set(className, {signature, property, value: String(value), conditions, pseudoElement});
+  if (!existing) registry.set(className, {signature, property, value: String(value), conditions, pseudoElement, layer});
   return className;
 }
 
@@ -74,25 +76,25 @@ function expand(value, conditions = []) {
   });
 }
 
-function compileStyle(style, pseudoElement = null) {
+function compileStyle(style, pseudoElement = null, layer = 'atomic') {
   const out = {}; // merge key → className
   for (const [prop, value] of Object.entries(style)) {
     if (prop.startsWith('::')) {
-      Object.assign(out, compileStyle(value, prop));
+      Object.assign(out, compileStyle(value, prop, layer));
       continue;
     }
     const property = kebab(prop);
     for (const [conditions, v] of expand(value)) {
       const key = `${pseudoElement || ''}|${conditions.join('&')}|${property}`;
-      out[key] = register(property, v, conditions, pseudoElement);
+      out[key] = register(property, v, conditions, pseudoElement, layer);
     }
   }
   return out;
 }
 
 /** Compile a map of named styles. Each result is an opaque object for props()/classes(). */
-export function create(styles) {
-  return Object.fromEntries(Object.entries(styles).map(([name, style]) => [name, Object.freeze(compileStyle(style))]));
+export function create(styles, {layer = 'atomic'} = {}) {
+  return Object.fromEntries(Object.entries(styles).map(([name, style]) => [name, Object.freeze(compileStyle(style, null, layer))]));
 }
 
 /** Merge styles left to right (falsy values skipped) and return {className}. */
@@ -139,7 +141,7 @@ export function rules() {
       const selector = `${prefix}.${className}${pseudos}${rule.pseudoElement || ''}`;
       return [...atRules, ...media].reduceRight((inner, at) => `${at} { ${inner} }`, `${selector} { ${decl} }`);
     }).join('\n');
-    out.push({className, css, order});
+    out.push({className, css, order, layer: rule.layer});
   }
   const cmp = (a, b) => a.order.findIndex((v, i) => v !== b.order[i]);
   return out.sort((a, b) => { const i = cmp(a, b); return i < 0 ? 0 : a.order[i] - b.order[i]; });

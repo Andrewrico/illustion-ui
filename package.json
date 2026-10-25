@@ -52,7 +52,8 @@
     "build:site": "node scripts/build.mjs --content",
     "dev": "node scripts/build.mjs && node scripts/serve.mjs",
     "test": "node scripts/build.mjs && node --test",
-    "test:browser": "node scripts/build.mjs && node scripts/browser-check.mjs",
+    "test:browser": "node scripts/build.mjs && node scripts/demo-compile.mjs && node scripts/browser-check.mjs",
+    "demo:compile": "node scripts/demo-compile.mjs",
     "check": "npm test && npm run test:browser",
     "wcag:sync": "node scripts/wcag-sync.mjs",
     "wcag:report": "node scripts/wcag-report.mjs"

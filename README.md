@@ -6,6 +6,39 @@ When a setting is automatic, the operating system preference is used.
 
 The framework is tied to the W3C WAI rules: every feature maps to WCAG 2.2 success criteria, checked against W3C's own data, and a sync script reports when W3C changes them. See [Tied to W3C WAI](#tied-to-w3c-wai) and [WCAG.md](WCAG.md).
 
+## What ships is atomic
+
+You write readable classes; pages ship atomic ones. The per-page build compiles every framework class in the HTML into generated `ax_` classes, **one declaration each**, shared across the site, Facebook style:
+
+```html
+<!-- you write -->
+<div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-8 hover:ax-bg-surface">
+
+<!-- the page ships -->
+<div class="ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_bpv9b3 ax_8badiq ax_h04ltk">
+```
+
+```css
+.ax_98t27f { display: grid; }
+@media (min-width: 1024px) { .ax_q5qnqt { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (hover: hover) { .ax_h04ltk:hover { background-color: var(--ax-color-surface); } }
+```
+
+| Rule | |
+|---|---|
+| One declaration per class | `ax-text-lg` (size + line height) ships as two classes; your grid ships as the atomic classes of its proven-identical twin. |
+| Same cascade | Compiled rules stay in their original layer (grid → components, utilities → utilities); per element, the last class wins per property, lower layers first. |
+| Proven | A browser test compares the compiled demo with the readable source in four modes (desktop, mobile, dark + high contrast at 200% text, tablet with text spacing): identical computed styles on every element, and no class in the markup that isn't `ax_`. axe passes on the compiled page. |
+| Stays readable | Classes that need an ancestor or child selector (`group-hover:*`, `ax-space-x/y-*`) and your own classes. Class strings built inside `<script>` are not rewritten; their readable rules are still included. |
+
+```sh
+npx a11y-atomic --pages "_site/**/*.html"            # compiled (default)
+npx a11y-atomic --pages "_site/**/*.html" --readable # keep readable names
+npm run demo:compile                                 # writes compiled.html (open /compiled.html on the dev server)
+```
+
+The Eleventy plugin compiles with `perPage: true` (`compile: false` to keep readable names).
+
 ## Naming standard
 
 Every name the framework owns starts with `ax` (a11y + atomic), so nothing generic can clash with a site's own CSS or with Tailwind on the same page. The prefix lives in `src/naming.js`.
@@ -93,8 +126,9 @@ The widget is built with this engine (`src/widget.styles.js`), and so is an atom
 
 | Part | Atomic? |
 |---|---|
+| What pages ship (compiled build) | Yes: every framework class becomes `ax_` classes with one declaration each, tested on the demo. |
 | Atomic engine, the widget and the atomic grid | Yes: one declaration per class, every rule tested. |
-| Tailwind-compatible utilities (1,359) | 1,287 set one property. 72 set two or more, exactly as Tailwind does (`ax-text-lg` = size + line height, `ax-rounded-t-lg`, `ax-size-6`, `ax-transition`, `ax-sr-only`, `ax-truncate`, `ax-stretched-link`). Use the engine when you need strict atomic. |
+| Readable utilities while authoring (1,359) | 1,287 set one property; compiled, all of them ship as one-declaration classes. 72 set two or more, exactly as Tailwind does (`ax-text-lg` = size + line height, `ax-rounded-t-lg`, `ax-size-6`, `ax-transition`, `ax-sr-only`, `ax-truncate`, `ax-stretched-link`). Use the engine when you need strict atomic. |
 | Grid (`ax-grid-*`) | No: component classes from `grid.css`, with standard names. `grid.styles.js` is its strict atomic twin. |
 | Variable utilities (`ax--KEY`) | Yes: one declaration per rule. |
 
@@ -675,7 +709,7 @@ npm run dev
 
 `npm test` runs the unit tests: contrast of every token pair in all themes, Tailwind class names and values, variants, layers, the content scan, the Eleventy plugin, the widget state helpers and the WCAG mapping.
 
-`npm run test:browser` runs 78 Chromium checks: axe-core (WCAG 2.2 A/AA) in 6 theme and mode states with the widget open, keyboard flow, persistence, reflow at 320px with 200% text, grid columns per breakpoint, `large-text:` and the switcher at 200% text, the stretched link, OS preference fallbacks, identical computed styles between the content-scanned CSS and the full bundle, the atomic grid against `grid.css` at five widths, per-page builds against the full bundle, web components / shadow DOM, and variable utilities (breakpoints, large text, hover, no inheritance, `revert-layer` fallback).
+`npm run test:browser` runs 84 Chromium checks: axe-core (WCAG 2.2 A/AA) in 6 theme and mode states with the widget open, keyboard flow, persistence, reflow at 320px with 200% text, grid columns per breakpoint, `large-text:` and the switcher at 200% text, the stretched link, OS preference fallbacks, identical computed styles between the content-scanned CSS and the full bundle, the atomic grid against `grid.css` at five widths, per-page builds against the full bundle, web components / shadow DOM, variable utilities (breakpoints, large text, hover, no inheritance, `revert-layer` fallback), and the compiled demo against the readable source in four modes.
 
 `npm run check` runs both test commands. `npm run wcag:sync` checks for W3C rule changes.
 

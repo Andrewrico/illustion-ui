@@ -16,7 +16,8 @@ import {pathToFileURL} from 'node:url';
 import path from 'node:path';
 import * as tokens from '../src/tokens.mjs';
 import {SETTINGS} from '../src/widget.js'; // also registers the widget's atomic styles
-import {rules} from '../src/atomic.js';
+import {rules, create, props as mergeStyles} from '../src/atomic.js';
+import {gridStyles} from '../src/grid.styles.js';
 import {VARIANTS} from '../src/conditions.js';
 import {PREFIX, standardizeGrid} from '../src/naming.js';
 import {toShadow} from '../src/shadow-css.js';
@@ -407,7 +408,7 @@ export async function build({content, styles, cwd} = {}) {
     layer('theme', themeCss()),
     layer('base', await read('base.css')),
     layer('components', `/* src/grid.css (andrewrico eleventy grid) with standard names */\n${standardizeGrid(await read('grid.css'))}`),
-    layer('atomic', atomicRules().map(r => r.css).join('\n')),
+    layer('atomic', atomicRules().filter(r => r.layer === 'atomic').map(r => r.css).join('\n')),
     layer('utilities', `${utilitiesCss(used)}\n/* variable utilities */\n${varUtilitiesCss(used).css}`),
     layer('a11y', await read('modes.css')),
   ].join('\n\n') + '\n';
@@ -425,18 +426,106 @@ export async function buildCore() {
 }
 
 /** Only what this page's HTML uses: grid.css if it uses the grid, used atomic and Tailwind classes. */
-export async function buildPage(html, {styles, cwd} = {}) {
+export async function buildPage(html, {styles, cwd, compile = false} = {}) {
   await loadStyles(styles, cwd);
-  const used = tokenize(html);
+  const compiled = compile ? compileHtml(html) : null;
+  const used = tokenize(compiled ? compiled.html : html);
+  const atomicIn = name => atomicRules().filter(r => r.layer === name && used.has(r.className)).map(r => r.css).join('\n');
   const parts = [];
-  if ([...used].some(t => t.startsWith(`${PREFIX}-grid-`))) parts.push(layer('components', standardizeGrid(await read('grid.css'))));
-  const atomic = atomicRules().filter(r => used.has(r.className));
-  if (atomic.length) parts.push(layer('atomic', atomic.map(r => r.css).join('\n')));
+  const gridCss = [...used].some(t => t.startsWith(`${PREFIX}-grid-`)) ? standardizeGrid(await read('grid.css')) : '';
+  const components = [gridCss, atomicIn('components')].filter(Boolean).join('\n');
+  if (components) parts.push(layer('components', components));
+  const atomic = atomicIn('atomic');
+  if (atomic) parts.push(layer('atomic', atomic));
   const vu = varUtilitiesCss(used);
-  const util = `${utilitiesCss(used)}\n${vu.css}`;
-  if (util.trim()) parts.push(layer('utilities', util));
-  if (vu.properties) parts.unshift(vu.properties);
-  return minify(parts.join('\n'));
+  const util = [utilitiesCss(used), vu.css, atomicIn('utilities')].filter(t => t.trim()).join('\n');
+  if (util) parts.push(layer('utilities', util));
+  const registrations = [vu.properties, ...[...(compiled?.varKeys || [])].map(k => varUtility(k).filter(r => r.property).map(r => r.property).join('\n'))].filter(Boolean);
+  if (registrations.length) parts.unshift([...new Set(registrations.join('\n').split('\n'))].join('\n'));
+  const css = minify(parts.join('\n'));
+  return compiled ? {css, html: compiled.html} : css;
+}
+
+// ---------- compile: readable classes → atomic classes (Facebook style) ----------
+// Each readable framework class becomes the generated classes for its declarations
+// (one declaration each). Rules keep their original layer, so the cascade is
+// unchanged: grid → components, utilities → utilities. Classes that need an
+// ancestor or child selector (group-*, space-x/y) cannot be atomic and stay readable.
+const VARIANT_CONDITION = {
+  hover: v => ({'@media (hover: hover)': {':hover': v}}),
+  focus: v => ({':focus': v}), 'focus-visible': v => ({':focus-visible': v}), 'focus-within': v => ({':focus-within': v}),
+  active: v => ({':active': v}), disabled: v => ({':disabled': v}),
+  ...Object.fromEntries(['dark', 'contrast-more', 'motion-safe', 'motion-reduce', 'large-text', 'text-spacing', 'forced-colors', 'print', ...Object.keys(tokens.breakpoints)]
+    .map(name => [name, v => ({[`@${name}`]: v})])),
+};
+const GRID_PARTS = {'grid-section': 'section', 'grid-title': 'title', 'grid-wrapper': 'wrapper', 'grid-row': 'row', 'grid-column': 'column'};
+const STRETCHED = {
+  outline: {':focus-visible': 'none'},
+  '::after': {
+    content: '""', position: 'absolute', inset: '0', zIndex: '1',
+    outline: {':focus-visible': 'var(--ax-a11y-focus-width) solid var(--ax-color-focus)'},
+    outlineOffset: {':focus-visible': 'var(--ax-a11y-focus-offset)'},
+  },
+};
+const tokenCache = new Map();
+let utilIndex = null;
+let gridCompiled = null;
+
+function varStyleDef(key) {
+  const v = suffix => `--${PREFIX}--${key}${suffix}`;
+  const bps = Object.keys(tokens.breakpoints);
+  const now = {default: `var(${v('')})`};
+  bps.forEach((bp, i) => { now[`@${bp}`] = bps.slice(0, i + 1).map(b => `-${b}`).reverse().reduceRight((fb, sf) => `var(${v(sf)}, ${fb})`, `var(${v('')})`); });
+  const value = {default: `var(${v('-now')}, revert-layer)`, '@large-text': `var(${v('-large')}, var(${v('-now')}, revert-layer))`};
+  if (HOVERABLE.has(key)) value[':hover'] = `var(${v('-hover')}, var(${v('-now')}, revert-layer))`;
+  return {[v('-now')]: now, [VAR_UTILITIES[key]]: value};
+}
+
+/** The compiled style for one readable class, or null if it must stay readable. */
+export function compileToken(token) {
+  if (tokenCache.has(token)) return tokenCache.get(token);
+  let style = null;
+  const p = `${PREFIX}-`;
+  if (token.startsWith(`${p}grid-`) && GRID_PARTS[token.slice(p.length)]) {
+    gridCompiled ??= create(gridStyles, {layer: 'components'});
+    style = gridCompiled[GRID_PARTS[token.slice(p.length)]];
+  } else if (token.startsWith(`${PREFIX}--`) && VAR_UTILITIES[token.slice(PREFIX.length + 2)]) {
+    style = create({s: varStyleDef(token.slice(PREFIX.length + 2))}, {layer: 'utilities'}).s;
+  } else {
+    const i = token.lastIndexOf(':');
+    const variant = i < 0 ? null : token.slice(0, i);
+    const name = token.slice(i + 1);
+    utilIndex ??= new Map(utilities().map(([n, d, v]) => [n, {d, v}]));
+    const u = name.startsWith(p) && utilIndex.get(name.slice(p.length));
+    const base = name.slice(p.length);
+    if (u && (!variant || (u.v.includes(variant) && VARIANT_CONDITION[variant])) && !childSelector(base)) {
+      const def = base === 'stretched-link'
+        ? (variant ? null : STRETCHED)
+        : Object.fromEntries(Object.entries(u.d).map(([prop, value]) => [prop, variant ? VARIANT_CONDITION[variant](value) : value]));
+      if (def) style = create({s: def}, {layer: 'utilities'}).s;
+    }
+  }
+  tokenCache.set(token, style);
+  return style;
+}
+
+/** Rewrite class attributes (outside <script>/<style>) to atomic classes. */
+export function compileHtml(html) {
+  const varKeys = new Set();
+  const rewrite = value => {
+    const keep = [], components = [], utilitiesStyles = [];
+    for (const t of value.split(/\s+/).filter(Boolean)) {
+      const style = compileToken(t);
+      if (!style) { keep.push(t); continue; }
+      (t.startsWith(`${PREFIX}-grid-`) ? components : utilitiesStyles).push(style);
+      if (t.startsWith(`${PREFIX}--`)) varKeys.add(t.slice(PREFIX.length + 2));
+    }
+    // Lower layer first, then classes in order: last wins per property, like the cascade.
+    return [...keep, mergeStyles(...components, ...utilitiesStyles).className].filter(Boolean).join(' ');
+  };
+  const out = html.replace(/(<(script|style)\b[\s\S]*?<\/\2>)|\bclass=(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))/gi,
+    (m, block, tag, dq, sq, bare) => (block ? block : `class="${rewrite(dq ?? sq ?? bare)}"`));
+  return {html: out, varKeys};
 }
 
 /** Put the core link and the page's own <style> in <head>, replacing any full-bundle link. Idempotent. */
@@ -449,7 +538,7 @@ export function inlinePage(html, pageCss, coreHref) {
 }
 
 /** Rewrite every built HTML page in place and write the shared core file. */
-export async function buildPages(patterns, {cwd = process.cwd(), styles, core = 'css/a11y-core.css'} = {}) {
+export async function buildPages(patterns, {cwd = process.cwd(), styles, core = 'css/a11y-core.css', compile = true} = {}) {
   await loadStyles(styles, cwd);
   const corePath = path.resolve(cwd, core);
   await mkdir(path.dirname(corePath), {recursive: true});
@@ -460,8 +549,9 @@ export async function buildPages(patterns, {cwd = process.cwd(), styles, core = 
     for await (const file of glob(pattern, {cwd})) {
       const full = path.resolve(cwd, file);
       const html = await readFile(full, 'utf8');
-      const css = await buildPage(html);
-      await writeFile(full, inlinePage(html, css, `/${core.replace(/^\/+/, '')}`));
+      const result = await buildPage(html, {compile});
+      const [css, body] = compile ? [result.css, result.html] : [result, html];
+      await writeFile(full, inlinePage(body, css, `/${core.replace(/^\/+/, '')}`));
       pages.push({file, bytes: css.length});
     }
   }
@@ -490,7 +580,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const opt = flag => { const i = args.indexOf(flag); return i > -1 ? args[i + 1] : undefined; };
   const t = performance.now();
   if (opt('--pages')) {
-    const {core, pages} = await buildPages(opt('--pages').split(','), {styles: opt('--styles')?.split(','), core: opt('--core')});
+    const {core, pages} = await buildPages(opt('--pages').split(','), {styles: opt('--styles')?.split(','), core: opt('--core'), compile: !args.includes('--readable')});
     const avg = pages.reduce((n, p) => n + p.bytes, 0) / Math.max(1, pages.length);
     console.log(`${pages.length} pages: shared core ${(core / 1024).toFixed(1)} KB + ${(avg / 1024).toFixed(1)} KB average inline per page, in ${Math.round(performance.now() - t)} ms`);
   } else if (opt('--content')) {

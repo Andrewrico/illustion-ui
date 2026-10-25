@@ -164,8 +164,14 @@ test('buildPages rewrites each page with its own CSS', async () => {
   const result = await buildPages(['*.html'], {cwd: dir});
   const a = await readFile(path.join(dir, 'a.html'), 'utf8');
   const b = await readFile(path.join(dir, 'b.html'), 'utf8');
-  assert.ok(a.includes('.ax-flex{') && !a.includes('.ax-grid-cols-3{'));
-  assert.ok(b.includes('.ax-grid-cols-3{') && !b.includes('.ax-flex{'));
+  // compiled by default: markup has atomic classes; each page only has its own rules
+  assert.match(a, /<body class="ax_[0-9a-z]+">/);
+  assert.ok(a.includes('{display:flex}') && !a.includes('repeat(3,'));
+  assert.ok(b.includes('repeat(3, minmax(0, 1fr))') || b.includes('repeat(3,minmax(0,1fr))'));
+  assert.ok(!b.includes('{display:flex}'));
+  await writeFile(path.join(dir, 'c.html'), '<html><head></head><body class="ax-flex"></body></html>');
+  await buildPages(['c.html'], {cwd: dir, compile: false});
+  assert.ok((await readFile(path.join(dir, 'c.html'), 'utf8')).includes('.ax-flex{'), 'compile: false keeps readable classes');
   assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).includes('--ax-color-text'));
   assert.equal(result.pages.length, 2);
 });
@@ -176,7 +182,7 @@ test('Eleventy perPage transform inlines each page and writes the core', async (
   let transform, after;
   plugin({addTransform: (name, fn) => { transform = fn; }, on: (e, fn) => { if (e === 'eleventy.after') after = fn; }}, {perPage: true});
   const out = await transform.call({page: {outputPath: path.join(dir, 'index.html')}}, '<html><head></head><body class="ax-p-2"></body></html>');
-  assert.ok(out.includes('.ax-p-2{') && out.includes('href="/css/a11y-core.css"'));
+  assert.ok(/class="ax_[0-9a-z]+"/.test(out) && out.includes('padding:calc(var(--ax-spacing) * 2)') && out.includes('href="/css/a11y-core.css"'));
   assert.equal(await transform.call({page: {outputPath: 'feed.xml'}}, '<rss/>'), '<rss/>');
   await after({dir: {output: dir}});
   assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).length > 1000);
@@ -210,4 +216,33 @@ test('variable utilities: one declaration per rule, breakpoint chains, registere
   const page = await buildPage('<div class="ax--p"></div>');
   assert.ok(page.includes('@property --ax--p{') || page.includes('@property --ax--p {'));
   assert.ok(!page.includes('--ax--cols'), 'unused variable utilities are left out');
+});
+
+test('compile: readable classes become one-declaration atomic classes, layers preserved', async () => {
+  const {compileHtml, compileToken, buildPage, atomicRules} = await import('../scripts/build.mjs');
+  const lg = compileToken('ax-text-lg');
+  assert.equal(Object.keys(lg).length, 2, 'ax-text-lg = font-size + line-height → 2 atomic classes');
+  const rules = {get: cls => atomicRules().find(r => r.className === cls)};
+  for (const cls of Object.values(lg)) {
+    assert.match(cls, /^ax_[0-9a-z]+$/);
+    assert.equal(rules.get(cls).layer, 'utilities');
+    assert.equal((rules.get(cls).css.match(/;/g) || []).length, 1);
+  }
+  const hover = rules.get(Object.values(compileToken('hover:ax-bg-primary'))[0]).css;
+  assert.match(hover, /^@media \(hover: hover\) \{ \.ax_[0-9a-z]+:hover \{ background-color: var\(--ax-color-primary\); \} \}$/);
+  assert.equal(rules.get(Object.values(compileToken('ax-grid-wrapper'))[0]).layer, 'components');
+  assert.equal(compileToken('group-hover:ax-block'), null, 'needs an ancestor selector: stays readable');
+  assert.equal(compileToken('ax-space-y-4'), null, 'needs a child selector: stays readable');
+  assert.equal(compileToken('my-own-class'), null);
+
+  const {html} = compileHtml('<div class="my-own-class ax-p-2 ax-p-4"></div><script>x = "ax-flex"</script>');
+  const tokens = html.match(/class="([^"]*)"/)[1].split(' ');
+  assert.equal(tokens[0], 'my-own-class');
+  assert.equal(tokens.length, 2, 'last padding wins: one class left for padding');
+  assert.ok(html.includes('x = "ax-flex"'), 'scripts are untouched');
+
+  const page = await buildPage('<p class="ax-text-muted ax--p" style="--ax--p: 1rem">Hi</p>', {compile: true});
+  assert.ok(!page.html.includes('ax-text-muted') && page.html.includes('ax_'));
+  assert.ok(page.css.includes('@property --ax--p{') || page.css.includes('@property --ax--p {'));
+  assert.ok(page.css.includes('color:var(--ax-color-muted)'));
 });

@@ -14,7 +14,8 @@ import {create} from './atomic.js';
 const tablet = '@media only screen and (min-width: 1024px)';
 const desktop = '@media only screen and (min-width: 1440px)';
 
-export const grid = create({
+// Raw definitions (the compiler re-creates them in the components layer).
+export const gridStyles = {
   section: {
     background: 'var(--ax-grid-background)',
     overflow: 'var(--ax-grid-overflow)',
@@ -77,4 +78,6 @@ export const grid = create({
     '--ax-grid-padding': '0 0.2rem',
     '--ax-grid-mobile-column-first': {'@media only screen and (max-width: 1024px)': 'unset'},
   },
-});
+};
+
+export const grid = create(gridStyles);

@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>a11y-atomic — Tailwind-compatible, accessibility-first</title>
+  <meta name="description" content="Tailwind-compatible atomic CSS on accessibility tokens. An accessibility widget changes the tokens, so every class adapts.">
+  <script src="dist/a11y-init.js"></script>
+  <script type="module" src="src/auto.js"></script>
+<link rel="stylesheet" href="dist/a11y-core.css" data-ax-core><style data-ax-page>@property --ax--cols{syntax:"*";inherits:false}@property --ax--cols-sm{syntax:"*";inherits:false}@property --ax--cols-md{syntax:"*";inherits:false}@property --ax--cols-lg{syntax:"*";inherits:false}@property --ax--cols-xl{syntax:"*";inherits:false}@property --ax--cols-2xl{syntax:"*";inherits:false}@property --ax--cols-now{syntax:"*";inherits:false}@property --ax--cols-large{syntax:"*";inherits:false}@property --ax--gap{syntax:"*";inherits:false}@property --ax--gap-sm{syntax:"*";inherits:false}@property --ax--gap-md{syntax:"*";inherits:false}@property --ax--gap-lg{syntax:"*";inherits:false}@property --ax--gap-xl{syntax:"*";inherits:false}@property --ax--gap-2xl{syntax:"*";inherits:false}@property --ax--gap-now{syntax:"*";inherits:false}@property --ax--gap-large{syntax:"*";inherits:false}@property --ax--p{syntax:"*";inherits:false}@property --ax--p-sm{syntax:"*";inherits:false}@property --ax--p-md{syntax:"*";inherits:false}@property --ax--p-lg{syntax:"*";inherits:false}@property --ax--p-xl{syntax:"*";inherits:false}@property --ax--p-2xl{syntax:"*";inherits:false}@property --ax--p-now{syntax:"*";inherits:false}@property --ax--p-large{syntax:"*";inherits:false}@property --ax--bg{syntax:"*";inherits:false}@property --ax--bg-sm{syntax:"*";inherits:false}@property --ax--bg-md{syntax:"*";inherits:false}@property --ax--bg-lg{syntax:"*";inherits:false}@property --ax--bg-xl{syntax:"*";inherits:false}@property --ax--bg-2xl{syntax:"*";inherits:false}@property --ax--bg-now{syntax:"*";inherits:false}@property --ax--bg-large{syntax:"*";inherits:false}@property --ax--bg-hover{syntax:"*";inherits:false}@layer components{.ax_bxr55t{background:var(--ax-grid-background)}.ax_1lb8jm5{overflow:var(--ax-grid-overflow)}.ax_1ej8q2t{padding:var(--ax-grid-padding)}.ax_11uiwy9{margin:var(--ax-grid-margin)}.ax_whul97{grid-column:1 / -1}.ax_qx6te9{gap:var(--ax-grid-gap)}.ax_98t27f{--ax-grid-padding-bottom:1rem}.ax_q5qnqt{--ax-grid-padding-top:1rem}.ax_1qmlu10{--ax-grid-padding:2rem 0}.ax_bpv9b3{--ax-grid-background:transparent}.ax_1347he1{--ax-grid-overflow:hidden}.ax_1ugjo5y{text-align:var(--ax-text-align)}.ax_a3z9tp{--ax-grid-padding:0px .5rem}.ax_15nineq{--ax-text-align:center}.ax_12e2o2y{display:grid}.ax_32iyy5{grid-gap:var(--ax-grid-gap,1rem)}.ax_1nh0hjf{max-width:var(--ax-grid-max-width,100%)}.ax_ng5cqz{width:var(--ax-grid-width,100%)}.ax_106wiqa{grid-template-columns:var(--ax-grid-column-mobile,var(--ax-grid-column-count))}.ax_pbvtyv{--ax-grid-width:100%}.ax_1azakaa{--ax-grid-max-width:100%}.ax_1mrufac{--ax-grid-gap:1rem}.ax_1i54c4v{--ax-grid-column-mobile:1fr}.ax_41ai5u{--ax-grid-margin:0 auto}.ax_10srbtc{--ax-grid-padding-bottom:2px}.ax_z45qiu{padding-bottom:calc(var(--ax-grid-gap) * var(--ax-grid-padding-bottom))}.ax_2i9nud{display:flex}.ax_tl8esh{align-items:var(--ax-grid-align-items)}.ax_1pp2f1t{justify-content:var(--ax-grid-justify-content)}.ax_12wzr96{flex-direction:var(--ax-grid-flow)}.ax_11k1ry9{--ax-grid-flow:column}.ax_sqz6gy{--ax-grid-align-items:unset}.ax_5sel86{--ax-grid-justify-content:unset}.ax_fe1zmz{--ax-grid-gap:0}.ax_hurcxv{--ax-grid-margin:0}.ax_n0desy{--ax-grid-padding:0 0.2rem}@media only screen and (max-width:1024px){.ax_1kapenj{order:var(--ax-grid-mobile-column-first)}}@media only screen and (max-width:1024px){.ax_bpsowo{--ax-grid-mobile-column-first:unset}}@media (min-width:1024px){.ax_1uafzxx{--ax-grid-padding:2rem 0}}@media only screen and (min-width:1024px){.ax_1jk1y5c{--ax-grid-min-height:65vh}}@media only screen and (min-width:1024px){.ax_4ktt2k{--ax-grid-padding:0px .8rem}}@media only screen and (min-width:1024px) and (max-width:1268px){.ax_ms9gty{grid-template-columns:var(--ax-grid-column-table,var(--ax-grid-column-count))}}@media only screen and (min-width:1268px) and (max-width:1440px){.ax_1asss3c{grid-template-columns:var(--ax-grid-column-laptop,var(--ax-grid-column-count,var(--ax-grid-column-table)))}}@media (min-width:1440px){.ax_1x4cy2x{--ax-grid-padding:4rem 0}}@media only screen and (min-width:1440px){.ax_18ztxyy{--ax-grid-padding:0px 2rem}}@media only screen and (min-width:1440px){.ax_a2r24e{grid-template-columns:var(--ax-grid-column-desktop,var(--ax-grid-column-count,var(--ax-grid-column-laptop,var(--ax-grid-column-table))))}}}@layer utilities{.ax-block{display:block}.ax-flex{display:flex}.ax-flex-col{flex-direction:column}.ax-gap-1{gap:calc(var(--ax-spacing) * 1)}.ax-p-2{padding:calc(var(--ax-spacing) * 2)}.ax-h-10{height:calc(var(--ax-spacing) * 10)}.ax-font-mono{font-family:var(--ax-a11y-font-mono)}.ax-text-xs{font-size:var(--ax-text-xs);line-height:var(--ax-text-xs--line-height)}.ax-break-all{word-break:break-all}.ax-border-border{border-color:var(--ax-color-border)}.ax-border{border-width:1px}.ax-border-b{border-bottom-width:1px}.ax-rounded-md{border-radius:var(--ax-radius-md)}.ax--cols{--ax--cols-now:var(--ax--cols)}@media (min-width:640px){.ax--cols{--ax--cols-now:var(--ax--cols-sm,var(--ax--cols))}}@media (min-width:768px){.ax--cols{--ax--cols-now:var(--ax--cols-md,var(--ax--cols-sm,var(--ax--cols)))}}@media (min-width:1024px){.ax--cols{--ax--cols-now:var(--ax--cols-lg,var(--ax--cols-md,var(--ax--cols-sm,var(--ax--cols))))}}@media (min-width:1268px){.ax--cols{--ax--cols-now:var(--ax--cols-xl,var(--ax--cols-lg,var(--ax--cols-md,var(--ax--cols-sm,var(--ax--cols)))))}}@media (min-width:1440px){.ax--cols{--ax--cols-now:var(--ax--cols-2xl,var(--ax--cols-xl,var(--ax--cols-lg,var(--ax--cols-md,var(--ax--cols-sm,var(--ax--cols))))))}}.ax--cols{grid-template-columns:var(--ax--cols-now,revert-layer)}:root:is([data-ax-text="150"],[data-ax-text="175"],[data-ax-text="200"]) .ax--cols{grid-template-columns:var(--ax--cols-large,var(--ax--cols-now,revert-layer))}.ax_xblvgj{padding:0}.ax_pbthu2{margin:-1px}.ax_1phfrkc{overflow:hidden}.ax_fd7p9p{border-width:0}.ax_h04ltk{border-color:var(--ax-color-border)}.ax_10bhrh2{gap:calc(var(--ax-spacing) * 3)}.ax_10bzqkp{gap:calc(var(--ax-spacing) * 4)}.ax_ystfxc{margin:0}.ax_12iqax9{gap:calc(var(--ax-spacing) * 8)}.ax_3ezuux{border-radius:var(--ax-radius-md)}.ax_1gwidlj{border-width:2px}.ax_qt6gl6{border-color:var(--ax-color-primary)}.ax_1f8syci{padding:calc(var(--ax-spacing) * 6)}.ax_1g6yiu2{border-radius:var(--ax-radius-xl)}.ax_ck26oi{border-width:1px}.ax_qbsx03{gap:calc(var(--ax-spacing) * 2)}.ax_zofmdh{border-radius:var(--ax-radius-full)}.ax_1x6pk7{gap:calc(var(--ax-spacing) * 6)}.ax_digd41{padding:calc(var(--ax-spacing) * 5)}.ax_zu0zz9{border-radius:var(--ax-radius-lg)}.ax_5qun6s{padding:calc(var(--ax-spacing) * 4)}.ax_ip8p59{grid-column:1 / -1}.ax_3acv05::after{inset:0}.ax_xeag48{padding:var(--ax-space-fluid-m)}.ax_1oxdddi{gap:var(--ax--gap-now,revert-layer)}.ax_rjiqqd{padding:var(--ax--p-now,revert-layer)}.ax_dhye0e{padding:calc(var(--ax-spacing) * 2)}.ax_1puniag{gap:calc(var(--ax-spacing) * 1)}.ax_1vfknu{position:absolute}.ax_r73jjx{width:1px}.ax_zulove{height:1px}.ax_cz3fjx{clip:rect(0,0,0,0)}.ax_x0j3b{white-space:nowrap}.ax_1gf225f{background-color:var(--ax-color-surface)}.ax_8badiq{border-bottom-width:1px}.ax_cbqo9b{display:flex}.ax_e4or9x{flex-direction:column}.ax_xkz9p4{align-items:flex-start}.ax_19exid{justify-content:space-between}.ax_tacuad{font-size:var(--ax-text-xl)}.ax_xtfv78{line-height:var(--ax-text-xl--line-height)}.ax_1x387dr{font-weight:700}.ax_1uhp8gv{text-decoration-line:none}.ax_4dg56u{color:var(--ax-color-text)}.ax_7cmrio{flex-wrap:wrap}.ax_gj9app{list-style-type:none}.ax_1gsp0gv{justify-content:center}.ax_1oza6zl{font-size:var(--ax-text-sm)}.ax_uong6c{line-height:var(--ax-text-sm--line-height)}.ax_16udzf8{font-weight:600}.ax_1m7f3fc{text-transform:uppercase}.ax_irily5{letter-spacing:max(0.025em,var(--ax-a11y-letter-spacing))}.ax_j7dnx5{color:var(--ax-color-primary)}.ax_1k564x1{font-size:var(--ax-text-4xl)}.ax_6onb76{line-height:1.25}.ax_f4yj40{text-wrap:balance}.ax_1td0fz6{font-size:var(--ax-text-lg)}.ax_1r16qw1{line-height:var(--ax-text-lg--line-height)}.ax_1t38fa6{color:var(--ax-color-muted)}.ax_14q05c1{max-width:65ch}.ax_w0988f{min-height:var(--ax-a11y-target-min)}.ax_1qond9t{padding-inline:calc(var(--ax-spacing) * 5)}.ax_11fqi27{padding-block:calc(var(--ax-spacing) * 3)}.ax_3wfkn8{background-color:var(--ax-color-primary)}.ax_16k527h{color:var(--ax-color-on-primary)}.ax_1ete9ul{cursor:pointer}.ax_1p9vmjb{transition-property:color,background-color,border-color,outline-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,translate,scale,rotate}.ax_4a6x1w{transition-timing-function:var(--ax-ease-in-out)}.ax_12v7b8t{transition-duration:calc(150ms * var(--ax-a11y-motion))}.ax_1yctx4v{display:inline-flex}.ax_a1x11n{align-items:center}.ax_1l0q4tc{box-shadow:var(--ax-shadow-md)}.ax_1yfr43f{padding-inline:calc(var(--ax-spacing) * 3)}.ax_to4s4y{padding-block:calc(var(--ax-spacing) * 2)}.ax_k1ocll{background-color:var(--ax-color-bg)}.ax_3gqkde{font-size:var(--ax-text-3xl)}.ax_1wrsnyf{line-height:var(--ax-text-3xl--line-height)}.ax_1wkfc5p{margin-bottom:calc(var(--ax-spacing) * 6)}.ax_1stbn62{background-color:var(--ax-color-surface-2)}.ax_1xgj9lt{order:-9999}.ax_alrzks{flex-grow:1}.ax_12619xs{flex-basis:calc((var(--ax-switch-at,30rem) - 100%) * 999)}.ax_1n63v93{position:relative}.ax_1lha20h{margin-bottom:calc(var(--ax-spacing) * 2)}.ax_6hx5a7::after{content:""}.ax_u26fk8::after{position:absolute}.ax_d81y6g::after{z-index:1}.ax_1n85ro{padding-inline:calc(var(--ax-spacing) * 4)}.ax_1w62c3q{background-color:transparent}.ax_y6wcwi{transition-property:transform,translate,scale,rotate}.ax_1glwloy{transition-duration:calc(500ms * var(--ax-a11y-motion))}.ax_2qdo5h{transition-timing-function:var(--ax-ease-spring)}.ax_1skodp6{accent-color:var(--ax-color-primary)}.ax_4se1lb{width:calc(var(--ax-spacing) * 6)}.ax_1z07gcc{height:calc(var(--ax-spacing) * 6)}.ax_vkb1h5{--ax--cols-now:var(--ax--cols)}.ax_19t2shc{grid-template-columns:var(--ax--cols-now,revert-layer)}.ax_21hn0p{--ax--gap-now:var(--ax--gap)}.ax_gkmkeo{display:grid}.ax_1tkqprt{--ax--p-now:var(--ax--p)}.ax_1ciac1d{--ax--bg-now:var(--ax--bg)}.ax_csjs6h{background-color:var(--ax--bg-now,revert-layer)}.ax_11u27jw{overflow-x:auto}.ax_kw8tjr{font-size:var(--ax-text-2xl)}.ax_o4001o{line-height:var(--ax-text-2xl--line-height)}.ax_yd2n7k{width:100%}.ax_d29ntf{border-collapse:collapse}.ax_ugwlm{text-align:left}.ax_1cnqkfr{border-bottom-width:2px}.ax_1ip3xma{color:var(--ax-color-danger)}.ax_z1hbu2{color:var(--ax-color-success)}.ax_oixvrf{color:var(--ax-color-warning)}.ax_1b10h1h{grid-template-columns:repeat(2,minmax(0,1fr))}.ax_177453u{align-self:flex-start}.ax_1by39h8{border-top-width:1px}.ax_4a8s4l:focus{padding:0}.ax_1ki7tnu:focus{margin:0}.ax_14gjg9o:focus{overflow:visible}.ax_2uj8sb:focus{border-radius:var(--ax-radius-md)}.ax_n2ubrn:focus-visible{outline:none}.ax_ql4vcu:focus-visible::after{outline:var(--ax-a11y-focus-width) solid var(--ax-color-focus)}.ax_fwz0qz:focus-visible{border-color:var(--ax-color-primary)}.ax_b6pyfz:focus{width:auto}.ax_nev5au:focus{height:auto}.ax_1utdtm9:focus{clip:auto}.ax_wjcpuh:focus{white-space:normal}.ax_1wwty40:focus{position:absolute}.ax_80ljwu:focus{top:calc(var(--ax-spacing) * 2)}.ax_j81xx8:focus{left:calc(var(--ax-spacing) * 2)}.ax_1eqreuc:focus{z-index:50}.ax_w1iwr2:focus{padding-inline:calc(var(--ax-spacing) * 4)}.ax_1rmndt0:focus{padding-block:calc(var(--ax-spacing) * 2)}.ax_1lmh4km:focus{background-color:var(--ax-color-primary)}.ax_1fwfewr:focus{color:var(--ax-color-on-primary)}.ax_1hu6oso:active{scale:0.95}.ax_1lrnu9g:focus-visible::after{outline-offset:var(--ax-a11y-focus-offset)}.ax_kugh8k:focus-visible{background-image:linear-gradient(color-mix(in srgb,currentColor 12%,transparent) 0 0)}.ax_hudlsn:active{background-image:linear-gradient(color-mix(in srgb,currentColor 16%,transparent) 0 0)}.ax_ayp74a:hover{background-color:var(--ax--bg-hover,var(--ax--bg-now,revert-layer))}:root[data-ax-contrast="high"] .ax_1dlf93t{border-width:4px}@media (prefers-contrast:more){:root:not([data-ax-contrast="normal"]) .ax_1dlf93t{border-width:4px}}:root:is([data-ax-text="150"],[data-ax-text="175"],[data-ax-text="200"]) .ax_17438rk{gap:var(--ax--gap-large,var(--ax--gap-now,revert-layer))}:root:is([data-ax-text="150"],[data-ax-text="175"],[data-ax-text="200"]) .ax_j7jhnz{padding:var(--ax--p-large,var(--ax--p-now,revert-layer))}:root:is([data-ax-text="150"],[data-ax-text="175"],[data-ax-text="200"]) .ax_1ailmmu{flex-direction:column}:root:is([data-ax-text="150"],[data-ax-text="175"],[data-ax-text="200"]) .ax_1wpydtx{align-items:flex-start}:root:is([data-ax-text="150"],[data-ax-text="175"],[data-ax-text="200"]) .ax_1egpf29{grid-template-columns:var(--ax--cols-large,var(--ax--cols-now,revert-layer))}:root:is([data-ax-text="150"],[data-ax-text="175"],[data-ax-text="200"]) .ax_rklr5g{background-color:var(--ax--bg-large,var(--ax--bg-now,revert-layer))}@media (min-width:640px){.ax_1rqt07i{--ax--cols-now:var(--ax--cols-sm,var(--ax--cols))}}@media (min-width:640px){.ax_1fwe6r3{--ax--gap-now:var(--ax--gap-sm,var(--ax--gap))}}@media (min-width:640px){.ax_12qfu4j{--ax--p-now:var(--ax--p-sm,var(--ax--p))}}@media (min-width:640px){.ax_v7wkcy{--ax--bg-now:var(--ax--bg-sm,var(--ax--bg))}}@media (min-width:640px){.ax_104zqfz{grid-template-columns:repeat(4,minmax(0,1fr))}}@media (min-width:768px){.ax_n78sas{flex-direction:row}}@media (min-width:768px){.ax_1ljc7zq{align-items:center}}@media (min-width:768px){.ax_1sswb7q{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:768px){.ax_129ptof{--ax--cols-now:var(--ax--cols-md,var(--ax--cols-sm,var(--ax--cols)))}}@media (min-width:768px){.ax_lgqltv{--ax--gap-now:var(--ax--gap-md,var(--ax--gap-sm,var(--ax--gap)))}}@media (min-width:768px){.ax_19okdu7{--ax--p-now:var(--ax--p-md,var(--ax--p-sm,var(--ax--p)))}}@media (min-width:768px){.ax_ko8qrj{--ax--bg-now:var(--ax--bg-md,var(--ax--bg-sm,var(--ax--bg)))}}@media (min-width:1024px){.ax_1n03iof{grid-column:span 2 / span 2}}@media (min-width:1024px){.ax_bfx0t2{grid-template-columns:repeat(2,minmax(0,1fr))}}@media (min-width:1024px){.ax_12wu422{font-size:var(--ax-text-6xl)}}@media (min-width:1024px){.ax_1oayrzj{line-height:var(--ax-text-6xl--line-height)}}@media (min-width:1024px){.ax_14yd7m5{order:0}}@media (min-width:1024px){.ax_137wctv{--ax--cols-now:var(--ax--cols-lg,var(--ax--cols-md,var(--ax--cols-sm,var(--ax--cols))))}}@media (min-width:1024px){.ax_1devkh2{--ax--gap-now:var(--ax--gap-lg,var(--ax--gap-md,var(--ax--gap-sm,var(--ax--gap))))}}@media (min-width:1024px){.ax_y2gfvi{--ax--p-now:var(--ax--p-lg,var(--ax--p-md,var(--ax--p-sm,var(--ax--p))))}}@media (min-width:1024px){.ax_13ghi2b{--ax--bg-now:var(--ax--bg-lg,var(--ax--bg-md,var(--ax--bg-sm,var(--ax--bg))))}}@media (min-width:1268px){.ax_1jo7b94{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (min-width:1268px){.ax_msicgb{--ax--cols-now:var(--ax--cols-xl,var(--ax--cols-lg,var(--ax--cols-md,var(--ax--cols-sm,var(--ax--cols)))))}}@media (min-width:1268px){.ax_1epdlq5{--ax--gap-now:var(--ax--gap-xl,var(--ax--gap-lg,var(--ax--gap-md,var(--ax--gap-sm,var(--ax--gap)))))}}@media (min-width:1268px){.ax_1ulzdld{--ax--p-now:var(--ax--p-xl,var(--ax--p-lg,var(--ax--p-md,var(--ax--p-sm,var(--ax--p)))))}}@media (min-width:1268px){.ax_1mddkmb{--ax--bg-now:var(--ax--bg-xl,var(--ax--bg-lg,var(--ax--bg-md,var(--ax--bg-sm,var(--ax--bg)))))}}@media (min-width:1440px){.ax_h84fj1{grid-template-columns:repeat(4,minmax(0,1fr))}}@media (min-width:1440px){.ax_11llcim{--ax--cols-now:var(--ax--cols-2xl,var(--ax--cols-xl,var(--ax--cols-lg,var(--ax--cols-md,var(--ax--cols-sm,var(--ax--cols))))))}}@media (min-width:1440px){.ax_iquik5{--ax--gap-now:var(--ax--gap-2xl,var(--ax--gap-xl,var(--ax--gap-lg,var(--ax--gap-md,var(--ax--gap-sm,var(--ax--gap))))))}}@media (min-width:1440px){.ax_1fsljx5{--ax--p-now:var(--ax--p-2xl,var(--ax--p-xl,var(--ax--p-lg,var(--ax--p-md,var(--ax--p-sm,var(--ax--p))))))}}@media (min-width:1440px){.ax_8n6hvq{--ax--bg-now:var(--ax--bg-2xl,var(--ax--bg-xl,var(--ax--bg-lg,var(--ax--bg-md,var(--ax--bg-sm,var(--ax--bg))))))}}@media (hover:hover){.ax_bx70mw:hover{background-color:var(--ax-color-primary-hover)}}@media (hover:hover){.ax_xz043r:hover{background-image:linear-gradient(color-mix(in srgb,currentColor 8%,transparent) 0 0)}}@media (hover:hover){.ax_65hnv:hover{background-color:var(--ax-color-surface-2)}}@media (hover:hover){.ax_1u8kun9:hover{box-shadow:var(--ax-shadow-lg)}}@media (hover:hover){.ax_xcgymh:hover{scale:1.05}}}</style>
+</head>
+<body>
+  <a class="ax_1vfknu ax_r73jjx ax_zulove ax_xblvgj ax_pbthu2 ax_1phfrkc ax_cz3fjx ax_x0j3b ax_fd7p9p ax_b6pyfz ax_nev5au ax_4a8s4l ax_1ki7tnu ax_14gjg9o ax_1utdtm9 ax_wjcpuh ax_1wwty40 ax_80ljwu ax_j81xx8 ax_1eqreuc ax_w1iwr2 ax_1rmndt0 ax_1lmh4km ax_1fwfewr ax_2uj8sb" href="#main">Skip to content</a>
+
+  <header class="ax_bxr55t ax_1lb8jm5 ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_1x4cy2x ax_bpv9b3 ax_1347he1 ax_1jk1y5c ax_1gf225f ax_8badiq ax_h04ltk">
+    <div class="ax_12e2o2y ax_11uiwy9 ax_1ej8q2t ax_32iyy5 ax_1nh0hjf ax_ng5cqz ax_106wiqa ax_ms9gty ax_1asss3c ax_a2r24e ax_pbvtyv ax_1azakaa ax_1mrufac ax_1i54c4v ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_41ai5u">
+      <nav class="ax_10srbtc ax_whul97 ax_z45qiu ax_cbqo9b ax_e4or9x ax_n78sas ax_xkz9p4 ax_1ljc7zq ax_19exid ax_10bhrh2 ax_1ailmmu ax_1wpydtx" aria-label="Primary">
+        <a href="#" class="ax_tacuad ax_xtfv78 ax_1x387dr ax_1uhp8gv ax_4dg56u">a11y-atomic</a>
+        <ul class="ax_cbqo9b ax_7cmrio ax_10bzqkp ax_gj9app ax_ystfxc ax_xblvgj">
+          <li><a href="#modes">Modes</a></li>
+          <li><a href="#grid">Grid</a></li>
+          <li><a href="#lineage">Lineage</a></li>
+          <li><a href="#variables">Variables</a></li>
+          <li><a href="#atomic">Atomic</a></li>
+          <li><a href="#utilities">Utilities</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="ax_bxr55t ax_1lb8jm5 ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_1x4cy2x ax_bpv9b3 ax_1347he1 ax_1jk1y5c" aria-labelledby="hero-title">
+      <div class="ax_12e2o2y ax_11uiwy9 ax_1ej8q2t ax_32iyy5 ax_1nh0hjf ax_ng5cqz ax_106wiqa ax_ms9gty ax_1asss3c ax_a2r24e ax_pbvtyv ax_1azakaa ax_1mrufac ax_1i54c4v ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_41ai5u ax_bfx0t2 ax_12iqax9">
+        <div class="ax_2i9nud ax_tl8esh ax_12wzr96 ax_1ej8q2t ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_1gsp0gv ax_10bzqkp">
+          <p class="ax_1oza6zl ax_uong6c ax_16udzf8 ax_1m7f3fc ax_irily5 ax_j7dnx5 ax_ystfxc">Tailwind syntax · accessibility tokens · WCAG 2.2</p>
+          <h1 id="hero-title" class="ax_1k564x1 ax_12wu422 ax_1oayrzj ax_1x387dr ax_6onb76 ax_ystfxc ax_f4yj40">Every class bends to the reader.</h1>
+          <p class="ax_1td0fz6 ax_1r16qw1 ax_1t38fa6 ax_ystfxc ax_14q05c1">Write <code>p-4 lg:grid-cols-3 hover:bg-primary</code> like you already do. Underneath, every value is an accessibility variable the widget can change — text size, spacing, contrast, fonts and motion adapt everywhere.</p>
+          <div class="ax_cbqo9b ax_7cmrio ax_10bhrh2">
+            <button type="button" class="ax_w0988f ax_1qond9t ax_11fqi27 ax_3ezuux ax_fd7p9p ax_3wfkn8 ax_16k527h ax_16udzf8 ax_1ete9ul ax_1p9vmjb ax_4a6x1w ax_12v7b8t ax_bx70mw ax_1hu6oso" data-open-widget>Open the accessibility widget</button>
+            <a class="ax_w0988f ax_1yctx4v ax_a1x11n ax_1qond9t ax_11fqi27 ax_3ezuux ax_1gwidlj ax_qt6gl6 ax_16udzf8 ax_1uhp8gv ax_xz043r" href="#utilities">Browse utilities</a>
+          </div>
+          <p class="ax_1oza6zl ax_uong6c ax_1t38fa6 ax_ystfxc">Shortcut: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd></p>
+        </div>
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_qx6te9 ax_1ej8q2t ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo">
+          <div class="ax_1f8syci ax_1g6yiu2 ax_1gf225f ax_ck26oi ax_h04ltk ax_1l0q4tc ax_cbqo9b ax_e4or9x ax_10bzqkp">
+            <h2 class="ax_tacuad ax_xtfv78 ax_ystfxc">Try a mode</h2>
+            <p class="ax_ystfxc ax_1t38fa6">These buttons call the widget's API.</p>
+            <div class="ax_cbqo9b ax_7cmrio ax_qbsx03">
+              <button type="button" class="ax_w0988f ax_1yfr43f ax_to4s4y ax_1gwidlj ax_h04ltk ax_zofmdh ax_k1ocll ax_4dg56u ax_1ete9ul ax_65hnv" data-set="text=150">Text 150%</button>
+              <button type="button" class="ax_w0988f ax_1yfr43f ax_to4s4y ax_1gwidlj ax_h04ltk ax_zofmdh ax_k1ocll ax_4dg56u ax_1ete9ul ax_65hnv" data-set="contrast=high">High contrast</button>
+              <button type="button" class="ax_w0988f ax_1yfr43f ax_to4s4y ax_1gwidlj ax_h04ltk ax_zofmdh ax_k1ocll ax_4dg56u ax_1ete9ul ax_65hnv" data-set="theme=dark">Dark</button>
+              <button type="button" class="ax_w0988f ax_1yfr43f ax_to4s4y ax_1gwidlj ax_h04ltk ax_zofmdh ax_k1ocll ax_4dg56u ax_1ete9ul ax_65hnv" data-set="spacing=on">Text spacing</button>
+              <button type="button" class="ax_w0988f ax_1yfr43f ax_to4s4y ax_1gwidlj ax_h04ltk ax_zofmdh ax_k1ocll ax_4dg56u ax_1ete9ul ax_65hnv" data-set="font=dyslexic">Dyslexia font</button>
+              <button type="button" class="ax_w0988f ax_1yfr43f ax_to4s4y ax_1gwidlj ax_h04ltk ax_zofmdh ax_k1ocll ax_4dg56u ax_1ete9ul ax_65hnv" data-set="reset">Reset</button>
+            </div>
+            <p class="ax_ystfxc ax_1oza6zl ax_uong6c" aria-live="polite" id="demo-status"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="modes" class="ax_bxr55t ax_1lb8jm5 ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_1x4cy2x ax_bpv9b3 ax_1347he1 ax_1jk1y5c ax_1gf225f" aria-labelledby="modes-title">
+      <h2 id="modes-title" class="ax_1ugjo5y ax_1ej8q2t ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_15nineq ax_3gqkde ax_1wrsnyf ax_ystfxc ax_1wkfc5p">Variants for our own field</h2>
+      <div class="ax_12e2o2y ax_11uiwy9 ax_1ej8q2t ax_32iyy5 ax_1nh0hjf ax_ng5cqz ax_106wiqa ax_ms9gty ax_1asss3c ax_a2r24e ax_pbvtyv ax_1azakaa ax_1mrufac ax_1i54c4v ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_41ai5u ax_1sswb7q ax_1jo7b94 ax_1x6pk7">
+        <article class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_digd41 ax_zu0zz9 ax_k1ocll ax_ck26oi ax_h04ltk ax_qbsx03">
+          <h3 class="ax_1td0fz6 ax_1r16qw1 ax_ystfxc"><code>large-text:</code></h3>
+          <p class="ax_ystfxc ax_1t38fa6">Applies when the reader picks 150% text or more. The nav above stacks with <code>large-text:flex-col</code>.</p>
+        </article>
+        <article class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_digd41 ax_zu0zz9 ax_k1ocll ax_ck26oi ax_h04ltk ax_1dlf93t ax_qbsx03">
+          <h3 class="ax_1td0fz6 ax_1r16qw1 ax_ystfxc"><code>contrast-more:</code></h3>
+          <p class="ax_ystfxc ax_1t38fa6">Follows the widget <em>and</em> the OS setting. This card gets <code>contrast-more:border-4</code>.</p>
+        </article>
+        <article class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_digd41 ax_zu0zz9 ax_k1ocll ax_ck26oi ax_h04ltk ax_qbsx03">
+          <h3 class="ax_1td0fz6 ax_1r16qw1 ax_ystfxc"><code>motion-reduce:</code> · <code>dark:</code></h3>
+          <p class="ax_ystfxc ax_1t38fa6">Both follow the widget first, then the OS. Every <code>duration-*</code> is multiplied by <code>--ax-a11y-motion</code>.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="grid" class="ax_bxr55t ax_1lb8jm5 ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_1x4cy2x ax_bpv9b3 ax_1347he1 ax_1jk1y5c" aria-labelledby="grid-title">
+      <h2 id="grid-title" class="ax_1ugjo5y ax_1ej8q2t ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_15nineq ax_3gqkde ax_1wrsnyf ax_ystfxc ax_1wkfc5p">Your grid, plus Tailwind classes</h2>
+      <div class="ax_12e2o2y ax_11uiwy9 ax_1ej8q2t ax_32iyy5 ax_1nh0hjf ax_ng5cqz ax_106wiqa ax_ms9gty ax_1asss3c ax_a2r24e ax_pbvtyv ax_1azakaa ax_1mrufac ax_1i54c4v ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_41ai5u ax_bfx0t2 ax_1jo7b94 ax_h84fj1 ax_10bzqkp" data-grid-demo>
+        <div class="ax_10srbtc ax_whul97 ax_z45qiu"><p class="ax_ystfxc ax_1t38fa6 ax_14q05c1"><code>grid.css</code> drives the layout; <code>lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4</code> sit on top at its own breakpoints (1024 / 1268 / 1440).</p></div>
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_qx6te9 ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_5qun6s ax_3ezuux ax_1stbn62">1</div>
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_qx6te9 ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_5qun6s ax_3ezuux ax_1stbn62">2</div>
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_qx6te9 ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_5qun6s ax_3ezuux ax_1stbn62 ax_1xgj9lt ax_14yd7m5">3 (first on mobile)</div>
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_qx6te9 ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_5qun6s ax_3ezuux ax_1stbn62">4</div>
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_qx6te9 ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_5qun6s ax_3ezuux ax_1stbn62 ax_1n03iof">lg:col-span-2</div>
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_qx6te9 ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_5qun6s ax_3ezuux ax_1stbn62 ax_ip8p59">col-span-full</div>
+      </div>
+    </section>
+
+    <section id="lineage" class="ax_bxr55t ax_1lb8jm5 ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_1x4cy2x ax_bpv9b3 ax_1347he1 ax_1jk1y5c ax_1gf225f" aria-labelledby="lineage-title">
+      <h2 id="lineage-title" class="ax_1ugjo5y ax_1ej8q2t ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_15nineq ax_3gqkde ax_1wrsnyf ax_ystfxc ax_1wkfc5p">The best idea from each framework</h2>
+      <div class="ax_12e2o2y ax_11uiwy9 ax_1ej8q2t ax_32iyy5 ax_1nh0hjf ax_ng5cqz ax_106wiqa ax_ms9gty ax_1asss3c ax_a2r24e ax_pbvtyv ax_1azakaa ax_1mrufac ax_1i54c4v ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_41ai5u ax_1x6pk7">
+        <div class="ax_10srbtc ax_whul97 ax_z45qiu ax_cbqo9b ax_7cmrio ax_10bzqkp" style="--ax-switch-at: 48rem">
+          <article class="ax_alrzks ax_12619xs ax_1n63v93 ax_digd41 ax_zu0zz9 ax_k1ocll ax_ck26oi ax_h04ltk ax_1u8kun9 ax_1p9vmjb ax_4a6x1w ax_12v7b8t">
+            <h3 class="ax_1td0fz6 ax_1r16qw1 ax_ystfxc ax_1lha20h"><a class="ax_n2ubrn ax_6hx5a7 ax_u26fk8 ax_3acv05 ax_d81y6g ax_ql4vcu ax_1lrnu9g" href="#utilities">Bootstrap · stretched link</a></h3>
+            <p class="ax_ystfxc ax_1t38fa6">The whole card is one link; the focus ring wraps the card.</p>
+          </article>
+          <article class="ax_alrzks ax_12619xs ax_digd41 ax_zu0zz9 ax_k1ocll ax_ck26oi ax_h04ltk">
+            <h3 class="ax_1td0fz6 ax_1r16qw1 ax_ystfxc ax_1lha20h">Every Layout · switcher</h3>
+            <p class="ax_ystfxc ax_1t38fa6"><code>grow basis-switch</code>: these cards stack below 48rem — sooner when text is larger.</p>
+          </article>
+          <article class="ax_alrzks ax_12619xs ax_xeag48 ax_zu0zz9 ax_k1ocll ax_ck26oi ax_h04ltk">
+            <h3 class="ax_1td0fz6 ax_1r16qw1 ax_ystfxc ax_1lha20h">Utopia · fluid space</h3>
+            <p class="ax_ystfxc ax_1t38fa6"><code>p-fluid-m</code> grows smoothly from 320px to 1440px.</p>
+          </article>
+        </div>
+        <div class="ax_10srbtc ax_whul97 ax_z45qiu ax_cbqo9b ax_7cmrio ax_10bhrh2">
+          <button type="button" class="ax_w0988f ax_1n85ro ax_to4s4y ax_zofmdh ax_1gwidlj ax_qt6gl6 ax_j7dnx5 ax_1w62c3q ax_1ete9ul ax_xz043r ax_kugh8k ax_hudlsn">Material · state layer</button>
+          <button type="button" class="ax_w0988f ax_1n85ro ax_to4s4y ax_zofmdh ax_fd7p9p ax_3wfkn8 ax_16k527h ax_1ete9ul ax_y6wcwi ax_1glwloy ax_2qdo5h ax_xcgymh">Open Props · ease-spring</button>
+          <label class="ax_1yctx4v ax_a1x11n ax_qbsx03 ax_w0988f"><input type="checkbox" class="ax_1skodp6 ax_4se1lb ax_1z07gcc"> Pico · native controls, themed</label>
+        </div>
+      </div>
+    </section>
+
+    <section id="variables" class="ax_bxr55t ax_1lb8jm5 ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_1x4cy2x ax_bpv9b3 ax_1347he1 ax_1jk1y5c" aria-labelledby="variables-title">
+      <h2 id="variables-title" class="ax_1ugjo5y ax_1ej8q2t ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_15nineq ax_3gqkde ax_1wrsnyf ax_ystfxc ax_1wkfc5p">Variable utilities — your grid's pattern, everywhere</h2>
+      <div class="ax_12e2o2y ax_11uiwy9 ax_1ej8q2t ax_32iyy5 ax_1nh0hjf ax_ng5cqz ax_106wiqa ax_ms9gty ax_1asss3c ax_a2r24e ax_pbvtyv ax_1azakaa ax_1mrufac ax_1i54c4v ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_41ai5u ax_10bzqkp">
+        <p class="ax_10srbtc ax_whul97 ax_z45qiu ax_ystfxc ax_1t38fa6 ax_14q05c1">One class per property reads a chain of variables, one per breakpoint, each falling back to the one below — how <code>grid.css</code> picks its columns. Any value, any breakpoint, and a <code>-large</code> value for readers who choose large text. Below: 1 column on phones, 2 from 768px, 4 from 1268px, and back to 1 at 150%+ text.</p>
+        <ul class="ax_10srbtc ax_whul97 ax_vkb1h5 ax_1rqt07i ax_129ptof ax_137wctv ax_msicgb ax_11llcim ax_19t2shc ax_1egpf29 ax_21hn0p ax_1fwe6r3 ax_lgqltv ax_1devkh2 ax_1epdlq5 ax_iquik5 ax_1oxdddi ax_17438rk ax_gkmkeo ax_gj9app ax_xblvgj ax_ystfxc" style="--ax--cols: 1fr; --ax--cols-md: repeat(2, 1fr); --ax--cols-xl: repeat(4, 1fr); --ax--cols-large: 1fr; --ax--gap: var(--ax-space-3)">
+          <li class="ax_1tkqprt ax_12qfu4j ax_19okdu7 ax_y2gfvi ax_1ulzdld ax_1fsljx5 ax_rjiqqd ax_j7jhnz ax_1ciac1d ax_v7wkcy ax_ko8qrj ax_13ghi2b ax_1mddkmb ax_8n6hvq ax_csjs6h ax_rklr5g ax_ayp74a ax_zu0zz9" style="--ax--p: var(--ax-space-4); --ax--p-xl: var(--ax-space-6); --ax--bg: var(--ax-color-surface-2); --ax--bg-hover: var(--ax-color-surface)"><code>ax--cols</code></li>
+          <li class="ax_1tkqprt ax_12qfu4j ax_19okdu7 ax_y2gfvi ax_1ulzdld ax_1fsljx5 ax_rjiqqd ax_j7jhnz ax_1ciac1d ax_v7wkcy ax_ko8qrj ax_13ghi2b ax_1mddkmb ax_8n6hvq ax_csjs6h ax_rklr5g ax_ayp74a ax_zu0zz9" style="--ax--p: var(--ax-space-4); --ax--p-xl: var(--ax-space-6); --ax--bg: var(--ax-color-surface-2); --ax--bg-hover: var(--ax-color-surface)"><code>--ax--cols-md</code></li>
+          <li class="ax_1tkqprt ax_12qfu4j ax_19okdu7 ax_y2gfvi ax_1ulzdld ax_1fsljx5 ax_rjiqqd ax_j7jhnz ax_1ciac1d ax_v7wkcy ax_ko8qrj ax_13ghi2b ax_1mddkmb ax_8n6hvq ax_csjs6h ax_rklr5g ax_ayp74a ax_zu0zz9" style="--ax--p: var(--ax-space-4); --ax--p-xl: var(--ax-space-6); --ax--bg: var(--ax-color-surface-2); --ax--bg-hover: var(--ax-color-surface)"><code>--ax--cols-xl</code></li>
+          <li class="ax_1tkqprt ax_12qfu4j ax_19okdu7 ax_y2gfvi ax_1ulzdld ax_1fsljx5 ax_rjiqqd ax_j7jhnz ax_1ciac1d ax_v7wkcy ax_ko8qrj ax_13ghi2b ax_1mddkmb ax_8n6hvq ax_csjs6h ax_rklr5g ax_ayp74a ax_zu0zz9" style="--ax--p: var(--ax-space-4); --ax--p-xl: var(--ax-space-6); --ax--bg: var(--ax-color-surface-2); --ax--bg-hover: var(--ax-color-surface)"><code>--ax--cols-large</code></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="atomic" class="ax_bxr55t ax_1lb8jm5 ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_1x4cy2x ax_bpv9b3 ax_1347he1 ax_1jk1y5c" aria-labelledby="atomic-title">
+      <h2 id="atomic-title" class="ax_1ugjo5y ax_1ej8q2t ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_15nineq ax_3gqkde ax_1wrsnyf ax_ystfxc ax_1wkfc5p">Atomic engine — one declaration per class</h2>
+      <div class="ax_12e2o2y ax_11uiwy9 ax_1ej8q2t ax_32iyy5 ax_1nh0hjf ax_ng5cqz ax_106wiqa ax_ms9gty ax_1asss3c ax_a2r24e ax_pbvtyv ax_1azakaa ax_1mrufac ax_1i54c4v ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_41ai5u ax_bfx0t2 ax_1x6pk7">
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_1ej8q2t ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_10bzqkp">
+          <p class="ax_ystfxc ax_1t38fa6 ax_14q05c1">This card is styled with <code>create()</code>, Facebook/StyleX style. Every property becomes one generated class holding one declaration. Hover it, or change text size or contrast in the widget: the classes stay the same, the variables they read change.</p>
+          <pre class="ax_ystfxc ax_5qun6s ax_zu0zz9 ax_1stbn62 ax_11u27jw ax_1oza6zl ax_uong6c" tabindex="0" aria-label="Code example"><code>const s = create({
+  card: {
+    padding: vars.space[6],
+    borderRadius: vars.radius.lg,
+    backgroundColor: {default: vars.color.surface,
+                      ':hover': vars.color['surface-2']},
+    flexDirection: {default: 'row', '@large-text': 'column'},
+    gap: vars.space[4],
+  },
+});
+card.className = classes(s.card);</code></pre>
+          <div id="atomic-card"><span class="ax_kw8tjr ax_o4001o" aria-hidden="true">◆</span><p class="ax_ystfxc">I am styled only by atomic classes.</p></div>
+        </div>
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_1ej8q2t ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_qbsx03">
+          <h3 class="ax_1td0fz6 ax_1r16qw1 ax_ystfxc">Classes on the card, and the one rule each holds</h3>
+          <div class="ax_11u27jw">
+            <table class="ax_yd2n7k ax_1oza6zl ax_uong6c ax_d29ntf">
+              <thead><tr><th scope="col" class="ax_ugwlm ax_dhye0e ax_1cnqkfr ax_h04ltk">Class</th><th scope="col" class="ax_ugwlm ax_dhye0e ax_1cnqkfr ax_h04ltk">CSS rule</th></tr></thead>
+              <tbody id="atomic-rules"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="utilities" class="ax_bxr55t ax_1lb8jm5 ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_1x4cy2x ax_bpv9b3 ax_1347he1 ax_1jk1y5c" aria-labelledby="util-title">
+      <h2 id="util-title" class="ax_1ugjo5y ax_1ej8q2t ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_15nineq ax_3gqkde ax_1wrsnyf ax_ystfxc ax_1wkfc5p">Utilities</h2>
+      <div class="ax_12e2o2y ax_11uiwy9 ax_1ej8q2t ax_32iyy5 ax_1nh0hjf ax_ng5cqz ax_106wiqa ax_ms9gty ax_1asss3c ax_a2r24e ax_pbvtyv ax_1azakaa ax_1mrufac ax_1i54c4v ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_41ai5u ax_bfx0t2 ax_1x6pk7">
+        <div class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_1ej8q2t ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_10bhrh2">
+          <h3 class="ax_tacuad ax_xtfv78 ax_ystfxc">Typography &amp; colour</h3>
+          <p class="ax_kw8tjr ax_o4001o ax_1x387dr ax_ystfxc">text-2xl font-bold</p>
+          <p class="ax_1td0fz6 ax_1r16qw1 ax_ystfxc">text-lg</p>
+          <p class="ax_1oza6zl ax_uong6c ax_1t38fa6 ax_ystfxc">text-sm text-muted</p>
+          <p class="ax_ystfxc"><span class="ax_1ip3xma ax_16udzf8">text-danger</span> · <span class="ax_z1hbu2 ax_16udzf8">text-success</span> · <span class="ax_oixvrf ax_16udzf8">text-warning</span></p>
+          <ul class="ax_1b10h1h ax_gkmkeo ax_104zqfz ax_10bhrh2 ax_gj9app ax_xblvgj ax_ystfxc" id="swatches"></ul>
+        </div>
+        <form class="ax_2i9nud ax_tl8esh ax_1pp2f1t ax_12wzr96 ax_1ej8q2t ax_11uiwy9 ax_1kapenj ax_11k1ry9 ax_sqz6gy ax_5sel86 ax_fe1zmz ax_hurcxv ax_n0desy ax_bpsowo ax_10bhrh2" aria-labelledby="form-title">
+          <h3 id="form-title" class="ax_tacuad ax_xtfv78 ax_ystfxc">Form</h3>
+          <label class="ax_cbqo9b ax_e4or9x ax_1puniag">
+            <span class="ax_16udzf8">Email</span>
+            <input class="ax_w0988f ax_1yfr43f ax_to4s4y ax_3ezuux ax_1gwidlj ax_h04ltk ax_k1ocll ax_fwz0qz" type="email" name="email" autocomplete="email" aria-describedby="email-hint">
+            <span id="email-hint" class="ax_1oza6zl ax_uong6c ax_1t38fa6">We never share it.</span>
+          </label>
+          <label class="ax_cbqo9b ax_a1x11n ax_qbsx03"><input type="checkbox" name="news" class="ax_1skodp6"> Send me updates</label>
+          <button class="ax_w0988f ax_177453u ax_1qond9t ax_to4s4y ax_3ezuux ax_fd7p9p ax_3wfkn8 ax_16k527h ax_16udzf8 ax_1ete9ul ax_bx70mw">Subscribe</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="ax_bxr55t ax_1lb8jm5 ax_1ej8q2t ax_98t27f ax_q5qnqt ax_1qmlu10 ax_1uafzxx ax_1x4cy2x ax_bpv9b3 ax_1347he1 ax_1jk1y5c ax_1gf225f ax_1by39h8 ax_h04ltk">
+    <div class="ax_12e2o2y ax_11uiwy9 ax_1ej8q2t ax_32iyy5 ax_1nh0hjf ax_ng5cqz ax_106wiqa ax_ms9gty ax_1asss3c ax_a2r24e ax_pbvtyv ax_1azakaa ax_1mrufac ax_1i54c4v ax_a3z9tp ax_4ktt2k ax_18ztxyy ax_41ai5u"><p class="ax_10srbtc ax_whul97 ax_z45qiu ax_ystfxc ax_1oza6zl ax_uong6c ax_1t38fa6">a11y-atomic · MIT · The widget helps readers; it does not make a site conformant on its own.</p></div>
+  </footer>
+
+  <style>
+    kbd { padding: 0 var(--ax-space-1); border: 1px solid var(--ax-color-border); border-radius: var(--ax-radius-sm); }
+  </style>
+  <script type="module">
+    const tokens = ['bg', 'surface', 'text', 'muted', 'primary', 'link', 'border', 'focus'];
+    document.getElementById('swatches').innerHTML = tokens.map(t => `<li class="ax-flex ax-flex-col ax-gap-1"><span class="ax-block ax-h-10 ax-rounded-md ax-border ax-border-border" style="background:var(--ax-color-${t})"></span><code class="ax-text-xs">${t}</code></li>`).join('');
+    document.querySelector('form').addEventListener('submit', event => event.preventDefault());
+    const status = document.getElementById('demo-status');
+    document.addEventListener('click', event => {
+      const btn = event.target.closest('[data-set], [data-open-widget]');
+      const widget = globalThis.a11yWidget;
+      if (!btn || !widget) return;
+      if (btn.hasAttribute('data-open-widget')) return widget.open();
+      const [key, value] = btn.dataset.set.split('=');
+      if (key === 'reset') widget.reset(); else widget.set(key, value);
+      status.textContent = key === 'reset' ? 'Settings reset.' : `Applied ${key}: ${value}.`;
+    });
+  </script>
+  <script type="module">
+    import {create, classes, rules, inject} from './src/atomic.js';
+    import {vars} from './src/vars.js';
+    const s = create({
+      card: {
+        display: 'flex', alignItems: 'center', padding: vars.space[6], gap: vars.space[4],
+        borderRadius: vars.radius.lg, borderWidth: '2px', borderStyle: 'solid', borderColor: vars.color.border,
+        backgroundColor: {default: vars.color.surface, ':hover': vars.color['surface-2']},
+        flexDirection: {default: 'row', '@large-text': 'column'},
+      },
+    });
+    inject(); // development: demo styles are not in dist/
+    const card = document.getElementById('atomic-card');
+    card.className = classes(s.card);
+    const byClass = new Map(rules().map(r => [r.className, r.css]));
+    document.getElementById('atomic-rules').innerHTML = card.className.split(' ').map(c =>
+      `<tr><td class="ax-p-2 ax-border-b ax-border-border ax-font-mono">.${c}</td><td class="ax-p-2 ax-border-b ax-border-border ax-font-mono ax-break-all">${byClass.get(c).replace(/&/g, '&amp;').replace(/</g, '&lt;')}</td></tr>`).join('');
+  </script>
+</body>
+</html>

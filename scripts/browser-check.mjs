@@ -354,6 +354,44 @@ try {
     const large = await look(1100, '200');
     expect(where, large.cols === 1 && large.p === '24px', `-large should win at large text, others keep their breakpoint value: ${JSON.stringify(large)}`);
   }
+  // 15. Compiled (Facebook-style) page: markup carries only ax_ atomic classes and
+  //     renders exactly like the readable source page.
+  {
+    const where = 'compiled';
+    const compiledHtml = await readFile(new URL('../compiled.html', import.meta.url), 'utf8');
+    const markup = compiledHtml.replace(/<script[\s\S]*?<\/script>/g, '');
+    const tokens = [...markup.matchAll(/class="([^"]*)"/g)].flatMap(m => m[1].split(/\s+/)).filter(Boolean);
+    expect(where, tokens.length > 500 && tokens.every(t => t.startsWith('ax_')), `non-atomic classes in markup: ${[...new Set(tokens.filter(t => !t.startsWith('ax_')))].slice(0, 8)}`);
+    const sig = async page => page.evaluate(() => [...document.querySelectorAll('body *')].map(el => {
+      const c = getComputedStyle(el);
+      return `${el.tagName.toLowerCase()}#${el.id} ` + [c.display, c.position, c.gridTemplateColumns, c.padding, c.margin, c.gap, c.color, c.backgroundColor, c.fontSize, c.fontWeight, c.lineHeight, c.letterSpacing, c.flexDirection, c.alignItems, c.justifyContent, c.borderTopWidth, c.borderTopStyle, c.borderTopColor, c.borderRadius, c.boxShadow, c.order, c.textAlign, c.textDecorationLine, c.width, c.maxWidth].join('|');
+    }));
+    for (const [vp, label, state] of [[desktop, 'desktop'], [{viewport: {width: 390, height: 844}}, 'mobile'], [desktop, 'dark-high-200', {theme: 'dark', contrast: 'high', text: '200'}], [{viewport: {width: 1100, height: 800}}, 'tablet-spacing', {spacing: 'on', text: '150'}]]) {
+      const read = async path => {
+        const context = await browser.newContext(vp);
+        if (state) await context.addInitScript(s => localStorage.setItem('a11y-atomic', s), JSON.stringify(state));
+        const page = await context.newPage();
+        page.on('pageerror', error => fail(`${where}/${label}`, error.message));
+        await page.goto(base + path);
+        await page.waitForFunction(() => globalThis.a11yWidget);
+        await page.waitForTimeout(100);
+        const out = await sig(page);
+        await context.close();
+        return out;
+      };
+      const [a, b] = [await read(''), await read('compiled.html')];
+      const i = a.findIndex((line, k) => line !== b[k]);
+      expect(`${where}/${label}`, a.length === b.length && i < 0, i < 0 ? 'element count differs' : `differs:\n      source:   ${a[i]}\n      compiled: ${b[i]}`);
+    }
+    const context = await browser.newContext(desktop);
+    const page = await context.newPage();
+    await page.goto(base + 'compiled.html');
+    await page.addScriptTag({content: axeSource});
+    const result = await page.evaluate(() => globalThis.axe.run(document, {runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']}));
+    checks++;
+    for (const v of result.violations) fail(where, `axe ${v.id}: ${v.nodes.slice(0, 2).map(n => n.target.join(' ')).join(', ')}`);
+    await context.close();
+  }
 } finally {
   await browser.close();
   server.kill();
