@@ -65,29 +65,29 @@ try {
     await page.keyboard.press('Tab');
     const skip = await page.evaluate(() => { const a = document.activeElement; return a.getAttribute('href') === '#main' && a.getBoundingClientRect().width > 50; });
     expect(where, skip, 'first Tab should reach a visible skip link');
-    await page.focus('[data-part="toggle"]');
+    await page.focus('[data-ax-part="toggle"]');
     await page.keyboard.press('Enter');
-    expect(where, await page.getAttribute('[data-part="toggle"]', 'aria-expanded') === 'true', 'Enter should open the panel');
-    expect(where, await page.evaluate(() => document.activeElement.dataset.part === 'title'), 'focus should move into the panel');
+    expect(where, await page.getAttribute('[data-ax-part="toggle"]', 'aria-expanded') === 'true', 'Enter should open the panel');
+    expect(where, await page.evaluate(() => document.activeElement.dataset.axPart === 'title'), 'focus should move into the panel');
     await page.keyboard.press('Tab'); // close button
     await page.keyboard.press('Tab'); // first radio of "Text size" (checked one)
     await page.keyboard.press('ArrowRight'); await page.keyboard.press('ArrowRight');
-    expect(where, await page.getAttribute('html', 'data-a11y-text') === '130', 'arrow keys should change text size to 130');
-    const status = await page.waitForFunction(() => document.querySelector('[data-a11y-status]').textContent === 'Text size: 130%', null, {timeout: 2000})
-      .then(() => 'Text size: 130%', () => page.textContent('[data-a11y-status]'));
+    expect(where, await page.getAttribute('html', 'data-ax-text') === '130', 'arrow keys should change text size to 130');
+    const status = await page.waitForFunction(() => document.querySelector('[data-ax-status]').textContent === 'Text size: 130%', null, {timeout: 2000})
+      .then(() => 'Text size: 130%', () => page.textContent('[data-ax-status]'));
     expect(where, status === 'Text size: 130%', `live region should announce, got "${status}"`);
     await page.check('input[role="switch"][name="spacing"]');
-    expect(where, await page.getAttribute('html', 'data-a11y-spacing') === 'on', 'switch should turn spacing on');
+    expect(where, await page.getAttribute('html', 'data-ax-spacing') === 'on', 'switch should turn spacing on');
     await page.keyboard.press('Escape');
-    expect(where, await page.getAttribute('[data-part="toggle"]', 'aria-expanded') === 'false', 'Escape should close');
-    expect(where, await page.evaluate(() => document.activeElement.dataset.part === 'toggle'), 'focus should return to the toggle');
+    expect(where, await page.getAttribute('[data-ax-part="toggle"]', 'aria-expanded') === 'false', 'Escape should close');
+    expect(where, await page.evaluate(() => document.activeElement.dataset.axPart === 'toggle'), 'focus should return to the toggle');
     await page.keyboard.press('Alt+Shift+KeyA');
-    expect(where, await page.isVisible('[data-part="panel"]'), 'Alt+Shift+A should open');
+    expect(where, await page.isVisible('[data-ax-part="panel"]'), 'Alt+Shift+A should open');
     await page.mouse.click(10, 450);
-    expect(where, !(await page.isVisible('[data-part="panel"]')), 'outside click should close');
+    expect(where, !(await page.isVisible('[data-ax-part="panel"]')), 'outside click should close');
     await page.reload();
     await page.waitForFunction(() => globalThis.a11yWidget);
-    expect(where, await page.getAttribute('html', 'data-a11y-text') === '130', 'setting should persist after reload');
+    expect(where, await page.getAttribute('html', 'data-ax-text') === '130', 'setting should persist after reload');
     const fontPx = await page.evaluate(() => parseFloat(getComputedStyle(document.documentElement).fontSize));
     expect(where, Math.abs(fontPx - 20.8) < 0.1, `root font should be 20.8px at 130%, got ${fontPx}`);
     await page.evaluate(() => globalThis.a11yWidget.reset());
@@ -103,8 +103,8 @@ try {
     const page = await context.newPage();
     await page.route('**/src/auto.js', route => route.abort());
     await page.goto(base);
-    expect(where, await page.getAttribute('html', 'data-a11y-contrast') === 'high', 'init script should apply contrast before the widget loads');
-    expect(where, await page.getAttribute('html', 'data-a11y-text') === null, 'init script should ignore invalid values');
+    expect(where, await page.getAttribute('html', 'data-ax-contrast') === 'high', 'init script should apply contrast before the widget loads');
+    expect(where, await page.getAttribute('html', 'data-ax-text') === null, 'init script should ignore invalid values');
     const bg = await page.evaluate(() => getComputedStyle(document.body).color);
     expect(where, bg === 'rgb(0, 0, 0)', `high contrast text should be black, got ${bg}`);
     await context.close();
@@ -116,7 +116,7 @@ try {
     const {context, page} = await open({viewport: {width: 320, height: 640}}, where, state);
     expect(where, !(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)), 'horizontal scroll at 320px');
     await page.evaluate(() => globalThis.a11yWidget.open());
-    const box = await page.evaluate(() => { const r = document.querySelector('[data-part="panel"]').getBoundingClientRect(); return {left: r.left, right: r.right, top: r.top}; });
+    const box = await page.evaluate(() => { const r = document.querySelector('[data-ax-part="panel"]').getBoundingClientRect(); return {left: r.left, right: r.right, top: r.top}; });
     expect(where, box.left >= 0 && box.right <= 320 && box.top >= 0, `panel off-screen ${JSON.stringify(box)}`);
     await context.close();
   }
@@ -125,7 +125,7 @@ try {
   for (const [width, expected] of [[390, 1], [1100, 2], [1300, 3], [1500, 4]]) {
     const where = `grid/${width}`;
     const {context, page} = await open({viewport: {width, height: 900}}, where);
-    const count = await page.evaluate(() => getComputedStyle(document.querySelector('#grid .grid__wrapper')).gridTemplateColumns.split(' ').length);
+    const count = await page.evaluate(() => getComputedStyle(document.querySelector('#grid .ax-grid-wrapper')).gridTemplateColumns.split(' ').length);
     expect(where, count === expected, `expected ${expected} columns, got ${count}`);
     await context.close();
   }
@@ -134,8 +134,8 @@ try {
   for (const [name, state, expected] of [['os-reduce', {}, '0'], ['os-reduce-allow', {motion: 'allow'}, '1'], ['widget-reduce', {motion: 'reduce'}, '0']]) {
     const where = `motion/${name}`;
     const {context, page} = await open({...desktop, reducedMotion: name.startsWith('os') ? 'reduce' : 'no-preference'}, where, state);
-    const value = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--a11y-motion').trim());
-    expect(where, value === expected, `--a11y-motion should be ${expected}, got ${value}`);
+    const value = await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue('--ax-a11y-motion').trim());
+    expect(where, value === expected, `--ax-a11y-motion should be ${expected}, got ${value}`);
     await context.close();
   }
 
@@ -153,13 +153,13 @@ try {
     const {context, page} = await open(desktop, where, {text: '200'});
     const nav = await page.evaluate(() => getComputedStyle(document.querySelector('nav')).flexDirection);
     expect(where, nav === 'column', `large-text:flex-col should stack the nav, got ${nav}`);
-    const tops = await page.evaluate(() => [...document.querySelectorAll('.basis-switch')].map(el => Math.round(el.getBoundingClientRect().top)));
+    const tops = await page.evaluate(() => [...document.querySelectorAll('.ax-basis-switch')].map(el => Math.round(el.getBoundingClientRect().top)));
     expect(where, new Set(tops).size === tops.length, `switcher should stack at 200% text, tops ${tops}`);
     await context.close();
     const normal = await open(desktop, `${where}/100`);
-    const tops100 = await normal.page.evaluate(() => [...document.querySelectorAll('.basis-switch')].map(el => Math.round(el.getBoundingClientRect().top)));
+    const tops100 = await normal.page.evaluate(() => [...document.querySelectorAll('.ax-basis-switch')].map(el => Math.round(el.getBoundingClientRect().top)));
     expect(where, new Set(tops100).size === 1, `switcher should be one row at 100%, tops ${tops100}`);
-    const card = await normal.page.evaluate(() => { const a = document.querySelector('.stretched-link'); a.closest('article').scrollIntoView({block: 'center', behavior: 'instant'}); const r = a.closest('article').getBoundingClientRect(); const hit = document.elementFromPoint(r.right - 10, r.bottom - 10); return hit === a; });
+    const card = await normal.page.evaluate(() => { const a = document.querySelector('.ax-stretched-link'); a.closest('article').scrollIntoView({block: 'center', behavior: 'instant'}); const r = a.closest('article').getBoundingClientRect(); const hit = document.elementFromPoint(r.right - 10, r.bottom - 10); return hit === a; });
     expect(where, card, 'stretched link should cover the card corner');
     const border = await normal.page.evaluate(() => { const c = getComputedStyle(document.querySelector('#lineage article')); return `${c.borderTopStyle} ${c.borderTopWidth}`; });
     expect(where, border === 'solid 1px', `.border should draw a 1px solid border, got ${border}`);
@@ -224,7 +224,7 @@ try {
       const rows = [...document.querySelectorAll('#atomic-rules tr')].map(r => r.cells[1].textContent);
       return {classes: card.className.split(' '), rows, padding: getComputedStyle(card).paddingTop, dir: getComputedStyle(card).flexDirection};
     });
-    expect(where, info.classes.length >= 8 && info.classes.every(c => /^x[0-9a-z]+$/.test(c)), `atomic classes ${info.classes}`);
+    expect(where, info.classes.length >= 8 && info.classes.every(c => /^ax_[0-9a-z]+$/.test(c)), `atomic classes ${info.classes}`);
     expect(where, info.rows.length === info.classes.length && info.rows.every(r => r.split('\n').every(l => (l.match(/;/g) || []).length === 1)), 'each class should show one declaration');
     expect(where, info.padding === '24px' && info.dir === 'row', `card styles not applied: ${info.padding} ${info.dir}`);
     await context.close();
@@ -265,7 +265,7 @@ try {
       await page.waitForFunction(() => globalThis.a11yWidget);
       await page.evaluate(() => globalThis.a11yWidget.open());
       await page.waitForTimeout(400);
-      const injected = await page.evaluate(() => document.querySelector('style[data-atomic-runtime]')?.textContent.split('\n').length - 2);
+      const injected = await page.evaluate(() => document.querySelector('style[data-ax-runtime]')?.textContent.split('\n').length - 2);
       const pageSig = await signature(page);
       expect(`${where}/${label}`, pageSig === fullSig, `computed styles differ from the full bundle${firstDiff(fullSig, pageSig)}`);
       expect(`${where}/${label}`, injected > 50 && injected < 200, `widget should inject only its own rules, got ${injected}`);
@@ -292,32 +292,32 @@ try {
     let c = await card();
     expect(where, c.display === 'flex' && c.padding === '24px' && c.dir === 'row', `atomic classes should style shadow content: ${JSON.stringify(c)}`);
     expect(where, c.bg === 'rgb(243, 245, 248)', `tokens should inherit into shadow: ${c.bg}`);
-    await set('data-a11y-text', '200');
+    await set('data-ax-text', '200');
     c = await card();
     expect(where, c.dir === 'column' && c.padding === '48px', `@large-text and text size should apply inside shadow: ${c.dir} ${c.padding}`);
-    await set('data-a11y-spacing', 'on');
+    await set('data-ax-spacing', 'on');
     expect(where, (await card()).letter !== 'normal', 'text spacing mode should reach shadow text');
-    await set('data-a11y-theme', 'dark');
+    await set('data-ax-theme', 'dark');
     expect(where, (await card()).color === 'rgb(238, 241, 244)', 'dark theme should reach shadow content');
-    await set('data-a11y-links', 'underline');
+    await set('data-ax-links', 'underline');
     expect(where, (await card()).linkBg !== 'rgba(0, 0, 0, 0)', 'highlight links should reach shadow links');
-    for (const n of ['data-a11y-text', 'data-a11y-spacing', 'data-a11y-theme', 'data-a11y-links']) await set(n, null);
+    for (const n of ['data-ax-text', 'data-ax-spacing', 'data-ax-theme', 'data-ax-links']) await set(n, null);
     expect(where, (await card()).dir === 'row', 'removing the attribute should be mirrored too');
 
     // Widget mounted in a shadow root
     const w = () => page.evaluate(() => {
-      const root = document.querySelector('div.a11y-widget').shadowRoot;
-      const t = root.querySelector('[data-part="toggle"]');
-      return {display: getComputedStyle(t).display, open: !root.querySelector('[data-part="panel"]').hidden, expanded: t.getAttribute('aria-expanded')};
+      const root = document.querySelector('div.ax-widget').shadowRoot;
+      const t = root.querySelector('[data-ax-part="toggle"]');
+      return {display: getComputedStyle(t).display, open: !root.querySelector('[data-ax-part="panel"]').hidden, expanded: t.getAttribute('aria-expanded')};
     });
     expect(where, (await w()).display === 'grid', 'shadow widget should be styled');
-    await page.locator('div.a11y-widget [data-part="toggle"]').click();
+    await page.locator('div.ax-widget [data-ax-part="toggle"]').click();
     expect(where, (await w()).open, 'shadow widget should open on click');
-    await page.locator('div.a11y-widget input[name="text"][value="150"]').check();
-    expect(where, await page.getAttribute('html', 'data-a11y-text') === '150', 'shadow widget should set modes on <html>');
+    await page.locator('div.ax-widget input[name="text"][value="150"]').check();
+    expect(where, await page.getAttribute('html', 'data-ax-text') === '150', 'shadow widget should set modes on <html>');
     await page.mouse.click(10, 10);
     expect(where, !(await w()).open, 'click outside should close the shadow widget');
-    await page.locator('div.a11y-widget [data-part="toggle"]').click();
+    await page.locator('div.ax-widget [data-ax-part="toggle"]').click();
     await page.keyboard.press('Escape');
     expect(where, !(await w()).open && (await w()).expanded === 'false', 'Escape should close the shadow widget');
     await page.addScriptTag({content: axeSource});

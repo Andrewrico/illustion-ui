@@ -13,6 +13,7 @@
 // registered rule; in the browser create() only computes class names.
 
 import {VARIANTS} from './conditions.js';
+import {PREFIX} from './naming.js';
 
 export const registry = new Map(); // className → {property, value, conditions, pseudoElement}
 export const used = new Set(); // classes actually returned by props()/classes() at runtime
@@ -54,7 +55,7 @@ export function hash(text) {
 
 function register(property, value, conditions, pseudoElement) {
   const signature = `${conditions.join('&')}|${pseudoElement || ''}|${property}:${value}`;
-  const className = `x${hash(signature)}`;
+  const className = `${PREFIX}_${hash(signature)}`;
   const existing = registry.get(className);
   if (existing && existing.signature !== signature) throw new Error(`atomic class collision: ${className} (${existing.signature} vs ${signature})`);
   if (!existing) registry.set(className, {signature, property, value: String(value), conditions, pseudoElement});
@@ -172,10 +173,10 @@ function write() {
  * Production pages should prefer built CSS (npx a11y-atomic --pages).
  */
 export function inject(doc = globalThis.document, {all = false} = {}) {
-  let el = doc.querySelector('style[data-atomic-runtime]');
+  let el = doc.querySelector('style[data-ax-runtime]');
   if (!el) {
     el = doc.createElement('style');
-    el.dataset.atomicRuntime = '';
+    el.dataset.axRuntime = '';
     doc.head.append(el);
   }
   live = {el, all};

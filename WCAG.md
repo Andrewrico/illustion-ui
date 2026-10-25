@@ -34,7 +34,7 @@ Using this framework does not make a site conformant. Conformance depends on the
 | [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html) | A | supports | — | The widget is non-modal and never traps focus; Escape returns focus to its button. |
 | [2.1.4 Character Key Shortcuts](https://www.w3.org/WAI/WCAG22/Understanding/character-key-shortcuts.html) | A | framework | — | The widget shortcut needs modifier keys (Alt+Shift+A) and can be turned off with mount({shortcut: false}). |
 | [2.2.1 Timing Adjustable](https://www.w3.org/WAI/WCAG22/Understanding/timing-adjustable.html) | A | author | — | Time limits are behaviour. |
-| [2.2.2 Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) | A | supports | Animations | The animations mode and prefers-reduced-motion stop CSS animation and transitions; durations multiply by --a11y-motion. JS-driven motion is the author's job. |
+| [2.2.2 Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) | A | supports | Animations | The animations mode and prefers-reduced-motion stop CSS animation and transitions; durations multiply by --ax-a11y-motion. JS-driven motion is the author's job. |
 | [2.3.1 Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html) | A | author | — | Do not add flashing content. |
 | [2.3.3 Animation from Interactions](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html) | AAA | framework | Animations | Interaction animation can be turned off in the widget or by the OS setting. |
 | [2.4.1 Bypass Blocks](https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html) | A | supports | — | Skip link recipe: sr-only focus:not-sr-only focus:absolute. |
@@ -50,7 +50,7 @@ Using this framework does not make a site conformant. Conformance depends on the
 | [2.5.2 Pointer Cancellation](https://www.w3.org/WAI/WCAG22/Understanding/pointer-cancellation.html) | A | author | — | Pointer behaviour is JS; the widget uses native click events. |
 | [2.5.3 Label in Name](https://www.w3.org/WAI/WCAG22/Understanding/label-in-name.html) | A | author | — | Visible labels must be part of the accessible name; the widget's are. |
 | [2.5.4 Motion Actuation](https://www.w3.org/WAI/WCAG22/Understanding/motion-actuation.html) | A | author | — | Nothing in the framework uses device motion. |
-| [2.5.5 Target Size (Enhanced)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html) | AAA | supports | Larger click targets | The larger click targets mode raises --a11y-target-min to 44px. |
+| [2.5.5 Target Size (Enhanced)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html) | AAA | supports | Larger click targets | The larger click targets mode raises --ax-a11y-target-min to 44px. |
 | [2.5.7 Dragging Movements](https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html) | AA | author | — | Nothing in the framework needs dragging. |
 | [2.5.8 Target Size (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) | AA | supports | Larger click targets | min-h-target / min-w-target / size-target give 24px by default and follow the larger click targets mode; widget controls meet it. |
 | [3.1.1 Language of Page](https://www.w3.org/WAI/WCAG22/Understanding/language-of-page.html) | A | author | — | Set <html lang>. |

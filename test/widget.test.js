@@ -32,8 +32,8 @@ test('sanitize drops unknown keys and disallowed values', () => {
 test('applySettings sets non-defaults and removes defaults', () => {
   const root = fakeRoot();
   applySettings(root, {text: '150', spacing: 'on'});
-  assert.equal(root.attrs.get('data-a11y-text'), '150');
-  assert.equal(root.attrs.get('data-a11y-spacing'), 'on');
+  assert.equal(root.attrs.get('data-ax-text'), '150');
+  assert.equal(root.attrs.get('data-ax-spacing'), 'on');
   assert.equal(root.attrs.size, 2);
   applySettings(root, {text: '100'});
   assert.equal(root.attrs.size, 0);

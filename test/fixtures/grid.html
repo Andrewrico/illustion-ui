@@ -9,18 +9,18 @@
 <body>
   <main>
     <div id="classic">
-      <section class="grid__section" style="--background: #eef">
-        <h2 class="grid__title">Title</h2>
-        <div class="grid__wrapper" style="--column-table: repeat(2, 1fr); --column-laptop: repeat(3, 1fr); --column-desktop: repeat(4, 1fr); --gap: 1.5rem">
-          <div class="grid__row">Row</div>
-          <div class="grid__column">One</div>
-          <div class="grid__column" style="--flow: row; --align-items: center">Two</div>
-          <div class="grid__column">Three</div>
-          <div class="grid__column">Four</div>
+      <section class="ax-grid-section" style="--ax-grid-background: #eef">
+        <h2 class="ax-grid-title">Title</h2>
+        <div class="ax-grid-wrapper" style="--ax-grid-column-table: repeat(2, 1fr); --ax-grid-column-laptop: repeat(3, 1fr); --ax-grid-column-desktop: repeat(4, 1fr); --ax-grid-gap: 1.5rem">
+          <div class="ax-grid-row">Row</div>
+          <div class="ax-grid-column">One</div>
+          <div class="ax-grid-column" style="--ax-grid-flow: row; --ax-grid-align-items: center">Two</div>
+          <div class="ax-grid-column">Three</div>
+          <div class="ax-grid-column">Four</div>
         </div>
-        <div class="grid__wrapper" style="--column-count: repeat(3, 1fr)">
-          <div class="grid__column">A</div>
-          <div class="grid__column">B</div>
+        <div class="ax-grid-wrapper" style="--ax-grid-column-count: repeat(3, 1fr)">
+          <div class="ax-grid-column">A</div>
+          <div class="ax-grid-column">B</div>
         </div>
       </section>
     </div>
@@ -29,10 +29,10 @@
   <script type="module">
     import {grid} from '/src/grid.styles.js';
     import {classes} from '/src/atomic.js';
-    const map = {grid__section: grid.section, grid__title: grid.title, grid__wrapper: grid.wrapper, grid__row: grid.row, grid__column: grid.column};
+    const map = {'ax-grid-section': grid.section, 'ax-grid-title': grid.title, 'ax-grid-wrapper': grid.wrapper, 'ax-grid-row': grid.row, 'ax-grid-column': grid.column};
     const copy = document.getElementById('classic').cloneNode(true);
     for (const el of copy.querySelectorAll('[class]')) el.className = classes(map[el.className]);
-    // grid.css's ".grid__wrapper + .grid__wrapper" sibling rule → wrapperNext
+    // grid.css's ".ax-grid-wrapper + .ax-grid-wrapper" sibling rule → wrapperNext
     const second = copy.querySelectorAll('section > div')[1];
     second.className = classes(grid.wrapper, grid.wrapperNext);
     document.getElementById('atomic').append(...copy.children);

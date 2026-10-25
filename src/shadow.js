@@ -9,7 +9,7 @@
 // stylesheet shared by every shadow root: base essentials, the widget modes
 // rewritten for :host, and the atomic rules in use (kept up to date). Tokens are
 // CSS variables, which inherit into shadow trees on their own. Each host mirrors
-// <html>'s data-a11y-* attributes so mode and @condition selectors match inside.
+// <html>'s data-ax-* attributes so mode and @condition selectors match inside.
 import {rules, used, onUse} from './atomic.js';
 import {toShadow} from './shadow-css.js';
 import shadowBase from '../dist/a11y-shadow.js';
@@ -23,8 +23,8 @@ const sheetText = () => `${LAYERS}\n${shadowBase}\n@layer atomic {\n${rules().fi
 
 function mirror(host) {
   const html = host.ownerDocument.documentElement;
-  for (const {name} of [...host.attributes]) if (name.startsWith('data-a11y-') && !html.hasAttribute(name)) host.removeAttribute(name);
-  for (const {name, value} of html.attributes) if (name.startsWith('data-a11y-') && host.getAttribute(name) !== value) host.setAttribute(name, value);
+  for (const {name} of [...host.attributes]) if (name.startsWith('data-ax-') && !html.hasAttribute(name)) host.removeAttribute(name);
+  for (const {name, value} of html.attributes) if (name.startsWith('data-ax-') && host.getAttribute(name) !== value) host.setAttribute(name, value);
 }
 
 /**

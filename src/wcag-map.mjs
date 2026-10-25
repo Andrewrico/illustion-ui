@@ -36,7 +36,7 @@ export const map = {
   '2.1.2': {status: 'supports', how: 'The widget is non-modal and never traps focus; Escape returns focus to its button.', verify: ['scripts/browser-check.mjs']},
   '2.1.4': {status: 'framework', how: 'The widget shortcut needs modifier keys (Alt+Shift+A) and can be turned off with mount({shortcut: false}).', verify: ['scripts/browser-check.mjs']},
   '2.2.1': {status: 'author', how: 'Time limits are behaviour.'},
-  '2.2.2': {status: 'supports', how: 'The animations mode and prefers-reduced-motion stop CSS animation and transitions; durations multiply by --a11y-motion. JS-driven motion is the author\'s job.', verify: ['scripts/browser-check.mjs']},
+  '2.2.2': {status: 'supports', how: 'The animations mode and prefers-reduced-motion stop CSS animation and transitions; durations multiply by --ax-a11y-motion. JS-driven motion is the author\'s job.', verify: ['scripts/browser-check.mjs']},
   '2.3.1': {status: 'author', how: 'Do not add flashing content.'},
   '2.4.1': {status: 'supports', how: 'Skip link recipe: sr-only focus:not-sr-only focus:absolute.'},
   '2.4.2': {status: 'author', how: 'Give each page a descriptive <title>.'},
@@ -72,7 +72,7 @@ export const map = {
   '1.4.8': {status: 'supports', how: 'Readable/dyslexia fonts, align-left mode, max-w-prose / max-w-measure line length, theme choice.'},
   '2.3.3': {status: 'framework', how: 'Interaction animation can be turned off in the widget or by the OS setting.', verify: ['scripts/browser-check.mjs']},
   '2.4.13': {status: 'supports', how: 'The strong focus mode draws a 5px outline with a 3px offset and a background halo.'},
-  '2.5.5': {status: 'supports', how: 'The larger click targets mode raises --a11y-target-min to 44px.'},
+  '2.5.5': {status: 'supports', how: 'The larger click targets mode raises --ax-a11y-target-min to 44px.'},
 };
 
 export const STATUS = ['framework', 'supports', 'author'];

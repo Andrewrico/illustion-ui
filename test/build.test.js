@@ -18,27 +18,34 @@ test('layers: Tailwind v4 names, atomic before utilities, a11y last', () => {
   assert.deepEqual([...order].sort((a, b) => a - b), order);
 });
 
-test('grid.css ships unchanged in the components layer', () => {
+test('grid.css ships with standard names only: same values, same structure', async () => {
+  const {standardizeGrid, GRID_CLASSES, GRID_VARS} = await import('../src/naming.js');
   const components = css.slice(css.indexOf('@layer components {'), css.indexOf('@layer atomic {'));
-  assert.ok(components.includes(grid));
+  const standard = standardizeGrid(grid);
+  assert.ok(components.includes(standard));
+  for (const old of Object.keys(GRID_CLASSES)) assert.ok(!standard.includes(`.${old}`), old);
+  for (const v of GRID_VARS) assert.ok(!new RegExp(`--${v}(?![\\w-])`).test(standard), v);
+  // Renaming back gives the original declarations (only the duplicate alias selector is gone).
+  const values = text => [...text.matchAll(/:\s*([^;{}]+);/g)].map(m => m[1].replace(/--ax-grid-/g, '--').trim());
+  assert.deepEqual(values(standard), values(grid));
 });
 
 test('Tailwind class names and values match', () => {
   for (const rule of [
-    '.p-4 { padding: calc(var(--spacing) * 4); }',
-    '.flex { display: flex; }',
-    '.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
-    '.col-span-full { grid-column: 1 / -1; }',
-    '.text-lg { font-size: var(--text-lg); line-height: var(--text-lg--line-height); }',
-    '.rounded-md { border-radius: var(--radius-md); }',
-    '.\\32 xl\\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }',
-    '.lg\\:col-span-2 { grid-column: span 2 / span 2; }',
-    '.w-1\\/2 { width: 50%; }',
-    '.p-0\\.5 { padding: calc(var(--spacing) * 0.5); }',
+    '.ax-p-4 { padding: calc(var(--ax-spacing) * 4); }',
+    '.ax-flex { display: flex; }',
+    '.ax-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }',
+    '.ax-col-span-full { grid-column: 1 / -1; }',
+    '.ax-text-lg { font-size: var(--ax-text-lg); line-height: var(--ax-text-lg--line-height); }',
+    '.ax-rounded-md { border-radius: var(--ax-radius-md); }',
+    '.\\32 xl\\:ax-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }',
+    '.lg\\:ax-col-span-2 { grid-column: span 2 / span 2; }',
+    '.ax-w-1\\/2 { width: 50%; }',
+    '.ax-p-0\\.5 { padding: calc(var(--ax-spacing) * 0.5); }',
   ]) assert.ok(css.includes(rule), rule);
-  assert.ok(css.includes('--spacing: 0.25rem;'));
+  assert.ok(css.includes('--ax-spacing: 0.25rem;'));
   const hoverBlock = css.slice(css.indexOf('@media (hover: hover) {'));
-  assert.ok(hoverBlock.slice(0, hoverBlock.indexOf('\n}')).includes('.hover\\:bg-primary:hover { background-color: var(--color-primary); }'));
+  assert.ok(hoverBlock.slice(0, hoverBlock.indexOf('\n}')).includes('.hover\\:ax-bg-primary:hover { background-color: var(--ax-color-primary); }'));
 });
 
 test('breakpoints: lg/xl/2xl are the grid.css breakpoints', () => {
@@ -47,17 +54,17 @@ test('breakpoints: lg/xl/2xl are the grid.css breakpoints', () => {
 });
 
 test('our own variants follow the widget and the OS', () => {
-  assert.ok(css.includes(':root:is([data-a11y-text="150"], [data-a11y-text="175"], [data-a11y-text="200"]) .large-text\\:flex-col'));
-  assert.ok(css.includes(':root[data-a11y-contrast="high"] .contrast-more\\:border-4'));
+  assert.ok(css.includes(':root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .large-text\\:ax-flex-col'));
+  assert.ok(css.includes(':root[data-ax-contrast="high"] .contrast-more\\:ax-border-4'));
   const more = css.slice(css.indexOf('@media (prefers-contrast: more) {\n  :root:not'));
-  assert.ok(more.slice(0, more.indexOf('\n}')).includes(':root:not([data-a11y-contrast="normal"]) .contrast-more\\:border-4'));
-  assert.ok(css.includes(':root[data-a11y-motion="reduce"] .motion-reduce\\:transition-none'));
-  assert.ok(css.includes(':root[data-a11y-theme="dark"] .dark\\:bg-surface'));
+  assert.ok(more.slice(0, more.indexOf('\n}')).includes(':root:not([data-ax-contrast="normal"]) .contrast-more\\:ax-border-4'));
+  assert.ok(css.includes(':root[data-ax-motion="reduce"] .motion-reduce\\:ax-transition-none'));
+  assert.ok(css.includes(':root[data-ax-theme="dark"] .dark\\:ax-bg-surface'));
 });
 
 test('every colour token is a class and every theme defines it', () => {
   for (const c of Object.keys(themes.light)) {
-    assert.ok(css.includes(`--color-${c}:`), c);
+    assert.ok(css.includes(`--ax-color-${c}:`), c);
     for (const p of ['text', 'bg', 'border']) assert.ok(names.includes(`${p}-${c}`), `${p}-${c}`);
   }
 });
@@ -67,7 +74,7 @@ test('every non-default widget value has CSS that reacts to it', () => {
   const missing = [];
   for (const s of SETTINGS) for (const [value] of s.options) {
     if (value === s.default || noSelector.has(`${s.key}=${value}`)) continue;
-    if (!css.includes(`[data-a11y-${s.key}="${value}"]`)) missing.push(`${s.key}=${value}`);
+    if (!css.includes(`[data-ax-${s.key}="${value}"]`)) missing.push(`${s.key}=${value}`);
   }
   assert.deepEqual(missing, []);
 });
@@ -82,8 +89,8 @@ test('one property per class, except the multi-property utilities Tailwind also 
   assert.deepEqual(multi, []);
 });
 
-test('durations are multiplied by --a11y-motion', () => {
-  assert.ok(css.includes('.duration-300 { transition-duration: calc(300ms * var(--a11y-motion)); }'));
+test('durations are multiplied by --ax-a11y-motion', () => {
+  assert.ok(css.includes('.ax-duration-300 { transition-duration: calc(300ms * var(--ax-a11y-motion)); }'));
 });
 
 test('escaping handles leading digits, dots, slashes and colons', () => {
@@ -94,40 +101,40 @@ test('escaping handles leading digits, dots, slashes and colons', () => {
 
 test('content scan keeps only the classes a page uses', async () => {
   const dir = await mkdtemp(path.join(tmpdir(), 'a11y-atomic-'));
-  await writeFile(path.join(dir, 'page.html'), '<div class="flex p-4 lg:grid-cols-3 hover:bg-primary"></div>');
+  await writeFile(path.join(dir, 'page.html'), '<div class="ax-flex ax-p-4 lg:ax-grid-cols-3 hover:ax-bg-primary"></div>');
   const small = await build({content: ['*.html'], cwd: dir});
   const utilitiesLayer = small.slice(small.indexOf('@layer utilities {'), small.indexOf('@layer a11y {'));
-  for (const s of ['.flex {', '.p-4 {', '.lg\\:grid-cols-3 {', '.hover\\:bg-primary:hover']) assert.ok(utilitiesLayer.includes(s), s);
-  assert.ok(!utilitiesLayer.includes('.p-8 {'));
-  assert.ok(!utilitiesLayer.includes('.grid-cols-3 {'));
+  for (const s of ['.ax-flex {', '.ax-p-4 {', '.lg\\:ax-grid-cols-3 {', '.hover\\:ax-bg-primary:hover']) assert.ok(utilitiesLayer.includes(s), s);
+  assert.ok(!utilitiesLayer.includes('.ax-p-8 {'));
+  assert.ok(!utilitiesLayer.includes('.ax-grid-cols-3 {'));
   assert.ok(small.length < css.length / 5, `${small.length} vs ${css.length}`);
 });
 
 test('Eleventy plugin writes scanned CSS after a build', async () => {
   const {default: plugin} = await import('../src/eleventy.js');
   const dir = await mkdtemp(path.join(tmpdir(), 'a11y-11ty-'));
-  await writeFile(path.join(dir, 'index.html'), '<main class="grid grid-cols-2 gap-4 text-muted"></main>');
+  await writeFile(path.join(dir, 'index.html'), '<main class="ax-grid ax-grid-cols-2 ax-gap-4 ax-text-muted"></main>');
   let handler;
   plugin({on: (event, fn) => { if (event === 'eleventy.after') handler = fn; }}, {content: [path.join(dir, '*.html')], out: 'css/site.css'});
   await handler({dir: {output: dir}});
   const out = await readFile(path.join(dir, 'css/site.css'), 'utf8');
-  assert.ok(out.includes('.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}') || out.includes('.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}'));
-  assert.ok(!out.includes('.grid-cols-5{'));
+  assert.ok(out.includes('.ax-grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}') || out.includes('.ax-grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}'));
+  assert.ok(!out.includes('.ax-grid-cols-5{'));
 });
 
 test('per page: only the classes a page uses, grid.css only when the page uses the grid', async () => {
   const {buildPage, buildCore} = await import('../scripts/build.mjs');
-  const small = await buildPage('<main class="flex p-4 hover:bg-primary"><p class="text-muted">Hi</p></main>');
-  for (const s of ['.flex{', '.p-4{', '.hover\\:bg-primary:hover', '.text-muted{']) assert.ok(small.includes(s), s);
-  assert.ok(!small.includes('.p-8{'));
-  assert.ok(!small.includes('grid__wrapper'), 'no grid.css without grid classes');
+  const small = await buildPage('<main class="ax-flex ax-p-4 hover:ax-bg-primary"><p class="ax-text-muted">Hi</p></main>');
+  for (const s of ['.ax-flex{', '.ax-p-4{', '.hover\\:ax-bg-primary:hover', '.ax-text-muted{']) assert.ok(small.includes(s), s);
+  assert.ok(!small.includes('.ax-p-8{'));
+  assert.ok(!small.includes('ax-grid-wrapper'), 'no grid.css without grid classes');
   assert.ok(!small.includes('@layer atomic'), 'no atomic rules without atomic classes');
   assert.ok(small.length < 1500, `${small.length} bytes`);
-  const withGrid = await buildPage('<div class="grid__wrapper"></div>');
-  assert.ok(withGrid.includes('grid__wrapper'));
+  const withGrid = await buildPage('<div class="ax-grid-wrapper"></div>');
+  assert.ok(withGrid.includes('.ax-grid-wrapper{'));
   const core = await buildCore();
   assert.ok(core.startsWith('/*! a11y-atomic core') && core.includes('@layer theme,base,components,atomic,utilities,a11y'));
-  assert.ok(!core.includes('.flex{'), 'core has no utilities');
+  assert.ok(!core.includes('.ax-flex{'), 'core has no utilities');
 });
 
 test('per page: atomic classes found in the HTML bring only their own rules', async () => {
@@ -141,25 +148,25 @@ test('per page: atomic classes found in the HTML bring only their own rules', as
 test('inlinePage swaps the full bundle for core + page style, and is idempotent', async () => {
   const {inlinePage} = await import('../scripts/build.mjs');
   const html = '<html><head><link rel="stylesheet" href="dist/a11y-atomic.css"></head><body></body></html>';
-  const once = inlinePage(html, '.flex{display:flex}', '/css/a11y-core.css');
+  const once = inlinePage(html, '.ax-flex{display:flex}', '/css/a11y-core.css');
   assert.ok(!once.includes('a11y-atomic.css'));
-  assert.ok(once.includes('<link rel="stylesheet" href="/css/a11y-core.css" data-a11y-core><style data-a11y-page>.flex{display:flex}</style>'));
-  const twice = inlinePage(once, '.block{display:block}', '/css/a11y-core.css');
-  assert.equal(twice.match(/data-a11y-page/g).length, 1);
-  assert.ok(twice.includes('.block{display:block}') && !twice.includes('.flex{display:flex}'));
+  assert.ok(once.includes('<link rel="stylesheet" href="/css/a11y-core.css" data-ax-core><style data-ax-page>.ax-flex{display:flex}</style>'));
+  const twice = inlinePage(once, '.ax-block{display:block}', '/css/a11y-core.css');
+  assert.equal(twice.match(/data-ax-page/g).length, 1);
+  assert.ok(twice.includes('.ax-block{display:block}') && !twice.includes('.ax-flex{display:flex}'));
 });
 
 test('buildPages rewrites each page with its own CSS', async () => {
   const {buildPages} = await import('../scripts/build.mjs');
   const dir = await mkdtemp(path.join(tmpdir(), 'a11y-pages-'));
-  await writeFile(path.join(dir, 'a.html'), '<html><head></head><body class="flex"></body></html>');
-  await writeFile(path.join(dir, 'b.html'), '<html><head></head><body class="grid grid-cols-3"></body></html>');
+  await writeFile(path.join(dir, 'a.html'), '<html><head></head><body class="ax-flex"></body></html>');
+  await writeFile(path.join(dir, 'b.html'), '<html><head></head><body class="ax-grid ax-grid-cols-3"></body></html>');
   const result = await buildPages(['*.html'], {cwd: dir});
   const a = await readFile(path.join(dir, 'a.html'), 'utf8');
   const b = await readFile(path.join(dir, 'b.html'), 'utf8');
-  assert.ok(a.includes('.flex{') && !a.includes('.grid-cols-3{'));
-  assert.ok(b.includes('.grid-cols-3{') && !b.includes('.flex{'));
-  assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).includes('--color-text'));
+  assert.ok(a.includes('.ax-flex{') && !a.includes('.ax-grid-cols-3{'));
+  assert.ok(b.includes('.ax-grid-cols-3{') && !b.includes('.ax-flex{'));
+  assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).includes('--ax-color-text'));
   assert.equal(result.pages.length, 2);
 });
 
@@ -168,8 +175,8 @@ test('Eleventy perPage transform inlines each page and writes the core', async (
   const dir = await mkdtemp(path.join(tmpdir(), 'a11y-11ty-pp-'));
   let transform, after;
   plugin({addTransform: (name, fn) => { transform = fn; }, on: (e, fn) => { if (e === 'eleventy.after') after = fn; }}, {perPage: true});
-  const out = await transform.call({page: {outputPath: path.join(dir, 'index.html')}}, '<html><head></head><body class="p-2"></body></html>');
-  assert.ok(out.includes('.p-2{') && out.includes('href="/css/a11y-core.css"'));
+  const out = await transform.call({page: {outputPath: path.join(dir, 'index.html')}}, '<html><head></head><body class="ax-p-2"></body></html>');
+  assert.ok(out.includes('.ax-p-2{') && out.includes('href="/css/a11y-core.css"'));
   assert.equal(await transform.call({page: {outputPath: 'feed.xml'}}, '<rss/>'), '<rss/>');
   await after({dir: {output: dir}});
   assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).length > 1000);
@@ -177,12 +184,12 @@ test('Eleventy perPage transform inlines each page and writes the core', async (
 
 test('shadow DOM: document selectors are rewritten for :host', async () => {
   const {shadowSelector, toShadow} = await import('../src/shadow-css.js');
-  assert.equal(shadowSelector(':root[data-a11y-theme="dark"] .x1'), ':host([data-a11y-theme="dark"]) .x1');
-  assert.equal(shadowSelector(':root:not([data-a11y-motion="allow"]) *'), ':host(:not([data-a11y-motion="allow"])) *');
-  assert.equal(shadowSelector('[data-a11y-spacing="on"] body *'), ':host([data-a11y-spacing="on"]) *');
-  assert.equal(shadowSelector(':is([data-a11y-font="readable"], [data-a11y-font="dyslexic"]) body p'), ':host(:is([data-a11y-font="readable"], [data-a11y-font="dyslexic"])) p');
+  assert.equal(shadowSelector(':root[data-ax-theme="dark"] .x1'), ':host([data-ax-theme="dark"]) .x1');
+  assert.equal(shadowSelector(':root:not([data-ax-motion="allow"]) *'), ':host(:not([data-ax-motion="allow"])) *');
+  assert.equal(shadowSelector('[data-ax-spacing="on"] body *'), ':host([data-ax-spacing="on"]) *');
+  assert.equal(shadowSelector(':is([data-ax-font="readable"], [data-ax-font="dyslexic"]) body p'), ':host(:is([data-ax-font="readable"], [data-ax-font="dyslexic"])) p');
   assert.equal(shadowSelector('.x1:hover'), '.x1:hover');
-  assert.equal(toShadow('@media print { [data-a11y-links="underline"] a, .y { color: red; } }'), '@media print { :host([data-a11y-links="underline"]) a, .y { color: red; } }');
+  assert.equal(toShadow('@media print { [data-ax-links="underline"] a, .y { color: red; } }'), '@media print { :host([data-ax-links="underline"]) a, .y { color: red; } }');
   const generated = (await import('../dist/a11y-shadow.js')).default;
-  assert.ok(generated.includes(':host([data-a11y-spacing="on"]) *') && !generated.includes('saturation') && !generated.includes(':root'));
+  assert.ok(generated.includes(':host([data-ax-spacing="on"]) *') && !generated.includes('saturation') && !generated.includes(':root'));
 });

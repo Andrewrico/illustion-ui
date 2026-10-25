@@ -1,5 +1,5 @@
 // a11y-atomic accessibility widget.
-// Settings become data-a11y-<key> attributes on <html>; the CSS framework reads
+// Settings become data-ax-<key> attributes on <html>; the CSS framework reads
 // them. Pure helpers (sanitize/apply/load/save) work without a DOM for tests.
 
 import {classes as cx, inject} from './atomic.js';
@@ -49,7 +49,7 @@ export function sanitize(input) {
 export function applySettings(root, input) {
   const state = sanitize(input);
   for (const s of SETTINGS) {
-    const name = `data-a11y-${s.key}`;
+    const name = `data-ax-${s.key}`;
     if (state[s.key] === s.default) root.removeAttribute(name);
     else root.setAttribute(name, state[s.key]);
   }
@@ -90,37 +90,37 @@ export function mount(options = {}) {
   const root = options.root || doc.documentElement;
   const storage = options.storage === undefined ? safeLocalStorage() : options.storage;
   const title = escapeHtml(options.title || 'Accessibility');
-  const id = `a11y-widget-${++uid}`;
+  const id = `ax-widget-${++uid}`;
   let state = applySettings(root, loadState(storage));
 
   const left = options.position === 'bottom-left';
   const el = doc.createElement('div');
-  // .a11y-widget is a hook (modes.css keeps the widget legible); styling is atomic.
-  el.className = `a11y-widget ${cx(st.root, left && st.rootLeft)}`;
+  // .ax-widget is a hook (modes.css keeps the widget legible); styling is atomic.
+  el.className = `ax-widget ${cx(st.root, left && st.rootLeft)}`;
   el.dataset.position = left ? 'bottom-left' : 'bottom-right';
   const sr = cx(st.srOnly);
   el.innerHTML = `
-    <button type="button" data-part="toggle" class="${cx(st.toggle)}" aria-expanded="false" aria-controls="${id}-panel">${ICON}<span class="${sr}">${title} settings</span></button>
-    <section id="${id}-panel" data-part="panel" class="${cx(st.panel, left && st.panelLeft)}" role="dialog" aria-modal="false" aria-labelledby="${id}-title" hidden>
+    <button type="button" data-ax-part="toggle" class="${cx(st.toggle)}" aria-expanded="false" aria-controls="${id}-panel">${ICON}<span class="${sr}">${title} settings</span></button>
+    <section id="${id}-panel" data-ax-part="panel" class="${cx(st.panel, left && st.panelLeft)}" role="dialog" aria-modal="false" aria-labelledby="${id}-title" hidden>
       <div class="${cx(st.header)}">
-        <h2 id="${id}-title" data-part="title" class="${cx(st.title)}" tabindex="-1">${title}</h2>
-        <button type="button" class="${cx(st.button, st.close)}" data-a11y-close><span aria-hidden="true">&times;</span><span class="${sr}">Close ${title.toLowerCase()} settings</span></button>
+        <h2 id="${id}-title" data-ax-part="title" class="${cx(st.title)}" tabindex="-1">${title}</h2>
+        <button type="button" class="${cx(st.button, st.close)}" data-ax-close><span aria-hidden="true">&times;</span><span class="${sr}">Close ${title.toLowerCase()} settings</span></button>
       </div>
       <form class="${cx(st.form)}">
         ${SETTINGS.map(s => (s.type === 'toggle' ? toggleHtml(id, s) : choiceHtml(id, s))).join('')}
       </form>
       <div class="${cx(st.footer)}">
-        <button type="button" class="${cx(st.button, st.reset)}" data-a11y-reset>Reset all</button>
+        <button type="button" class="${cx(st.button, st.reset)}" data-ax-reset>Reset all</button>
       </div>
-      <p class="${sr}" aria-live="polite" data-a11y-status></p>
+      <p class="${sr}" aria-live="polite" data-ax-status></p>
     </section>`;
   const container = options.container || doc.body;
   let host = null;
   if (options.shadow) {
     // Isolated from site CSS; adopt() brings in the atomic rules this widget uses.
     host = doc.createElement('div');
-    host.className = 'a11y-widget';
-    el.classList.remove('a11y-widget');
+    host.className = 'ax-widget';
+    el.classList.remove('ax-widget');
     const shadow = host.attachShadow({mode: 'open'});
     adopt(shadow);
     shadow.append(el);
@@ -139,11 +139,11 @@ export function mount(options = {}) {
     container.append(el);
   }
 
-  const toggle = el.querySelector('[data-part="toggle"]');
-  const panel = el.querySelector('[data-part="panel"]');
+  const toggle = el.querySelector('[data-ax-part="toggle"]');
+  const panel = el.querySelector('[data-ax-part="panel"]');
   const form = el.querySelector('form');
-  const status = el.querySelector('[data-a11y-status]');
-  const heading = el.querySelector('[data-part="title"]');
+  const status = el.querySelector('[data-ax-status]');
+  const heading = el.querySelector('[data-ax-part="title"]');
   const setOpen = isOpen => {
     panel.hidden = !isOpen;
     toggle.setAttribute('aria-expanded', String(isOpen));
@@ -162,7 +162,7 @@ export function mount(options = {}) {
     saveState(storage, state);
     sync();
     if (message) announce(message);
-    el.dispatchEvent(new CustomEvent('a11y:change', {bubbles: true, detail: {...state}}));
+    el.dispatchEvent(new CustomEvent('ax:change', {bubbles: true, detail: {...state}}));
   };
 
   const open = () => {
@@ -177,8 +177,8 @@ export function mount(options = {}) {
   const reset = () => commit(defaults(), 'All accessibility settings reset');
 
   toggle.addEventListener('click', () => (panel.hidden ? open() : close()));
-  el.querySelector('[data-a11y-close]').addEventListener('click', () => close());
-  el.querySelector('[data-a11y-reset]').addEventListener('click', reset);
+  el.querySelector('[data-ax-close]').addEventListener('click', () => close());
+  el.querySelector('[data-ax-reset]').addEventListener('click', reset);
   form.addEventListener('submit', event => event.preventDefault());
   form.addEventListener('change', event => {
     const input = event.target;

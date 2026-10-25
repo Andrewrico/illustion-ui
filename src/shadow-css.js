@@ -1,7 +1,7 @@
 // Rewrites document-level selectors for use inside a shadow root:
-//   :root[data-a11y-x="v"] .c   →  :host([data-a11y-x="v"]) .c
-//   [data-a11y-x="v"] body *    →  :host([data-a11y-x="v"]) *
-// The host carries a mirror of <html>'s data-a11y-* attributes (see shadow.js),
+//   :root[data-ax-x="v"] .c   →  :host([data-ax-x="v"]) .c
+//   [data-ax-x="v"] body *    →  :host([data-ax-x="v"]) *
+// The host carries a mirror of <html>'s data-ax-* attributes (see shadow.js),
 // so this works in every browser (no :host-context()).
 
 function splitTopLevel(text, separator) {
@@ -32,7 +32,7 @@ export function shadowSelector(selector) {
   const s = selector.trim();
   let [compound, rest] = leadingCompound(s);
   if (compound.startsWith(':root')) compound = compound.slice(5);
-  else if (!compound.startsWith('[data-a11y-') && !compound.startsWith(':is([data-a11y-')) return s;
+  else if (!compound.startsWith('[data-ax-') && !compound.startsWith(':is([data-ax-')) return s;
   const host = compound ? `:host(${compound})` : ':host';
   rest = rest.replace(/^\s+body(?=\s|$)/, '');
   return `${host}${rest}`;

@@ -10,13 +10,13 @@
   <script type="module" src="src/auto.js"></script>
 </head>
 <body>
-  <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-on-primary focus:rounded-md" href="#main">Skip to content</a>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#main">Skip to content</a>
 
-  <header class="grid__section bg-surface border-b border-border">
-    <div class="grid__wrapper">
-      <nav class="grid__row flex flex-col md:flex-row items-start md:items-center justify-between gap-3 large-text:flex-col large-text:items-start" aria-label="Primary">
-        <a href="#" class="text-xl font-bold no-underline text-text">a11y-atomic</a>
-        <ul class="flex flex-wrap gap-4 list-none m-0 p-0">
+  <header class="ax-grid-section ax-bg-surface ax-border-b ax-border-border">
+    <div class="ax-grid-wrapper">
+      <nav class="ax-grid-row ax-flex ax-flex-col md:ax-flex-row ax-items-start md:ax-items-center ax-justify-between ax-gap-3 large-text:ax-flex-col large-text:ax-items-start" aria-label="Primary">
+        <a href="#" class="ax-text-xl ax-font-bold ax-no-underline ax-text-text">a11y-atomic</a>
+        <ul class="ax-flex ax-flex-wrap ax-gap-4 ax-list-none ax-m-0 ax-p-0">
           <li><a href="#modes">Modes</a></li>
           <li><a href="#grid">Grid</a></li>
           <li><a href="#lineage">Lineage</a></li>
@@ -28,98 +28,98 @@
   </header>
 
   <main id="main">
-    <section class="grid__section" aria-labelledby="hero-title">
-      <div class="grid__wrapper lg:grid-cols-2 gap-8">
-        <div class="grid__column justify-center gap-4">
-          <p class="text-sm font-semibold uppercase tracking-wide text-primary m-0">Tailwind syntax · accessibility tokens · WCAG 2.2</p>
-          <h1 id="hero-title" class="text-4xl lg:text-6xl font-bold leading-tight m-0 text-balance">Every class bends to the reader.</h1>
-          <p class="text-lg text-muted m-0 max-w-prose">Write <code>p-4 lg:grid-cols-3 hover:bg-primary</code> like you already do. Underneath, every value is an accessibility variable the widget can change — text size, spacing, contrast, fonts and motion adapt everywhere.</p>
-          <div class="flex flex-wrap gap-3">
-            <button type="button" class="min-h-target px-5 py-3 rounded-md border-0 bg-primary text-on-primary font-semibold cursor-pointer transition hover:bg-primary-hover active:scale-95" data-open-widget>Open the accessibility widget</button>
-            <a class="min-h-target inline-flex items-center px-5 py-3 rounded-md border-2 border-primary font-semibold no-underline hover:wash-8" href="#utilities">Browse utilities</a>
+    <section class="ax-grid-section" aria-labelledby="hero-title">
+      <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-8">
+        <div class="ax-grid-column ax-justify-center ax-gap-4">
+          <p class="ax-text-sm ax-font-semibold ax-uppercase ax-tracking-wide ax-text-primary ax-m-0">Tailwind syntax · accessibility tokens · WCAG 2.2</p>
+          <h1 id="hero-title" class="ax-text-4xl lg:ax-text-6xl ax-font-bold ax-leading-tight ax-m-0 ax-text-balance">Every class bends to the reader.</h1>
+          <p class="ax-text-lg ax-text-muted ax-m-0 ax-max-w-prose">Write <code>p-4 lg:grid-cols-3 hover:bg-primary</code> like you already do. Underneath, every value is an accessibility variable the widget can change — text size, spacing, contrast, fonts and motion adapt everywhere.</p>
+          <div class="ax-flex ax-flex-wrap ax-gap-3">
+            <button type="button" class="ax-min-h-target ax-px-5 ax-py-3 ax-rounded-md ax-border-0 ax-bg-primary ax-text-on-primary ax-font-semibold ax-cursor-pointer ax-transition hover:ax-bg-primary-hover active:ax-scale-95" data-open-widget>Open the accessibility widget</button>
+            <a class="ax-min-h-target ax-inline-flex ax-items-center ax-px-5 ax-py-3 ax-rounded-md ax-border-2 ax-border-primary ax-font-semibold ax-no-underline hover:ax-wash-8" href="#utilities">Browse utilities</a>
           </div>
-          <p class="text-sm text-muted m-0">Shortcut: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd></p>
+          <p class="ax-text-sm ax-text-muted ax-m-0">Shortcut: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd></p>
         </div>
-        <div class="grid__column">
-          <div class="p-6 rounded-xl bg-surface border border-border shadow-md flex flex-col gap-4">
-            <h2 class="text-xl m-0">Try a mode</h2>
-            <p class="m-0 text-muted">These buttons call the widget's API.</p>
-            <div class="flex flex-wrap gap-2">
-              <button type="button" class="demo-btn" data-set="text=150">Text 150%</button>
-              <button type="button" class="demo-btn" data-set="contrast=high">High contrast</button>
-              <button type="button" class="demo-btn" data-set="theme=dark">Dark</button>
-              <button type="button" class="demo-btn" data-set="spacing=on">Text spacing</button>
-              <button type="button" class="demo-btn" data-set="font=dyslexic">Dyslexia font</button>
-              <button type="button" class="demo-btn" data-set="reset">Reset</button>
+        <div class="ax-grid-column">
+          <div class="ax-p-6 ax-rounded-xl ax-bg-surface ax-border ax-border-border ax-shadow-md ax-flex ax-flex-col ax-gap-4">
+            <h2 class="ax-text-xl ax-m-0">Try a mode</h2>
+            <p class="ax-m-0 ax-text-muted">These buttons call the widget's API.</p>
+            <div class="ax-flex ax-flex-wrap ax-gap-2">
+              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="text=150">Text 150%</button>
+              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="contrast=high">High contrast</button>
+              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="theme=dark">Dark</button>
+              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="spacing=on">Text spacing</button>
+              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="font=dyslexic">Dyslexia font</button>
+              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="reset">Reset</button>
             </div>
-            <p class="m-0 text-sm" aria-live="polite" id="demo-status"></p>
+            <p class="ax-m-0 ax-text-sm" aria-live="polite" id="demo-status"></p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="modes" class="grid__section bg-surface" aria-labelledby="modes-title">
-      <h2 id="modes-title" class="grid__title text-3xl m-0 mb-6">Variants for our own field</h2>
-      <div class="grid__wrapper md:grid-cols-2 xl:grid-cols-3 gap-6">
-        <article class="grid__column p-5 rounded-lg bg-bg border border-border gap-2">
-          <h3 class="text-lg m-0"><code>large-text:</code></h3>
-          <p class="m-0 text-muted">Applies when the reader picks 150% text or more. The nav above stacks with <code>large-text:flex-col</code>.</p>
+    <section id="modes" class="ax-grid-section ax-bg-surface" aria-labelledby="modes-title">
+      <h2 id="modes-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Variants for our own field</h2>
+      <div class="ax-grid-wrapper md:ax-grid-cols-2 xl:ax-grid-cols-3 ax-gap-6">
+        <article class="ax-grid-column ax-p-5 ax-rounded-lg ax-bg-bg ax-border ax-border-border ax-gap-2">
+          <h3 class="ax-text-lg ax-m-0"><code>large-text:</code></h3>
+          <p class="ax-m-0 ax-text-muted">Applies when the reader picks 150% text or more. The nav above stacks with <code>large-text:flex-col</code>.</p>
         </article>
-        <article class="grid__column p-5 rounded-lg bg-bg border border-border contrast-more:border-4 gap-2">
-          <h3 class="text-lg m-0"><code>contrast-more:</code></h3>
-          <p class="m-0 text-muted">Follows the widget <em>and</em> the OS setting. This card gets <code>contrast-more:border-4</code>.</p>
+        <article class="ax-grid-column ax-p-5 ax-rounded-lg ax-bg-bg ax-border ax-border-border contrast-more:ax-border-4 ax-gap-2">
+          <h3 class="ax-text-lg ax-m-0"><code>contrast-more:</code></h3>
+          <p class="ax-m-0 ax-text-muted">Follows the widget <em>and</em> the OS setting. This card gets <code>contrast-more:border-4</code>.</p>
         </article>
-        <article class="grid__column p-5 rounded-lg bg-bg border border-border gap-2">
-          <h3 class="text-lg m-0"><code>motion-reduce:</code> · <code>dark:</code></h3>
-          <p class="m-0 text-muted">Both follow the widget first, then the OS. Every <code>duration-*</code> is multiplied by <code>--a11y-motion</code>.</p>
+        <article class="ax-grid-column ax-p-5 ax-rounded-lg ax-bg-bg ax-border ax-border-border ax-gap-2">
+          <h3 class="ax-text-lg ax-m-0"><code>motion-reduce:</code> · <code>dark:</code></h3>
+          <p class="ax-m-0 ax-text-muted">Both follow the widget first, then the OS. Every <code>duration-*</code> is multiplied by <code>--ax-a11y-motion</code>.</p>
         </article>
       </div>
     </section>
 
-    <section id="grid" class="grid__section" aria-labelledby="grid-title">
-      <h2 id="grid-title" class="grid__title text-3xl m-0 mb-6">Your grid, plus Tailwind classes</h2>
-      <div class="grid__wrapper lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4" data-grid-demo>
-        <div class="grid__row"><p class="m-0 text-muted max-w-prose"><code>grid.css</code> drives the layout; <code>lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4</code> sit on top at its own breakpoints (1024 / 1268 / 1440).</p></div>
-        <div class="grid__column p-4 rounded-md bg-surface-2">1</div>
-        <div class="grid__column p-4 rounded-md bg-surface-2">2</div>
-        <div class="grid__column p-4 rounded-md bg-surface-2 order-first lg:order-none">3 (first on mobile)</div>
-        <div class="grid__column p-4 rounded-md bg-surface-2">4</div>
-        <div class="grid__column p-4 rounded-md bg-surface-2 lg:col-span-2">lg:col-span-2</div>
-        <div class="grid__column p-4 rounded-md bg-surface-2 col-span-full">col-span-full</div>
+    <section id="grid" class="ax-grid-section" aria-labelledby="grid-title">
+      <h2 id="grid-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Your grid, plus Tailwind classes</h2>
+      <div class="ax-grid-wrapper lg:ax-grid-cols-2 xl:ax-grid-cols-3 2xl:ax-grid-cols-4 ax-gap-4" data-grid-demo>
+        <div class="ax-grid-row"><p class="ax-m-0 ax-text-muted ax-max-w-prose"><code>grid.css</code> drives the layout; <code>lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4</code> sit on top at its own breakpoints (1024 / 1268 / 1440).</p></div>
+        <div class="ax-grid-column ax-p-4 ax-rounded-md ax-bg-surface-2">1</div>
+        <div class="ax-grid-column ax-p-4 ax-rounded-md ax-bg-surface-2">2</div>
+        <div class="ax-grid-column ax-p-4 ax-rounded-md ax-bg-surface-2 ax-order-first lg:ax-order-none">3 (first on mobile)</div>
+        <div class="ax-grid-column ax-p-4 ax-rounded-md ax-bg-surface-2">4</div>
+        <div class="ax-grid-column ax-p-4 ax-rounded-md ax-bg-surface-2 lg:ax-col-span-2">lg:col-span-2</div>
+        <div class="ax-grid-column ax-p-4 ax-rounded-md ax-bg-surface-2 ax-col-span-full">col-span-full</div>
       </div>
     </section>
 
-    <section id="lineage" class="grid__section bg-surface" aria-labelledby="lineage-title">
-      <h2 id="lineage-title" class="grid__title text-3xl m-0 mb-6">The best idea from each framework</h2>
-      <div class="grid__wrapper gap-6">
-        <div class="grid__row flex flex-wrap gap-4" style="--switch-at: 48rem">
-          <article class="grow basis-switch relative p-5 rounded-lg bg-bg border border-border hover:shadow-lg transition">
-            <h3 class="text-lg m-0 mb-2"><a class="stretched-link" href="#utilities">Bootstrap · stretched link</a></h3>
-            <p class="m-0 text-muted">The whole card is one link; the focus ring wraps the card.</p>
+    <section id="lineage" class="ax-grid-section ax-bg-surface" aria-labelledby="lineage-title">
+      <h2 id="lineage-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">The best idea from each framework</h2>
+      <div class="ax-grid-wrapper ax-gap-6">
+        <div class="ax-grid-row ax-flex ax-flex-wrap ax-gap-4" style="--ax-switch-at: 48rem">
+          <article class="ax-grow ax-basis-switch ax-relative ax-p-5 ax-rounded-lg ax-bg-bg ax-border ax-border-border hover:ax-shadow-lg ax-transition">
+            <h3 class="ax-text-lg ax-m-0 ax-mb-2"><a class="ax-stretched-link" href="#utilities">Bootstrap · stretched link</a></h3>
+            <p class="ax-m-0 ax-text-muted">The whole card is one link; the focus ring wraps the card.</p>
           </article>
-          <article class="grow basis-switch p-5 rounded-lg bg-bg border border-border">
-            <h3 class="text-lg m-0 mb-2">Every Layout · switcher</h3>
-            <p class="m-0 text-muted"><code>grow basis-switch</code>: these cards stack below 48rem — sooner when text is larger.</p>
+          <article class="ax-grow ax-basis-switch ax-p-5 ax-rounded-lg ax-bg-bg ax-border ax-border-border">
+            <h3 class="ax-text-lg ax-m-0 ax-mb-2">Every Layout · switcher</h3>
+            <p class="ax-m-0 ax-text-muted"><code>grow basis-switch</code>: these cards stack below 48rem — sooner when text is larger.</p>
           </article>
-          <article class="grow basis-switch p-fluid-m rounded-lg bg-bg border border-border">
-            <h3 class="text-lg m-0 mb-2">Utopia · fluid space</h3>
-            <p class="m-0 text-muted"><code>p-fluid-m</code> grows smoothly from 320px to 1440px.</p>
+          <article class="ax-grow ax-basis-switch ax-p-fluid-m ax-rounded-lg ax-bg-bg ax-border ax-border-border">
+            <h3 class="ax-text-lg ax-m-0 ax-mb-2">Utopia · fluid space</h3>
+            <p class="ax-m-0 ax-text-muted"><code>p-fluid-m</code> grows smoothly from 320px to 1440px.</p>
           </article>
         </div>
-        <div class="grid__row flex flex-wrap gap-3">
-          <button type="button" class="min-h-target px-4 py-2 rounded-full border-2 border-primary text-primary bg-transparent cursor-pointer hover:wash-8 focus-visible:wash-12 active:wash-16">Material · state layer</button>
-          <button type="button" class="min-h-target px-4 py-2 rounded-full border-0 bg-primary text-on-primary cursor-pointer transition-transform duration-500 ease-spring hover:scale-105">Open Props · ease-spring</button>
-          <label class="inline-flex items-center gap-2 min-h-target"><input type="checkbox" class="accent-primary size-6"> Pico · native controls, themed</label>
+        <div class="ax-grid-row ax-flex ax-flex-wrap ax-gap-3">
+          <button type="button" class="ax-min-h-target ax-px-4 ax-py-2 ax-rounded-full ax-border-2 ax-border-primary ax-text-primary ax-bg-transparent ax-cursor-pointer hover:ax-wash-8 focus-visible:ax-wash-12 active:ax-wash-16">Material · state layer</button>
+          <button type="button" class="ax-min-h-target ax-px-4 ax-py-2 ax-rounded-full ax-border-0 ax-bg-primary ax-text-on-primary ax-cursor-pointer ax-transition-transform ax-duration-500 ax-ease-spring hover:ax-scale-105">Open Props · ease-spring</button>
+          <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="checkbox" class="ax-accent-primary ax-size-6"> Pico · native controls, themed</label>
         </div>
       </div>
     </section>
 
-    <section id="atomic" class="grid__section" aria-labelledby="atomic-title">
-      <h2 id="atomic-title" class="grid__title text-3xl m-0 mb-6">Atomic engine — one declaration per class</h2>
-      <div class="grid__wrapper lg:grid-cols-2 gap-6">
-        <div class="grid__column gap-4">
-          <p class="m-0 text-muted max-w-prose">This card is styled with <code>create()</code>, Facebook/StyleX style. Every property becomes one generated class holding one declaration. Hover it, or change text size or contrast in the widget: the classes stay the same, the variables they read change.</p>
-          <pre class="m-0 p-4 rounded-lg bg-surface-2 overflow-x-auto text-sm" tabindex="0" aria-label="Code example"><code>const s = create({
+    <section id="atomic" class="ax-grid-section" aria-labelledby="atomic-title">
+      <h2 id="atomic-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Atomic engine — one declaration per class</h2>
+      <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-6">
+        <div class="ax-grid-column ax-gap-4">
+          <p class="ax-m-0 ax-text-muted ax-max-w-prose">This card is styled with <code>create()</code>, Facebook/StyleX style. Every property becomes one generated class holding one declaration. Hover it, or change text size or contrast in the widget: the classes stay the same, the variables they read change.</p>
+          <pre class="ax-m-0 ax-p-4 ax-rounded-lg ax-bg-surface-2 ax-overflow-x-auto ax-text-sm" tabindex="0" aria-label="Code example"><code>const s = create({
   card: {
     padding: vars.space[6],
     borderRadius: vars.radius.lg,
@@ -130,13 +130,13 @@
   },
 });
 card.className = classes(s.card);</code></pre>
-          <div id="atomic-card"><span class="text-2xl" aria-hidden="true">◆</span><p class="m-0">I am styled only by atomic classes.</p></div>
+          <div id="atomic-card"><span class="ax-text-2xl" aria-hidden="true">◆</span><p class="ax-m-0">I am styled only by atomic classes.</p></div>
         </div>
-        <div class="grid__column gap-2">
-          <h3 class="text-lg m-0">Classes on the card, and the one rule each holds</h3>
-          <div class="overflow-x-auto">
-            <table class="w-full text-sm border-collapse">
-              <thead><tr><th scope="col" class="text-left p-2 border-b-2 border-border">Class</th><th scope="col" class="text-left p-2 border-b-2 border-border">CSS rule</th></tr></thead>
+        <div class="ax-grid-column ax-gap-2">
+          <h3 class="ax-text-lg ax-m-0">Classes on the card, and the one rule each holds</h3>
+          <div class="ax-overflow-x-auto">
+            <table class="ax-w-full ax-text-sm ax-border-collapse">
+              <thead><tr><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Class</th><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">CSS rule</th></tr></thead>
               <tbody id="atomic-rules"></tbody>
             </table>
           </div>
@@ -144,43 +144,41 @@ card.className = classes(s.card);</code></pre>
       </div>
     </section>
 
-    <section id="utilities" class="grid__section" aria-labelledby="util-title">
-      <h2 id="util-title" class="grid__title text-3xl m-0 mb-6">Utilities</h2>
-      <div class="grid__wrapper lg:grid-cols-2 gap-6">
-        <div class="grid__column gap-3">
-          <h3 class="text-xl m-0">Typography &amp; colour</h3>
-          <p class="text-2xl font-bold m-0">text-2xl font-bold</p>
-          <p class="text-lg m-0">text-lg</p>
-          <p class="text-sm text-muted m-0">text-sm text-muted</p>
-          <p class="m-0"><span class="text-danger font-semibold">text-danger</span> · <span class="text-success font-semibold">text-success</span> · <span class="text-warning font-semibold">text-warning</span></p>
-          <ul class="grid grid-cols-2 sm:grid-cols-4 gap-3 list-none p-0 m-0" id="swatches"></ul>
+    <section id="utilities" class="ax-grid-section" aria-labelledby="util-title">
+      <h2 id="util-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Utilities</h2>
+      <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-6">
+        <div class="ax-grid-column ax-gap-3">
+          <h3 class="ax-text-xl ax-m-0">Typography &amp; colour</h3>
+          <p class="ax-text-2xl ax-font-bold ax-m-0">text-2xl font-bold</p>
+          <p class="ax-text-lg ax-m-0">text-lg</p>
+          <p class="ax-text-sm ax-text-muted ax-m-0">text-sm text-muted</p>
+          <p class="ax-m-0"><span class="ax-text-danger ax-font-semibold">text-danger</span> · <span class="ax-text-success ax-font-semibold">text-success</span> · <span class="ax-text-warning ax-font-semibold">text-warning</span></p>
+          <ul class="ax-grid ax-grid-cols-2 sm:ax-grid-cols-4 ax-gap-3 ax-list-none ax-p-0 ax-m-0" id="swatches"></ul>
         </div>
-        <form class="grid__column gap-3" aria-labelledby="form-title">
-          <h3 id="form-title" class="text-xl m-0">Form</h3>
-          <label class="flex flex-col gap-1">
-            <span class="font-semibold">Email</span>
-            <input class="min-h-target px-3 py-2 rounded-md border-2 border-border bg-bg focus-visible:border-primary" type="email" name="email" autocomplete="email" aria-describedby="email-hint">
-            <span id="email-hint" class="text-sm text-muted">We never share it.</span>
+        <form class="ax-grid-column ax-gap-3" aria-labelledby="form-title">
+          <h3 id="form-title" class="ax-text-xl ax-m-0">Form</h3>
+          <label class="ax-flex ax-flex-col ax-gap-1">
+            <span class="ax-font-semibold">Email</span>
+            <input class="ax-min-h-target ax-px-3 ax-py-2 ax-rounded-md ax-border-2 ax-border-border ax-bg-bg focus-visible:ax-border-primary" type="email" name="email" autocomplete="email" aria-describedby="email-hint">
+            <span id="email-hint" class="ax-text-sm ax-text-muted">We never share it.</span>
           </label>
-          <label class="flex items-center gap-2"><input type="checkbox" name="news" class="accent-primary"> Send me updates</label>
-          <button class="min-h-target self-start px-5 py-2 rounded-md border-0 bg-primary text-on-primary font-semibold cursor-pointer hover:bg-primary-hover">Subscribe</button>
+          <label class="ax-flex ax-items-center ax-gap-2"><input type="checkbox" name="news" class="ax-accent-primary"> Send me updates</label>
+          <button class="ax-min-h-target ax-self-start ax-px-5 ax-py-2 ax-rounded-md ax-border-0 ax-bg-primary ax-text-on-primary ax-font-semibold ax-cursor-pointer hover:ax-bg-primary-hover">Subscribe</button>
         </form>
       </div>
     </section>
   </main>
 
-  <footer class="grid__section bg-surface border-t border-border">
-    <div class="grid__wrapper"><p class="grid__row m-0 text-sm text-muted">a11y-atomic · MIT · The widget helps readers; it does not make a site conformant on its own.</p></div>
+  <footer class="ax-grid-section ax-bg-surface ax-border-t ax-border-border">
+    <div class="ax-grid-wrapper"><p class="ax-grid-row ax-m-0 ax-text-sm ax-text-muted">a11y-atomic · MIT · The widget helps readers; it does not make a site conformant on its own.</p></div>
   </footer>
 
   <style>
-    .demo-btn { min-height: var(--a11y-target-min); padding: var(--space-2) var(--space-3); border: 2px solid var(--color-border); border-radius: var(--radius-full); background: var(--color-bg); color: var(--color-text); cursor: pointer; }
-    .demo-btn:hover { background: var(--color-surface-2); }
-    kbd { padding: 0 var(--space-1); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
+    kbd { padding: 0 var(--ax-space-1); border: 1px solid var(--ax-color-border); border-radius: var(--ax-radius-sm); }
   </style>
   <script type="module">
     const tokens = ['bg', 'surface', 'text', 'muted', 'primary', 'link', 'border', 'focus'];
-    document.getElementById('swatches').innerHTML = tokens.map(t => `<li class="flex flex-col gap-1"><span class="block h-10 rounded-md border border-border" style="background:var(--color-${t})"></span><code class="text-xs">${t}</code></li>`).join('');
+    document.getElementById('swatches').innerHTML = tokens.map(t => `<li class="ax-flex ax-flex-col ax-gap-1"><span class="ax-block ax-h-10 ax-rounded-md ax-border ax-border-border" style="background:var(--ax-color-${t})"></span><code class="ax-text-xs">${t}</code></li>`).join('');
     document.querySelector('form').addEventListener('submit', event => event.preventDefault());
     const status = document.getElementById('demo-status');
     document.addEventListener('click', event => {
@@ -209,7 +207,7 @@ card.className = classes(s.card);</code></pre>
     card.className = classes(s.card);
     const byClass = new Map(rules().map(r => [r.className, r.css]));
     document.getElementById('atomic-rules').innerHTML = card.className.split(' ').map(c =>
-      `<tr><td class="p-2 border-b border-border font-mono">.${c}</td><td class="p-2 border-b border-border font-mono break-all">${byClass.get(c).replace(/&/g, '&amp;').replace(/</g, '&lt;')}</td></tr>`).join('');
+      `<tr><td class="ax-p-2 ax-border-b ax-border-border ax-font-mono">.${c}</td><td class="ax-p-2 ax-border-b ax-border-border ax-font-mono ax-break-all">${byClass.get(c).replace(/&/g, '&amp;').replace(/</g, '&lt;')}</td></tr>`).join('');
   </script>
 </body>
 </html>

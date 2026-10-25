@@ -1,6 +1,6 @@
 /* ==========================================================================
    Accessibility modes.
-   Every mode is a data-a11y-* attribute on <html>, set by the widget (or by
+   Every mode is a data-ax-* attribute on <html>, set by the widget (or by
    hand). Modes only change CSS variables or apply user overrides, so every
    atomic class and component picks them up automatically. OS preferences
    (reduced motion, more contrast, dark scheme, forced colors) apply unless
@@ -8,91 +8,91 @@
    ========================================================================== */
 
 /* ---------- Text size (WCAG 1.4.4 Resize text) ---------- */
-[data-a11y-text="115"] { --a11y-text-scale: 1.15; }
-[data-a11y-text="130"] { --a11y-text-scale: 1.3; }
-[data-a11y-text="150"] { --a11y-text-scale: 1.5; }
-[data-a11y-text="175"] { --a11y-text-scale: 1.75; }
-[data-a11y-text="200"] { --a11y-text-scale: 2; }
+[data-ax-text="115"] { --ax-a11y-text-scale: 1.15; }
+[data-ax-text="130"] { --ax-a11y-text-scale: 1.3; }
+[data-ax-text="150"] { --ax-a11y-text-scale: 1.5; }
+[data-ax-text="175"] { --ax-a11y-text-scale: 1.75; }
+[data-ax-text="200"] { --ax-a11y-text-scale: 2; }
 
 /* ---------- Text spacing (WCAG 1.4.12 values) ---------- */
-[data-a11y-spacing="on"] {
-  --a11y-line-height: 1.8;
-  --a11y-letter-spacing: 0.12em;
-  --a11y-word-spacing: 0.16em;
-  --a11y-paragraph-spacing: 2em;
+[data-ax-spacing="on"] {
+  --ax-a11y-line-height: 1.8;
+  --ax-a11y-letter-spacing: 0.12em;
+  --ax-a11y-word-spacing: 0.16em;
+  --ax-a11y-paragraph-spacing: 2em;
 }
-[data-a11y-spacing="on"] body * {
-  line-height: var(--a11y-line-height) !important;
-  letter-spacing: var(--a11y-letter-spacing) !important;
-  word-spacing: var(--a11y-word-spacing) !important;
+[data-ax-spacing="on"] body * {
+  line-height: var(--ax-a11y-line-height) !important;
+  letter-spacing: var(--ax-a11y-letter-spacing) !important;
+  word-spacing: var(--ax-a11y-word-spacing) !important;
 }
-[data-a11y-spacing="on"] body :where(p, li, dd, blockquote) { margin-block-end: var(--a11y-paragraph-spacing) !important; }
+[data-ax-spacing="on"] body :where(p, li, dd, blockquote) { margin-block-end: var(--ax-a11y-paragraph-spacing) !important; }
 
 /* ---------- Font ---------- */
-[data-a11y-font="readable"] { --a11y-font-body: "Atkinson Hyperlegible", "Atkinson Hyperlegible Next", Verdana, Tahoma, sans-serif; }
-[data-a11y-font="dyslexic"] { --a11y-font-body: "OpenDyslexic", "Lexend", "Comic Sans MS", Verdana, sans-serif; }
-:is([data-a11y-font="readable"], [data-a11y-font="dyslexic"]) body *:not(code, kbd, pre, samp, pre *, [aria-hidden="true"]) {
-  font-family: var(--a11y-font-body) !important;
+[data-ax-font="readable"] { --ax-a11y-font-body: "Atkinson Hyperlegible", "Atkinson Hyperlegible Next", Verdana, Tahoma, sans-serif; }
+[data-ax-font="dyslexic"] { --ax-a11y-font-body: "OpenDyslexic", "Lexend", "Comic Sans MS", Verdana, sans-serif; }
+:is([data-ax-font="readable"], [data-ax-font="dyslexic"]) body *:not(code, kbd, pre, samp, pre *, [aria-hidden="true"]) {
+  font-family: var(--ax-a11y-font-body) !important;
 }
 
 /* ---------- Text alignment ---------- */
-[data-a11y-align="left"] body :where(p, li, dd, dt, td, th, blockquote, figcaption, h1, h2, h3, h4, h5, h6) { text-align: left !important; }
+[data-ax-align="left"] body :where(p, li, dd, dt, td, th, blockquote, figcaption, h1, h2, h3, h4, h5, h6) { text-align: left !important; }
 
 /* ---------- Links ---------- */
-[data-a11y-links="underline"] a {
+[data-ax-links="underline"] a {
   text-decoration: underline !important;
   text-decoration-thickness: 0.12em !important;
   text-underline-offset: 0.2em !important;
 }
-[data-a11y-links="underline"] a:not(.a11y-widget *) {
-  background: var(--color-highlight) !important;
-  color: var(--color-on-highlight) !important;
+[data-ax-links="underline"] a:not(.ax-widget *) {
+  background: var(--ax-color-highlight) !important;
+  color: var(--ax-color-on-highlight) !important;
 }
 
 /* ---------- Focus ---------- */
-[data-a11y-focus="strong"] {
-  --a11y-focus-width: 5px;
-  --a11y-focus-offset: 3px;
+[data-ax-focus="strong"] {
+  --ax-a11y-focus-width: 5px;
+  --ax-a11y-focus-offset: 3px;
 }
-[data-a11y-focus="strong"] :focus-visible {
-  outline: var(--a11y-focus-width) solid var(--color-focus) !important;
-  box-shadow: 0 0 0 calc(var(--a11y-focus-width) + var(--a11y-focus-offset) + 3px) var(--color-bg) !important;
+[data-ax-focus="strong"] :focus-visible {
+  outline: var(--ax-a11y-focus-width) solid var(--ax-color-focus) !important;
+  box-shadow: 0 0 0 calc(var(--ax-a11y-focus-width) + var(--ax-a11y-focus-offset) + 3px) var(--ax-color-bg) !important;
 }
 
 /* ---------- Targets (WCAG 2.5.8 AA → 2.5.5 AAA size) ---------- */
-[data-a11y-target="large"] { --a11y-target-min: 44px; }
-[data-a11y-target="large"] :where(button, select, input:not([type="checkbox"], [type="radio"]), [role="button"], .min-h-target) {
-  min-height: var(--a11y-target-min);
-  min-width: var(--a11y-target-min);
+[data-ax-target="large"] { --ax-a11y-target-min: 44px; }
+[data-ax-target="large"] :where(button, select, input:not([type="checkbox"], [type="radio"]), [role="button"], .ax-min-h-target) {
+  min-height: var(--ax-a11y-target-min);
+  min-width: var(--ax-a11y-target-min);
 }
-[data-a11y-target="large"] :where(input[type="checkbox"], input[type="radio"]) { width: 1.5rem; height: 1.5rem; }
+[data-ax-target="large"] :where(input[type="checkbox"], input[type="radio"]) { width: 1.5rem; height: 1.5rem; }
 
 /* ---------- Cursor ---------- */
-[data-a11y-cursor="large"], [data-a11y-cursor="large"] * {
+[data-ax-cursor="large"], [data-ax-cursor="large"] * {
   cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='48' height='48' viewBox='0 0 24 24'%3E%3Cpath d='M4 2l15 11.5-6.6.9 3.9 7.4-2.9 1.5-3.9-7.5L4 20.6z' fill='%23000' stroke='%23fff' stroke-width='1.4' stroke-linejoin='round'/%3E%3C/svg%3E") 8 4, auto !important;
 }
 
 /* ---------- Saturation (applied outside the widget so its UI stays legible) ---------- */
-[data-a11y-saturation="low"] body > *:not(.a11y-widget) { filter: saturate(0.4); }
-[data-a11y-saturation="gray"] body > *:not(.a11y-widget) { filter: grayscale(1); }
+[data-ax-saturation="low"] body > *:not(.ax-widget) { filter: saturate(0.4); }
+[data-ax-saturation="gray"] body > *:not(.ax-widget) { filter: grayscale(1); }
 
 /* ---------- Motion (WCAG 2.3.3 Animation from interactions) ---------- */
-[data-a11y-motion="reduce"] { --a11y-motion: 0; }
-[data-a11y-motion="reduce"],
-[data-a11y-motion="reduce"] *,
-[data-a11y-motion="reduce"] *::before,
-[data-a11y-motion="reduce"] *::after {
+[data-ax-motion="reduce"] { --ax-a11y-motion: 0; }
+[data-ax-motion="reduce"],
+[data-ax-motion="reduce"] *,
+[data-ax-motion="reduce"] *::before,
+[data-ax-motion="reduce"] *::after {
   animation-duration: 0.01ms !important;
   animation-iteration-count: 1 !important;
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
 }
 @media (prefers-reduced-motion: reduce) {
-  :root:not([data-a11y-motion="allow"]) { --a11y-motion: 0; }
-  :root:not([data-a11y-motion="allow"]),
-  :root:not([data-a11y-motion="allow"]) *,
-  :root:not([data-a11y-motion="allow"]) *::before,
-  :root:not([data-a11y-motion="allow"]) *::after {
+  :root:not([data-ax-motion="allow"]) { --ax-a11y-motion: 0; }
+  :root:not([data-ax-motion="allow"]),
+  :root:not([data-ax-motion="allow"]) *,
+  :root:not([data-ax-motion="allow"]) *::before,
+  :root:not([data-ax-motion="allow"]) *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
@@ -103,18 +103,18 @@
 /* ---------- Forced colors (Windows High Contrast) ---------- */
 @media (forced-colors: active) {
   :root {
-    --color-bg: Canvas; --color-surface: Canvas; --color-surface-2: Canvas;
-    --color-text: CanvasText; --color-muted: CanvasText;
-    --color-primary: ButtonText; --color-primary-hover: Highlight; --color-on-primary: ButtonFace;
-    --color-link: LinkText; --color-border: CanvasText; --color-focus: Highlight;
-    --color-danger: CanvasText; --color-success: CanvasText; --color-warning: CanvasText;
-    --color-highlight: Mark; --color-on-highlight: MarkText;
+    --ax-color-bg: Canvas; --ax-color-surface: Canvas; --ax-color-surface-2: Canvas;
+    --ax-color-text: CanvasText; --ax-color-muted: CanvasText;
+    --ax-color-primary: ButtonText; --ax-color-primary-hover: Highlight; --ax-color-on-primary: ButtonFace;
+    --ax-color-link: LinkText; --ax-color-border: CanvasText; --ax-color-focus: Highlight;
+    --ax-color-danger: CanvasText; --ax-color-success: CanvasText; --ax-color-warning: CanvasText;
+    --ax-color-highlight: Mark; --ax-color-on-highlight: MarkText;
   }
   :focus-visible { outline-color: Highlight; }
 }
 
 /* ---------- Print ---------- */
 @media print {
-  .a11y-widget, .print\:hidden { display: none !important; }
+  .ax-widget, .print\:ax-hidden { display: none !important; }
   a[href^="http"]::after { content: " (" attr(href) ")"; font-size: 0.85em; }
 }

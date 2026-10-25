@@ -18,6 +18,7 @@ import * as tokens from '../src/tokens.mjs';
 import {SETTINGS} from '../src/widget.js'; // also registers the widget's atomic styles
 import {rules} from '../src/atomic.js';
 import {VARIANTS} from '../src/conditions.js';
+import {PREFIX, standardizeGrid} from '../src/naming.js';
 import {toShadow} from '../src/shadow-css.js';
 export {VARIANTS};
 import '../src/grid.styles.js';
@@ -30,9 +31,10 @@ export const esc = name => name
   .replace(/[^a-zA-Z0-9_-]/g, ch => `\\${ch}`)
   .replace(/^(\d)/, d => `\\3${d} `);
 const decls = d => Object.entries(d).map(([k, v]) => `${k}: ${v};`).join(' ');
-const vars = (obj, prefix = '') => Object.entries(obj).map(([k, v]) => `  --${prefix}${k}: ${v};`).join('\n');
+const vars = (obj, prefix = '') => Object.entries(obj).map(([k, v]) => `  --${PREFIX}-${prefix}${k}: ${v};`).join('\n');
+const named = name => `${PREFIX}-${name}`; // utility class name per the naming standard
 const key = k => (k === 'DEFAULT' ? '' : `-${k}`);
-const step = s => (s === 'px' ? '1px' : s === '0' ? '0' : `calc(var(--spacing) * ${s})`);
+const step = s => (s === 'px' ? '1px' : s === '0' ? '0' : `calc(var(--ax-spacing) * ${s})`);
 
 // ---------- theme (tokens + colour themes) ----------
 function themeCss() {
@@ -49,7 +51,7 @@ function themeCss() {
     ...Object.fromEntries(Object.entries(text).flatMap(([k, [size, lh]]) => [[`text-${k}`, size], [`text-${k}--line-height`, lh]])),
     ...Object.fromEntries(Object.entries(radius).map(([k, v]) => [`radius${key(k)}`, v])),
     ...Object.fromEntries(Object.entries(shadow).map(([k, v]) => [`shadow${key(k)}`, v])),
-    ...Object.fromEntries(Object.entries(duration).map(([k, v]) => [`duration-${k}`, `calc(${v} * var(--a11y-motion))`])),
+    ...Object.fromEntries(Object.entries(duration).map(([k, v]) => [`duration-${k}`, `calc(${v} * var(--ax-a11y-motion))`])),
     ...Object.fromEntries(Object.entries(ease).map(([k, v]) => [`ease-${k}`, v])),
     ...Object.fromEntries(Object.entries(fluid).map(([k, v]) => [`space-fluid-${k}`, fluidVar(v)])),
     measure: '70ch',
@@ -57,8 +59,8 @@ function themeCss() {
   const theme = (selector, name, scheme) => `${selector} {\n  color-scheme: ${scheme};\n${vars(themes[name], 'color-')}\n}`;
   const wrap = (mqs, css) => (mqs.length ? `@media ${mqs.join(' and ')} {\n${css}\n}` : css);
   // Each way "dark" / "high contrast" turns on: widget attribute, or OS preference not overridden.
-  const dark = [['[data-a11y-theme="dark"]'], [':not([data-a11y-theme="light"])', '(prefers-color-scheme: dark)']];
-  const high = [['[data-a11y-contrast="high"]'], [':not([data-a11y-contrast="normal"])', '(prefers-contrast: more)']];
+  const dark = [['[data-ax-theme="dark"]'], [':not([data-ax-theme="light"])', '(prefers-color-scheme: dark)']];
+  const high = [['[data-ax-contrast="high"]'], [':not([data-ax-contrast="normal"])', '(prefers-contrast: more)']];
   const out = [`:root {\n${vars(root)}\n}`, theme(':root', 'light', 'light')];
   for (const [sel, mq] of dark) out.push(wrap(mq ? [mq] : [], theme(`:root${sel}`, 'dark', 'dark')));
   for (const [sel, mq] of high) out.push(wrap(mq ? [mq] : [], theme(`:root${sel}`, 'high-light', 'light')));
@@ -118,7 +120,7 @@ export function utilities() {
   for (const [n, v] of [['0', '0'], ['auto', 'auto'], ['full', '100%'], ...Object.entries(fractions)]) add(`basis-${n}`, {'flex-basis': v}, LAYOUT);
   // Every Layout's Switcher in two classes: parent "flex flex-wrap", children "grow basis-switch".
   // The threshold is in rem, so larger text switches to stacked sooner — reflow for free.
-  add('basis-switch', {'flex-basis': 'calc((var(--switch-at, 30rem) - 100%) * 999)'});
+  add('basis-switch', {'flex-basis': 'calc((var(--ax-switch-at, 30rem) - 100%) * 999)'});
   add('grow-999', {'flex-grow': '999'});
   for (let n = 1; n <= 12; n++) add(`order-${n}`, {order: n}, LAYOUT);
   for (const [n, v] of [['first', '-9999'], ['last', '9999'], ['none', '0']]) add(`order-${n}`, {order: v}, LAYOUT);
@@ -131,7 +133,7 @@ export function utilities() {
   }
   for (let n = 1; n <= 6; n++) add(`grid-rows-${n}`, {'grid-template-rows': `repeat(${n}, minmax(0, 1fr))`}, RESP);
   add('grid-cols-none', {'grid-template-columns': 'none'}, LAYOUT);
-  add('grid-cols-auto', {'grid-template-columns': 'repeat(auto-fit, minmax(min(100%, var(--min-col, 16rem)), 1fr))'}, LAYOUT);
+  add('grid-cols-auto', {'grid-template-columns': 'repeat(auto-fit, minmax(min(100%, var(--ax-min-col, 16rem)), 1fr))'}, LAYOUT);
   add('col-span-full', {'grid-column': '1 / -1'}, LAYOUT); add('col-auto', {'grid-column': 'auto'}, LAYOUT);
   for (const v of ['row', 'col', 'dense', 'row-dense', 'col-dense']) add(`grid-flow-${v}`, {'grid-auto-flow': v.replace('col', 'column').replace('-', ' ')});
 
@@ -155,7 +157,7 @@ export function utilities() {
   }
   for (const n of ['m', 'mx', 'my', 'mt', 'mr', 'mb', 'ml', 'ms', 'me']) add(`${n}-auto`, {[sides[n]]: 'auto'}, RESP);
   // Utopia fluid space: grows smoothly from 320px to 1440px.
-  for (const k of Object.keys(fluid)) for (const n of ['p', 'px', 'py', 'pt', 'pb', 'm', 'my', 'mt', 'mb', 'gap']) add(`${n}-fluid-${k}`, {[n === 'gap' ? 'gap' : sides[n]]: `var(--space-fluid-${k})`});
+  for (const k of Object.keys(fluid)) for (const n of ['p', 'px', 'py', 'pt', 'pb', 'm', 'my', 'mt', 'mb', 'gap']) add(`${n}-fluid-${k}`, {[n === 'gap' ? 'gap' : sides[n]]: `var(--ax-space-fluid-${k})`});
 
   // Sizing
   const extra = {auto: 'auto', full: '100%', min: 'min-content', max: 'max-content', fit: 'fit-content', ...fractions};
@@ -171,17 +173,17 @@ export function utilities() {
   for (const [k, v] of Object.entries(maxWidth)) add(`max-w-${k}`, {'max-width': v}, RESP);
   for (const [n, v] of [['full', '100%'], ['screen', '100vh'], ['none', 'none']]) add(`max-h-${n}`, {'max-height': v});
   // Our own field: target sizes follow the widget (24px → 44px in "Larger click targets").
-  add('min-h-target', {'min-height': 'var(--a11y-target-min)'}); add('min-w-target', {'min-width': 'var(--a11y-target-min)'});
-  add('size-target', {width: 'var(--a11y-target-min)', height: 'var(--a11y-target-min)'});
+  add('min-h-target', {'min-height': 'var(--ax-a11y-target-min)'}); add('min-w-target', {'min-width': 'var(--ax-a11y-target-min)'});
+  add('size-target', {width: 'var(--ax-a11y-target-min)', height: 'var(--ax-a11y-target-min)'});
 
   // Typography
-  add('font-sans', {'font-family': 'var(--a11y-font-body)'}); add('font-mono', {'font-family': 'var(--a11y-font-mono)'});
-  for (const k of Object.keys(text)) add(`text-${k}`, {'font-size': `var(--text-${k})`, 'line-height': `var(--text-${k}--line-height)`}, LAYOUT);
+  add('font-sans', {'font-family': 'var(--ax-a11y-font-body)'}); add('font-mono', {'font-family': 'var(--ax-a11y-font-mono)'});
+  for (const k of Object.keys(text)) add(`text-${k}`, {'font-size': `var(--ax-text-${k})`, 'line-height': `var(--ax-text-${k}--line-height)`}, LAYOUT);
   for (const [n, w] of [['thin', 100], ['extralight', 200], ['light', 300], ['normal', 400], ['medium', 500], ['semibold', 600], ['bold', 700], ['extrabold', 800], ['black', 900]]) add(`font-${n}`, {'font-weight': w}, ['contrast-more']);
   add('italic', {'font-style': 'italic'}); add('not-italic', {'font-style': 'normal'});
   // Tracking never drops below the widget's letter spacing (WCAG 1.4.12).
-  for (const [n, v] of [['tighter', '-0.05em'], ['tight', '-0.025em'], ['normal', '0em'], ['wide', '0.025em'], ['wider', '0.05em'], ['widest', '0.1em']]) add(`tracking-${n}`, {'letter-spacing': `max(${v}, var(--a11y-letter-spacing))`});
-  for (const [n, v] of [['none', '1'], ['tight', '1.25'], ['snug', '1.375'], ['normal', 'var(--a11y-line-height)'], ['relaxed', '1.625'], ['loose', '2']]) add(`leading-${n}`, {'line-height': v});
+  for (const [n, v] of [['tighter', '-0.05em'], ['tight', '-0.025em'], ['normal', '0em'], ['wide', '0.025em'], ['wider', '0.05em'], ['widest', '0.1em']]) add(`tracking-${n}`, {'letter-spacing': `max(${v}, var(--ax-a11y-letter-spacing))`});
+  for (const [n, v] of [['none', '1'], ['tight', '1.25'], ['snug', '1.375'], ['normal', 'var(--ax-a11y-line-height)'], ['relaxed', '1.625'], ['loose', '2']]) add(`leading-${n}`, {'line-height': v});
   for (const v of ['left', 'center', 'right', 'justify', 'start', 'end']) add(`text-${v}`, {'text-align': v}, LAYOUT);
   for (const [n, v] of [['underline', 'underline'], ['overline', 'overline'], ['line-through', 'line-through'], ['no-underline', 'none']]) add(n, {'text-decoration-line': v}, [...STATES, 'contrast-more']);
   for (const n of ['1', '2', '4', '8']) add(`underline-offset-${n}`, {'text-underline-offset': `${n}px`});
@@ -199,13 +201,13 @@ export function utilities() {
   // Colour: semantic tokens only — every pair is contrast-tested in all four themes.
   const COLOR_V = [...STATES, 'dark', 'contrast-more', 'forced-colors', 'print'];
   for (const c of colors) {
-    add(`text-${c}`, {color: `var(--color-${c})`}, COLOR_V);
-    add(`bg-${c}`, {'background-color': `var(--color-${c})`}, COLOR_V);
-    add(`border-${c}`, {'border-color': `var(--color-${c})`}, COLOR_V);
-    add(`outline-${c}`, {'outline-color': `var(--color-${c})`}, ['focus', 'focus-visible']);
-    add(`decoration-${c}`, {'text-decoration-color': `var(--color-${c})`});
-    add(`fill-${c}`, {fill: `var(--color-${c})`}); add(`stroke-${c}`, {stroke: `var(--color-${c})`});
-    add(`accent-${c}`, {'accent-color': `var(--color-${c})`}); add(`caret-${c}`, {'caret-color': `var(--color-${c})`});
+    add(`text-${c}`, {color: `var(--ax-color-${c})`}, COLOR_V);
+    add(`bg-${c}`, {'background-color': `var(--ax-color-${c})`}, COLOR_V);
+    add(`border-${c}`, {'border-color': `var(--ax-color-${c})`}, COLOR_V);
+    add(`outline-${c}`, {'outline-color': `var(--ax-color-${c})`}, ['focus', 'focus-visible']);
+    add(`decoration-${c}`, {'text-decoration-color': `var(--ax-color-${c})`});
+    add(`fill-${c}`, {fill: `var(--ax-color-${c})`}); add(`stroke-${c}`, {stroke: `var(--ax-color-${c})`});
+    add(`accent-${c}`, {'accent-color': `var(--ax-color-${c})`}); add(`caret-${c}`, {'caret-color': `var(--ax-color-${c})`});
   }
   for (const [n, v] of [['transparent', 'transparent'], ['current', 'currentColor'], ['inherit', 'inherit']]) {
     add(`text-${n}`, {color: v}, COLOR_V); add(`bg-${n}`, {'background-color': v}, COLOR_V); add(`border-${n}`, {'border-color': v}, COLOR_V);
@@ -220,9 +222,9 @@ export function utilities() {
   }
   for (const v of ['solid', 'dashed', 'dotted', 'double', 'none']) add(`border-${v}`, {'border-style': v});
   for (const k of Object.keys(radius)) {
-    add(`rounded${key(k)}`, {'border-radius': `var(--radius${key(k)})`}, ['focus']);
+    add(`rounded${key(k)}`, {'border-radius': `var(--ax-radius${key(k)})`}, ['focus']);
     for (const [s, ps] of [['t', ['top-left', 'top-right']], ['b', ['bottom-left', 'bottom-right']], ['l', ['top-left', 'bottom-left']], ['r', ['top-right', 'bottom-right']]]) {
-      add(`rounded-${s}${key(k)}`, Object.fromEntries(ps.map(p => [`border-${p}-radius`, `var(--radius${key(k)})`])));
+      add(`rounded-${s}${key(k)}`, Object.fromEntries(ps.map(p => [`border-${p}-radius`, `var(--ax-radius${key(k)})`])));
     }
   }
   add('outline-none', {outline: '2px solid transparent'}); add('outline-hidden', {'outline-style': 'none'});
@@ -232,22 +234,22 @@ export function utilities() {
   }
   add('outline', {'outline-style': 'solid'}, ['focus', 'focus-visible']); add('outline-dashed', {'outline-style': 'dashed'});
   // Our own field: the focus ring follows the widget's focus width and colour.
-  add('outline-focus-ring', {outline: 'var(--a11y-focus-width) solid var(--color-focus)'}, ['focus', 'focus-visible', 'focus-within']);
+  add('outline-focus-ring', {outline: 'var(--ax-a11y-focus-width) solid var(--ax-color-focus)'}, ['focus', 'focus-visible', 'focus-within']);
 
   // Effects
-  for (const k of Object.keys(shadow)) add(`shadow${key(k)}`, {'box-shadow': `var(--shadow${key(k)})`}, ['hover', 'focus-visible', 'group-hover', 'contrast-more']);
+  for (const k of Object.keys(shadow)) add(`shadow${key(k)}`, {'box-shadow': `var(--ax-shadow${key(k)})`}, ['hover', 'focus-visible', 'group-hover', 'contrast-more']);
   for (const n of ['0', '5', '10', '20', '25', '30', '40', '50', '60', '70', '75', '80', '90', '95', '100']) add(`opacity-${n}`, {opacity: `${n / 100}`}, [...STATES, 'motion-reduce']);
   // Material state layer, as one declaration per state: a currentColor wash over any background.
   const wash = pct => `linear-gradient(color-mix(in srgb, currentColor ${pct}%, transparent) 0 0)`;
   for (const n of ['8', '12', '16']) add(`wash-${n}`, {'background-image': wash(n)}, ['hover', 'focus-visible', 'active', 'group-hover']);
 
-  // Transitions & animation — every duration is multiplied by --a11y-motion.
+  // Transitions & animation — every duration is multiplied by --ax-a11y-motion.
   const props = {DEFAULT: 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, translate, scale, rotate', all: 'all', colors: 'color, background-color, border-color, outline-color, text-decoration-color, fill, stroke', opacity: 'opacity', shadow: 'box-shadow', transform: 'transform, translate, scale, rotate'};
-  for (const [k, v] of Object.entries(props)) add(`transition${key(k)}`, {'transition-property': v, 'transition-timing-function': 'var(--ease-in-out)', 'transition-duration': 'calc(150ms * var(--a11y-motion))'}, ['motion-safe']);
+  for (const [k, v] of Object.entries(props)) add(`transition${key(k)}`, {'transition-property': v, 'transition-timing-function': 'var(--ax-ease-in-out)', 'transition-duration': 'calc(150ms * var(--ax-a11y-motion))'}, ['motion-safe']);
   add('transition-none', {'transition-property': 'none'}, ['motion-reduce']);
-  for (const n of ['0', '75', '100', '150', '200', '300', '500', '700', '1000']) add(`duration-${n}`, {'transition-duration': `calc(${n}ms * var(--a11y-motion))`});
-  for (const n of ['0', '75', '100', '150', '200', '300', '500', '700', '1000']) add(`delay-${n}`, {'transition-delay': `calc(${n}ms * var(--a11y-motion))`});
-  for (const k of Object.keys(ease)) add(`ease-${k}`, {'transition-timing-function': `var(--ease-${k})`});
+  for (const n of ['0', '75', '100', '150', '200', '300', '500', '700', '1000']) add(`duration-${n}`, {'transition-duration': `calc(${n}ms * var(--ax-a11y-motion))`});
+  for (const n of ['0', '75', '100', '150', '200', '300', '500', '700', '1000']) add(`delay-${n}`, {'transition-delay': `calc(${n}ms * var(--ax-a11y-motion))`});
+  for (const k of Object.keys(ease)) add(`ease-${k}`, {'transition-timing-function': `var(--ax-ease-${k})`});
   add('animate-none', {animation: 'none'}, ['motion-reduce']);
   for (const n of ['95', '100', '105', '110']) add(`scale-${n}`, {scale: `${n / 100}`}, ['hover', 'focus-visible', 'active', 'group-hover', 'motion-safe']);
   for (const n of ['0', '45', '90', '180']) add(`rotate-${n}`, {rotate: `${n}deg`});
@@ -269,12 +271,12 @@ export function utilities() {
 
 // Rules that need a pseudo-element or child selector, keyed by class name.
 const SPECIAL = {
-  'stretched-link': s => `${s}::after { content: ""; position: absolute; inset: 0; z-index: 1; }\n${s}:focus-visible { outline: none; }\n${s}:focus-visible::after { outline: var(--a11y-focus-width) solid var(--color-focus); outline-offset: var(--a11y-focus-offset); }`,
+  'stretched-link': s => `${s}::after { content: ""; position: absolute; inset: 0; z-index: 1; }\n${s}:focus-visible { outline: none; }\n${s}:focus-visible::after { outline: var(--ax-a11y-focus-width) solid var(--ax-color-focus); outline-offset: var(--ax-a11y-focus-offset); }`,
 };
 const childSelector = name => /^space-[xy]-/.test(name); // Tailwind: applies to children after the first
 
 function rule(name, d, variant) {
-  const cls = `.${esc(variant ? `${variant}:${name}` : name)}`;
+  const cls = `.${esc(variant ? `${variant}:${named(name)}` : named(name))}`;
   const target = childSelector(name) ? `${cls} > :not(:first-child)` : cls;
   if (SPECIAL[name] && !variant) return [{prefix: '', media: null, css: SPECIAL[name](cls)}];
   if (!variant) return [{prefix: '', media: null, css: `${target} { ${decls(d)} }`}];
@@ -301,12 +303,13 @@ export async function scan(patterns, cwd = process.cwd()) {
 
 function utilitiesCss(used) {
   const keep = name => !used || used.has(name);
+  // names below are unprefixed; the page uses the standard names
   const base = [];
   const byVariant = new Map(VARIANT_ORDER.map(v => [v, new Map()])); // variant → media → rules
   for (const [name, d, variants] of utilities()) {
-    if (keep(name)) base.push(...rule(name, d).map(r => r.css));
+    if (keep(named(name))) base.push(...rule(name, d).map(r => r.css));
     for (const v of variants) {
-      if (!keep(`${v}:${name}`)) continue;
+      if (!keep(`${v}:${named(name)}`)) continue;
       for (const r of rule(name, d, v)) {
         const bucket = byVariant.get(v);
         if (!bucket.has(r.media)) bucket.set(r.media, []);
@@ -335,7 +338,7 @@ export async function loadStyles(patterns, cwd = process.cwd()) {
 function initScript() {
   const allowed = Object.fromEntries(SETTINGS.map(s => [s.key, s.options.map(([v]) => v).filter(v => v !== s.default)]));
   return `/*! a11y-atomic init v${pkg.version} — load in <head> before CSS paints */
-(function(){try{var a=${JSON.stringify(allowed)},s=JSON.parse(localStorage.getItem("a11y-atomic")||"{}"),r=document.documentElement;for(var k in a)if(a[k].indexOf(s[k])>-1)r.setAttribute("data-a11y-"+k,s[k])}catch(e){}})();
+(function(){try{var a=${JSON.stringify(allowed)},s=JSON.parse(localStorage.getItem("a11y-atomic")||"{}"),r=document.documentElement;for(var k in a)if(a[k].indexOf(s[k])>-1)r.setAttribute("data-ax-"+k,s[k])}catch(e){}})();
 `;
 }
 
@@ -352,7 +355,7 @@ export async function build({content, styles, cwd} = {}) {
     '@layer theme, base, components, atomic, utilities, a11y;',
     layer('theme', themeCss()),
     layer('base', await read('base.css')),
-    layer('components', `/* src/grid.css — andrewrico eleventy grid, unchanged */\n${await read('grid.css')}`),
+    layer('components', `/* src/grid.css (andrewrico eleventy grid) with standard names */\n${standardizeGrid(await read('grid.css'))}`),
     layer('atomic', atomicRules().map(r => r.css).join('\n')),
     layer('utilities', utilitiesCss(used)),
     layer('a11y', await read('modes.css')),
@@ -375,7 +378,7 @@ export async function buildPage(html, {styles, cwd} = {}) {
   await loadStyles(styles, cwd);
   const used = tokenize(html);
   const parts = [];
-  if ([...used].some(t => t.startsWith('grid__') || t === 'eleventify-section')) parts.push(layer('components', await read('grid.css')));
+  if ([...used].some(t => t.startsWith(`${PREFIX}-grid-`))) parts.push(layer('components', standardizeGrid(await read('grid.css'))));
   const atomic = atomicRules().filter(r => used.has(r.className));
   if (atomic.length) parts.push(layer('atomic', atomic.map(r => r.css).join('\n')));
   const util = utilitiesCss(used);
@@ -385,10 +388,10 @@ export async function buildPage(html, {styles, cwd} = {}) {
 
 /** Put the core link and the page's own <style> in <head>, replacing any full-bundle link. Idempotent. */
 export function inlinePage(html, pageCss, coreHref) {
-  const head = `<link rel="stylesheet" href="${coreHref}" data-a11y-core><style data-a11y-page>${pageCss}</style>`;
+  const head = `<link rel="stylesheet" href="${coreHref}" data-ax-core><style data-ax-page>${pageCss}</style>`;
   const cleaned = html
     .replace(/<link[^>]+href="[^"]*a11y-atomic(\.min)?\.css"[^>]*>\s*/g, '')
-    .replace(/<link[^>]+data-a11y-core[^>]*>(<style data-a11y-page>[\s\S]*?<\/style>)?/g, '');
+    .replace(/<link[^>]+data-ax-core[^>]*>(<style data-ax-page>[\s\S]*?<\/style>)?/g, '');
   return cleaned.replace(/<\/head>/i, `${head}\n</head>`);
 }
 
