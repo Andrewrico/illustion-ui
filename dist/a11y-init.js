@@ -1,0 +1,2 @@
+/*! a11y-atomic init v0.1.0 — load in <head> before CSS paints */
+(function(){try{var a={"text":["115","130","150","175","200"],"theme":["light","dark"],"contrast":["normal","high"],"font":["readable","dyslexic"],"saturation":["low","gray"],"motion":["reduce","allow"],"spacing":["on"],"align":["left"],"links":["underline"],"focus":["strong"],"target":["large"],"cursor":["large"]},s=JSON.parse(localStorage.getItem("a11y-atomic")||"{}"),r=document.documentElement;for(var k in a)if(a[k].indexOf(s[k])>-1)r.setAttribute("data-a11y-"+k,s[k])}catch(e){}})();

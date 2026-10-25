@@ -1,0 +1,116 @@
+.eleventify-section,
+.grid__section {
+	background: var(--background);
+	overflow: var(--overflow);
+	padding-top: var(--padding-top);
+	padding-bottom: var(--padding-bottom);
+	padding: var(--padding);
+	--padding-bottom: 1rem;
+	--padding-top: 1rem;
+	--padding: 2rem 0;
+	--background: transparent;
+	--overflow: hidden;
+}
+
+@media(min-width:1024px) {
+	.eleventify-section,
+	.grid__section {
+		--padding: 2rem 0;
+	}
+}
+
+@media(min-width:1440px) {
+	.eleventify-section,
+	.grid__section {
+		--padding: 4rem 0;
+	}
+}
+
+.grid__title {
+	text-align: var(--text-align);
+	padding: var(--padding);
+	--padding: 0px .5rem;
+	--text-align: center;
+}
+
+ .grid__wrapper {
+	display: grid;
+	margin: var(--margin);
+	padding: var(--padding);
+	grid-gap: var(--gap, 1rem);
+	max-width: var(--max-width, 100%);
+	width: var(--width, 100%);
+	grid-template-columns: var(--column-mobile, var(--column-count));
+	--width: 100%;
+	--max-width: 100%;
+	--gap: 1rem;
+	--column-mobile: 1fr;
+	--padding: 0px .5rem;
+	--margin: 0 auto;
+}
+
+.grid__wrapper + .grid__wrapper {
+	padding-top: var(--gap);
+}
+
+.grid__row {
+	--padding-bottom: 2px;
+	grid-column: 1 / -1;
+	padding-bottom: calc(var(--gap) * var(--padding-bottom));
+}
+
+.grid__column {
+	display: flex;
+	align-items: var(--align-items);
+	justify-content: var(--justify-content);
+	flex-direction: var(--flow);
+	gap: var(--gap);
+	padding: var(--padding);
+	margin: var(--margin);
+  --flow: column;
+	--align-items: unset;
+	--justify-content: unset;
+  --gap: 0;
+  --margin: 0;
+  --padding: 0 0.2rem;
+}
+
+@media only screen and (max-width: 1024px) {
+	.grid__column {
+		--mobile-column-first: unset;
+		order: var(--mobile-column-first);
+	}
+}
+
+@media only screen and (min-width: 1024px) {
+	.eleventify-section,
+	.grid__section {
+		--min-height: 65vh;
+	}
+	.grid__title ,
+	.grid__wrapper {
+		--padding: 0px .8rem;
+	}
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1268px) {
+	.grid__wrapper {
+		grid-template-columns: var(--column-table, var(--column-count));
+	}
+}
+
+@media only screen and (min-width: 1268px) and (max-width: 1440px) {
+	.grid__wrapper {
+		grid-template-columns: var(--column-laptop, var(--column-count, var(--column-table)));
+	}
+}
+
+@media only screen and (min-width: 1440px) {
+	.grid__title ,
+	.grid__wrapper {
+		--padding: 0px 2rem;
+	}
+	.grid__wrapper {
+		grid-template-columns: var(--column-desktop, var(--column-count, var(--column-laptop, var(--column-table))));
+	}
+}

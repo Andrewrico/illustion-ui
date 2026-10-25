@@ -1,0 +1,48 @@
+{
+  "name": "a11y-atomic",
+  "version": "0.1.0",
+  "description": "Atomic CSS framework driven by an accessibility widget: every utility reads CSS variables that the widget's modes change.",
+  "keywords": [
+    "css",
+    "atomic-css",
+    "utility-css",
+    "css-variables",
+    "accessibility",
+    "a11y",
+    "wcag",
+    "widget",
+    "grid"
+  ],
+  "author": "Andrew Rico",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./dist/a11y-atomic.css",
+    "./min": "./dist/a11y-atomic.min.css",
+    "./init": "./dist/a11y-init.js",
+    "./widget": "./src/widget.js",
+    "./auto": "./src/auto.js",
+    "./tokens": "./src/tokens.mjs"
+  },
+  "files": [
+    "dist/",
+    "src/",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "dev": "node scripts/build.mjs && node scripts/serve.mjs",
+    "test": "node scripts/build.mjs && node --test",
+    "test:browser": "node scripts/build.mjs && node scripts/browser-check.mjs",
+    "check": "npm test && npm run test:browser"
+  },
+  "devDependencies": {
+    "axe-core": "^4.10.3",
+    "playwright": "^1.64.1"
+  }
+}
