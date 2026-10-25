@@ -12,6 +12,8 @@
 // The build (scripts/build.mjs) imports style modules and emits every
 // registered rule; in the browser create() only computes class names.
 
+import {VARIANTS} from './conditions.js';
+
 export const registry = new Map(); // className → {property, value, conditions, pseudoElement}
 
 // Our own field: condition names the build turns into widget/OS-aware selectors.
@@ -107,3 +109,47 @@ export function props(...styles) {
 }
 
 export const classes = (...styles) => props(...styles).className;
+
+// ---------- CSS output (used by the build, and by inject() in development) ----------
+const minWidth = text => Math.max(0, ...[...String(text).matchAll(/min-width:\s*(\d+)px/g)].map(m => Number(m[1])));
+
+/** Every registered atomic rule as {className, css, order}; one declaration each. */
+export function rules() {
+  const out = [];
+  let index = 0;
+  for (const [className, rule] of registry) {
+    const pseudos = rule.conditions.filter(c => c.startsWith(':')).join('');
+    const atRules = rule.conditions.filter(c => /^@(media|supports|container) /.test(c));
+    const shortcuts = rule.conditions.filter(c => c.startsWith('@') && !atRules.includes(c)).map(c => VARIANTS[c.slice(1)]);
+    if (shortcuts.filter(v => v.ctx.some(([prefix]) => prefix)).length > 1) throw new Error(`${className}: combine at most one widget condition (${rule.conditions})`);
+    let contexts = [['', []]];
+    for (const v of shortcuts) contexts = contexts.flatMap(([prefix, media]) => v.ctx.map(([p, m]) => [prefix + p, m ? [...media, `@media ${m}`] : media]));
+    const decl = `${rule.property}: ${rule.value};`;
+    const weight = minWidth(rule.conditions.join(' ')) || Math.max(0, ...shortcuts.map(v => minWidth(v.ctx[0][1] || '')));
+    const rank = (pseudos ? 1 : 0) + (atRules.length || shortcuts.length ? 2 : 0);
+    const order = [rank, weight, isShorthand(rule.property) ? 0 : 1, index++];
+    const css = contexts.map(([prefix, media]) => {
+      const selector = `${prefix}.${className}${pseudos}${rule.pseudoElement || ''}`;
+      return [...atRules, ...media].reduceRight((inner, at) => `${at} { ${inner} }`, `${selector} { ${decl} }`);
+    }).join('\n');
+    out.push({className, css, order});
+  }
+  const cmp = (a, b) => a.order.findIndex((v, i) => v !== b.order[i]);
+  return out.sort((a, b) => { const i = cmp(a, b); return i < 0 ? 0 : a.order[i] - b.order[i]; });
+}
+
+/**
+ * Development helper (like StyleX's dev runtime): writes every registered rule
+ * into one <style> in @layer atomic, so styles created in the page work without
+ * a rebuild. Production pages should use the built CSS (npx a11y-atomic --styles).
+ */
+export function inject(doc = globalThis.document) {
+  let el = doc.querySelector('style[data-atomic-dev]');
+  if (!el) {
+    el = doc.createElement('style');
+    el.dataset.atomicDev = '';
+    doc.head.append(el);
+  }
+  el.textContent = `@layer atomic {\n${rules().map(r => r.css).join('\n')}\n}`;
+  return el;
+}

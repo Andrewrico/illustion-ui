@@ -16,7 +16,9 @@ import {pathToFileURL} from 'node:url';
 import path from 'node:path';
 import * as tokens from '../src/tokens.mjs';
 import {SETTINGS} from '../src/widget.js'; // also registers the widget's atomic styles
-import {registry, isShorthand} from '../src/atomic.js';
+import {rules} from '../src/atomic.js';
+import {VARIANTS} from '../src/conditions.js';
+export {VARIANTS};
 import '../src/grid.styles.js';
 
 const read = file => readFile(new URL(`../src/${file}`, import.meta.url), 'utf8');
@@ -66,26 +68,6 @@ function themeCss() {
 // ---------- variants ----------
 // Each context = [selector prefix, media query]; pseudo is appended to the class.
 const bp = Object.entries(tokens.breakpoints);
-export const VARIANTS = {
-  hover: {pseudo: ':hover', ctx: [['', '(hover: hover)']]},
-  focus: {pseudo: ':focus', ctx: [['']]},
-  'focus-visible': {pseudo: ':focus-visible', ctx: [['']]},
-  'focus-within': {pseudo: ':focus-within', ctx: [['']]},
-  active: {pseudo: ':active', ctx: [['']]},
-  disabled: {pseudo: ':disabled', ctx: [['']]},
-  'group-hover': {ctx: [['.group:hover ', '(hover: hover)']]},
-  'group-focus-within': {ctx: [['.group:focus-within ']]},
-  // Our own field: variants follow the widget AND the OS, like the tokens do.
-  dark: {ctx: [[':root[data-a11y-theme="dark"] '], [':root:not([data-a11y-theme="light"]) ', '(prefers-color-scheme: dark)']]},
-  'contrast-more': {ctx: [[':root[data-a11y-contrast="high"] '], [':root:not([data-a11y-contrast="normal"]) ', '(prefers-contrast: more)']]},
-  'motion-safe': {ctx: [[':root[data-a11y-motion="allow"] '], [':root:not([data-a11y-motion="reduce"]) ', '(prefers-reduced-motion: no-preference)']]},
-  'motion-reduce': {ctx: [[':root[data-a11y-motion="reduce"] '], [':root:not([data-a11y-motion="allow"]) ', '(prefers-reduced-motion: reduce)']]},
-  'large-text': {ctx: [[':root:is([data-a11y-text="150"], [data-a11y-text="175"], [data-a11y-text="200"]) ']]},
-  'text-spacing': {ctx: [[':root[data-a11y-spacing="on"] ']]},
-  'forced-colors': {ctx: [['', '(forced-colors: active)']]},
-  print: {ctx: [['', 'print']]},
-  ...Object.fromEntries(bp.map(([name, min]) => [name, {ctx: [['', `(min-width: ${min})`]]}])),
-};
 const RESP = bp.map(([name]) => name);
 const STATES = ['hover', 'focus', 'focus-visible', 'focus-within', 'active', 'disabled', 'group-hover', 'group-focus-within'];
 const A11Y = ['dark', 'contrast-more', 'motion-safe', 'motion-reduce', 'large-text', 'text-spacing', 'forced-colors', 'print'];
@@ -336,33 +318,8 @@ function utilitiesCss(used) {
   return out.filter(Boolean).join('\n');
 }
 
-// ---------- atomic layer (rules registered by create()) ----------
-const minWidth = text => Math.max(0, ...[...String(text).matchAll(/min-width:\s*(\d+)px/g)].map(m => Number(m[1])));
-
-/** Every registered atomic rule as {className, css, order}; one declaration each. */
-export function atomicRules() {
-  const out = [];
-  let index = 0;
-  for (const [className, rule] of registry) {
-    const pseudos = rule.conditions.filter(c => c.startsWith(':')).join('');
-    const atRules = rule.conditions.filter(c => /^@(media|supports|container) /.test(c));
-    const shortcuts = rule.conditions.filter(c => c.startsWith('@') && !atRules.includes(c)).map(c => VARIANTS[c.slice(1)]);
-    if (shortcuts.filter(v => v.ctx.some(([prefix]) => prefix)).length > 1) throw new Error(`${className}: combine at most one widget condition (${rule.conditions})`);
-    let contexts = [['', []]];
-    for (const v of shortcuts) contexts = contexts.flatMap(([prefix, media]) => v.ctx.map(([p, m]) => [prefix + p, m ? [...media, `@media ${m}`] : media]));
-    const decl = `${rule.property}: ${rule.value};`;
-    const weight = minWidth(rule.conditions.join(' ')) || Math.max(0, ...shortcuts.map(v => minWidth(v.ctx[0][1] || '')));
-    const rank = (pseudos ? 1 : 0) + (atRules.length || shortcuts.length ? 2 : 0);
-    const order = [rank, weight, isShorthand(rule.property) ? 0 : 1, index++];
-    const css = contexts.map(([prefix, media]) => {
-      const selector = `${prefix}.${className}${pseudos}${rule.pseudoElement || ''}`;
-      return [...atRules, ...media].reduceRight((inner, at) => `${at} { ${inner} }`, `${selector} { ${decl} }`);
-    }).join('\n');
-    out.push({className, css, order});
-  }
-  const cmp = (a, b) => a.order.findIndex((v, i) => v !== b.order[i]);
-  return out.sort((a, b) => { const i = cmp(a, b); return i < 0 ? 0 : a.order[i] - b.order[i]; });
-}
+// ---------- atomic layer ----------
+export const atomicRules = rules; // rules registered by create(), from src/atomic.js
 
 /** Import style modules (they register rules by calling create()). */
 export async function loadStyles(patterns, cwd = process.cwd()) {

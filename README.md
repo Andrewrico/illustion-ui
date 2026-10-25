@@ -44,6 +44,7 @@ Compiles to rules like:
 | Merging | `classes(a, b, cond && c)`: last wins per property; a later shorthand (`padding`) removes earlier longhands (`paddingTop`); falsy values are skipped. |
 | Order | Shorthands before longhands, base before pseudo-classes before at-rules, smaller breakpoints before larger. |
 | Values | Strings; use `vars.*` so every widget mode still applies. |
+| Development | `inject()` writes every registered rule into a `<style>` in `@layer atomic`, so styles created in the page work without a rebuild (the demo's "Atomic engine" section uses it and lists each class with its rule). Use the built CSS in production. |
 | Build | `npx a11y-atomic --content "_site/**/*.html" --styles "src/**/*.styles.js"` imports your style modules and emits their rules in the `atomic` layer. Style modules must be importable in Node (no DOM at import time). |
 
 The widget is built with this engine (`src/widget.styles.js`), and so is an atomic version of the grid (`src/grid.styles.js`).

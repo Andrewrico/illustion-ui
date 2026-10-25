@@ -20,6 +20,7 @@
           <li><a href="#modes">Modes</a></li>
           <li><a href="#grid">Grid</a></li>
           <li><a href="#lineage">Lineage</a></li>
+          <li><a href="#atomic">Atomic</a></li>
           <li><a href="#utilities">Utilities</a></li>
         </ul>
       </nav>
@@ -113,6 +114,36 @@
       </div>
     </section>
 
+    <section id="atomic" class="grid__section" aria-labelledby="atomic-title">
+      <h2 id="atomic-title" class="grid__title text-3xl m-0 mb-6">Atomic engine — one declaration per class</h2>
+      <div class="grid__wrapper lg:grid-cols-2 gap-6">
+        <div class="grid__column gap-4">
+          <p class="m-0 text-muted max-w-prose">This card is styled with <code>create()</code>, Facebook/StyleX style. Every property becomes one generated class holding one declaration. Hover it, or change text size or contrast in the widget: the classes stay the same, the variables they read change.</p>
+          <pre class="m-0 p-4 rounded-lg bg-surface-2 overflow-x-auto text-sm" tabindex="0" aria-label="Code example"><code>const s = create({
+  card: {
+    padding: vars.space[6],
+    borderRadius: vars.radius.lg,
+    backgroundColor: {default: vars.color.surface,
+                      ':hover': vars.color['surface-2']},
+    flexDirection: {default: 'row', '@large-text': 'column'},
+    gap: vars.space[4],
+  },
+});
+card.className = classes(s.card);</code></pre>
+          <div id="atomic-card"><span class="text-2xl" aria-hidden="true">◆</span><p class="m-0">I am styled only by atomic classes.</p></div>
+        </div>
+        <div class="grid__column gap-2">
+          <h3 class="text-lg m-0">Classes on the card, and the one rule each holds</h3>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm border-collapse">
+              <thead><tr><th scope="col" class="text-left p-2 border-b-2 border-border">Class</th><th scope="col" class="text-left p-2 border-b-2 border-border">CSS rule</th></tr></thead>
+              <tbody id="atomic-rules"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section id="utilities" class="grid__section" aria-labelledby="util-title">
       <h2 id="util-title" class="grid__title text-3xl m-0 mb-6">Utilities</h2>
       <div class="grid__wrapper lg:grid-cols-2 gap-6">
@@ -161,6 +192,24 @@
       if (key === 'reset') widget.reset(); else widget.set(key, value);
       status.textContent = key === 'reset' ? 'Settings reset.' : `Applied ${key}: ${value}.`;
     });
+  </script>
+  <script type="module">
+    import {create, classes, rules, inject} from './src/atomic.js';
+    import {vars} from './src/vars.js';
+    const s = create({
+      card: {
+        display: 'flex', alignItems: 'center', padding: vars.space[6], gap: vars.space[4],
+        borderRadius: vars.radius.lg, borderWidth: '2px', borderStyle: 'solid', borderColor: vars.color.border,
+        backgroundColor: {default: vars.color.surface, ':hover': vars.color['surface-2']},
+        flexDirection: {default: 'row', '@large-text': 'column'},
+      },
+    });
+    inject(); // development: demo styles are not in dist/
+    const card = document.getElementById('atomic-card');
+    card.className = classes(s.card);
+    const byClass = new Map(rules().map(r => [r.className, r.css]));
+    document.getElementById('atomic-rules').innerHTML = card.className.split(' ').map(c =>
+      `<tr><td class="p-2 border-b border-border font-mono">.${c}</td><td class="p-2 border-b border-border font-mono break-all">${byClass.get(c).replace(/&/g, '&amp;').replace(/</g, '&lt;')}</td></tr>`).join('');
   </script>
 </body>
 </html>

@@ -215,6 +215,24 @@ try {
     for (const d of diffs.slice(0, 5)) fail(where, d);
     await context.close();
   }
+  // 11. The demo's atomic card: one declaration per class, shown on the page.
+  {
+    const where = 'atomic-demo';
+    const {context, page} = await open(desktop, where);
+    const info = await page.evaluate(() => {
+      const card = document.getElementById('atomic-card');
+      const rows = [...document.querySelectorAll('#atomic-rules tr')].map(r => r.cells[1].textContent);
+      return {classes: card.className.split(' '), rows, padding: getComputedStyle(card).paddingTop, dir: getComputedStyle(card).flexDirection};
+    });
+    expect(where, info.classes.length >= 8 && info.classes.every(c => /^x[0-9a-z]+$/.test(c)), `atomic classes ${info.classes}`);
+    expect(where, info.rows.length === info.classes.length && info.rows.every(r => r.split('\n').every(l => (l.match(/;/g) || []).length === 1)), 'each class should show one declaration');
+    expect(where, info.padding === '24px' && info.dir === 'row', `card styles not applied: ${info.padding} ${info.dir}`);
+    await context.close();
+    const big = await open(desktop, `${where}/200`, {text: '200'});
+    const dir = await big.page.evaluate(() => getComputedStyle(document.getElementById('atomic-card')).flexDirection);
+    expect(where, dir === 'column', `@large-text should stack the card, got ${dir}`);
+    await big.context.close();
+  }
 } finally {
   await browser.close();
   server.kill();
