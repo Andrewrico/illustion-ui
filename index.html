@@ -20,6 +20,7 @@
           <li><a href="#modes">Modes</a></li>
           <li><a href="#grid">Grid</a></li>
           <li><a href="#lineage">Lineage</a></li>
+          <li><a href="#variables">Variables</a></li>
           <li><a href="#atomic">Atomic</a></li>
           <li><a href="#utilities">Utilities</a></li>
         </ul>
@@ -111,6 +112,19 @@
           <button type="button" class="ax-min-h-target ax-px-4 ax-py-2 ax-rounded-full ax-border-0 ax-bg-primary ax-text-on-primary ax-cursor-pointer ax-transition-transform ax-duration-500 ax-ease-spring hover:ax-scale-105">Open Props · ease-spring</button>
           <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="checkbox" class="ax-accent-primary ax-size-6"> Pico · native controls, themed</label>
         </div>
+      </div>
+    </section>
+
+    <section id="variables" class="ax-grid-section" aria-labelledby="variables-title">
+      <h2 id="variables-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Variable utilities — your grid's pattern, everywhere</h2>
+      <div class="ax-grid-wrapper ax-gap-4">
+        <p class="ax-grid-row ax-m-0 ax-text-muted ax-max-w-prose">One class per property reads a chain of variables, one per breakpoint, each falling back to the one below — how <code>grid.css</code> picks its columns. Any value, any breakpoint, and a <code>-large</code> value for readers who choose large text. Below: 1 column on phones, 2 from 768px, 4 from 1268px, and back to 1 at 150%+ text.</p>
+        <ul class="ax-grid-row ax--cols ax--gap ax-grid ax-list-none ax-p-0 ax-m-0" style="--ax--cols: 1fr; --ax--cols-md: repeat(2, 1fr); --ax--cols-xl: repeat(4, 1fr); --ax--cols-large: 1fr; --ax--gap: var(--ax-space-3)">
+          <li class="ax--p ax--bg ax-rounded-lg" style="--ax--p: var(--ax-space-4); --ax--p-xl: var(--ax-space-6); --ax--bg: var(--ax-color-surface-2); --ax--bg-hover: var(--ax-color-surface)"><code>ax--cols</code></li>
+          <li class="ax--p ax--bg ax-rounded-lg" style="--ax--p: var(--ax-space-4); --ax--p-xl: var(--ax-space-6); --ax--bg: var(--ax-color-surface-2); --ax--bg-hover: var(--ax-color-surface)"><code>--ax--cols-md</code></li>
+          <li class="ax--p ax--bg ax-rounded-lg" style="--ax--p: var(--ax-space-4); --ax--p-xl: var(--ax-space-6); --ax--bg: var(--ax-color-surface-2); --ax--bg-hover: var(--ax-color-surface)"><code>--ax--cols-xl</code></li>
+          <li class="ax--p ax--bg ax-rounded-lg" style="--ax--p: var(--ax-space-4); --ax--p-xl: var(--ax-space-6); --ax--bg: var(--ax-color-surface-2); --ax--bg-hover: var(--ax-color-surface)"><code>--ax--cols-large</code></li>
+        </ul>
       </div>
     </section>
 

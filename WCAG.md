@@ -8,14 +8,14 @@ Using this framework does not make a site conformant. Conformance depends on the
 
 | Criterion | Level | Status | Widget setting | How |
 |---|---|---|---|---|
-| [1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html) | A | supports | — | sr-only for text alternatives of icons; the widget button has an sr-only name and an aria-hidden icon. Alt text is the author's job. |
+| [1.1.1 Non-text Content](https://www.w3.org/WAI/WCAG22/Understanding/non-text-content.html) | A | supports | — | ax-sr-only for text alternatives of icons; the widget button has a visually hidden name and an aria-hidden icon. Alt text is the author's job. |
 | [1.2.1 Audio-only and Video-only (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/audio-only-and-video-only-prerecorded.html) | A | author | — | Media alternatives are content. |
 | [1.2.2 Captions (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/captions-prerecorded.html) | A | author | — | Captions are content. |
 | [1.2.3 Audio Description or Media Alternative (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/audio-description-or-media-alternative-prerecorded.html) | A | author | — | Audio description is content. |
 | [1.2.4 Captions (Live)](https://www.w3.org/WAI/WCAG22/Understanding/captions-live.html) | AA | author | — | Live captions are content. |
 | [1.2.5 Audio Description (Prerecorded)](https://www.w3.org/WAI/WCAG22/Understanding/audio-description-prerecorded.html) | AA | author | — | Audio description is content. |
 | [1.3.1 Info and Relationships](https://www.w3.org/WAI/WCAG22/Understanding/info-and-relationships.html) | A | author | — | Use semantic HTML. The widget uses fieldset/legend, labels and native inputs. |
-| [1.3.2 Meaningful Sequence](https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html) | A | author | — | order-* and flex/grid reverse change visual order only; keep DOM order meaningful. |
+| [1.3.2 Meaningful Sequence](https://www.w3.org/WAI/WCAG22/Understanding/meaningful-sequence.html) | A | author | — | ax-order-* and flex/grid reverse change visual order only; keep DOM order meaningful. |
 | [1.3.3 Sensory Characteristics](https://www.w3.org/WAI/WCAG22/Understanding/sensory-characteristics.html) | A | author | — | Instructions must not rely on shape, size or position alone. |
 | [1.3.4 Orientation](https://www.w3.org/WAI/WCAG22/Understanding/orientation.html) | AA | framework | — | Nothing in the framework locks orientation; every layout reflows. |
 | [1.3.5 Identify Input Purpose](https://www.w3.org/WAI/WCAG22/Understanding/identify-input-purpose.html) | AA | author | — | Add autocomplete attributes to inputs. |
@@ -25,10 +25,10 @@ Using this framework does not make a site conformant. Conformance depends on the
 | [1.4.4 Resize Text](https://www.w3.org/WAI/WCAG22/Understanding/resize-text.html) | AA | framework | Text size | All sizes are rem; the text size mode scales the root to 200% without loss of content. |
 | [1.4.5 Images of Text](https://www.w3.org/WAI/WCAG22/Understanding/images-of-text.html) | AA | author | — | Use real text instead of images of text. |
 | [1.4.6 Contrast (Enhanced)](https://www.w3.org/WAI/WCAG22/Understanding/contrast-enhanced.html) | AAA | framework | Contrast | Both high-contrast themes are at least 7:1 for text. |
-| [1.4.8 Visual Presentation](https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html) | AAA | supports | Font, Align text left | Readable/dyslexia fonts, align-left mode, max-w-prose / max-w-measure line length, theme choice. |
-| [1.4.10 Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html) | AA | supports | — | grid.css is one column on mobile, basis-switch stacks by available space, large-text: variants. Avoid fixed widths. The demo is checked at 320px with 200% text. |
+| [1.4.8 Visual Presentation](https://www.w3.org/WAI/WCAG22/Understanding/visual-presentation.html) | AAA | supports | Font, Align text left | Readable/dyslexia fonts, align-left mode, ax-max-w-prose / ax-max-w-measure line length, theme choice. |
+| [1.4.10 Reflow](https://www.w3.org/WAI/WCAG22/Understanding/reflow.html) | AA | supports | — | The grid is one column on mobile, ax-basis-switch stacks by available space, large-text: variants and --ax--KEY-large variables. Avoid fixed widths. The demo is checked at 320px with 200% text. |
 | [1.4.11 Non-text Contrast](https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html) | AA | framework | Theme, Contrast | Border, focus and primary tokens are at least 3:1 against backgrounds in all themes. |
-| [1.4.12 Text Spacing](https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html) | AA | framework | Wider text spacing | The text spacing mode applies the exact 1.4.12 values; tracking-* never goes below the reader's letter spacing. |
+| [1.4.12 Text Spacing](https://www.w3.org/WAI/WCAG22/Understanding/text-spacing.html) | AA | framework | Wider text spacing | The text spacing mode applies the exact 1.4.12 values; ax-tracking-* never goes below the reader's letter spacing. |
 | [1.4.13 Content on Hover or Focus](https://www.w3.org/WAI/WCAG22/Understanding/content-on-hover-or-focus.html) | AA | author | — | Hover/focus content must be dismissible, hoverable and persistent. The widget panel closes with Escape. |
 | [2.1.1 Keyboard](https://www.w3.org/WAI/WCAG22/Understanding/keyboard.html) | A | supports | — | The widget is fully keyboard operable (native radios and switches). Page content is the author's job. |
 | [2.1.2 No Keyboard Trap](https://www.w3.org/WAI/WCAG22/Understanding/no-keyboard-trap.html) | A | supports | — | The widget is non-modal and never traps focus; Escape returns focus to its button. |
@@ -37,13 +37,13 @@ Using this framework does not make a site conformant. Conformance depends on the
 | [2.2.2 Pause, Stop, Hide](https://www.w3.org/WAI/WCAG22/Understanding/pause-stop-hide.html) | A | supports | Animations | The animations mode and prefers-reduced-motion stop CSS animation and transitions; durations multiply by --ax-a11y-motion. JS-driven motion is the author's job. |
 | [2.3.1 Three Flashes or Below Threshold](https://www.w3.org/WAI/WCAG22/Understanding/three-flashes-or-below-threshold.html) | A | author | — | Do not add flashing content. |
 | [2.3.3 Animation from Interactions](https://www.w3.org/WAI/WCAG22/Understanding/animation-from-interactions.html) | AAA | framework | Animations | Interaction animation can be turned off in the widget or by the OS setting. |
-| [2.4.1 Bypass Blocks](https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html) | A | supports | — | Skip link recipe: sr-only focus:not-sr-only focus:absolute. |
+| [2.4.1 Bypass Blocks](https://www.w3.org/WAI/WCAG22/Understanding/bypass-blocks.html) | A | supports | — | Skip link recipe: ax-sr-only focus:ax-not-sr-only focus:ax-absolute. |
 | [2.4.2 Page Titled](https://www.w3.org/WAI/WCAG22/Understanding/page-titled.html) | A | author | — | Give each page a descriptive <title>. |
 | [2.4.3 Focus Order](https://www.w3.org/WAI/WCAG22/Understanding/focus-order.html) | A | author | — | Keep DOM order logical; the widget moves focus into its panel and back. |
-| [2.4.4 Link Purpose (In Context)](https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html) | A | author | — | Write descriptive link text. stretched-link keeps the link text as the accessible name. |
+| [2.4.4 Link Purpose (In Context)](https://www.w3.org/WAI/WCAG22/Understanding/link-purpose-in-context.html) | A | author | — | Write descriptive link text. ax-stretched-link keeps the link text as the accessible name. |
 | [2.4.5 Multiple Ways](https://www.w3.org/WAI/WCAG22/Understanding/multiple-ways.html) | AA | author | — | Provide more than one way to find pages. |
 | [2.4.6 Headings and Labels](https://www.w3.org/WAI/WCAG22/Understanding/headings-and-labels.html) | AA | author | — | Write descriptive headings and labels. |
-| [2.4.7 Focus Visible](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html) | AA | framework | Strong focus outline | A :focus-visible outline in the focus token (3:1 or better) is on by default; outline-focus-ring and the strong focus mode build on it. |
+| [2.4.7 Focus Visible](https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html) | AA | framework | Strong focus outline | A :focus-visible outline in the focus token (3:1 or better) is on by default; ax-outline-focus-ring and the strong focus mode build on it. |
 | [2.4.11 Focus Not Obscured (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/focus-not-obscured-minimum.html) | AA | supports | — | scroll-padding keeps focused elements clear of the fixed widget button; sticky headers are the author's job. |
 | [2.4.13 Focus Appearance](https://www.w3.org/WAI/WCAG22/Understanding/focus-appearance.html) | AAA | supports | Strong focus outline | The strong focus mode draws a 5px outline with a 3px offset and a background halo. |
 | [2.5.1 Pointer Gestures](https://www.w3.org/WAI/WCAG22/Understanding/pointer-gestures.html) | A | author | — | Nothing in the framework needs multipoint or path gestures. |
@@ -52,7 +52,7 @@ Using this framework does not make a site conformant. Conformance depends on the
 | [2.5.4 Motion Actuation](https://www.w3.org/WAI/WCAG22/Understanding/motion-actuation.html) | A | author | — | Nothing in the framework uses device motion. |
 | [2.5.5 Target Size (Enhanced)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html) | AAA | supports | Larger click targets | The larger click targets mode raises --ax-a11y-target-min to 44px. |
 | [2.5.7 Dragging Movements](https://www.w3.org/WAI/WCAG22/Understanding/dragging-movements.html) | AA | author | — | Nothing in the framework needs dragging. |
-| [2.5.8 Target Size (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) | AA | supports | Larger click targets | min-h-target / min-w-target / size-target give 24px by default and follow the larger click targets mode; widget controls meet it. |
+| [2.5.8 Target Size (Minimum)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html) | AA | supports | Larger click targets | ax-min-h-target / ax-min-w-target / ax-size-target give 24px by default and follow the larger click targets mode; widget controls meet it. |
 | [3.1.1 Language of Page](https://www.w3.org/WAI/WCAG22/Understanding/language-of-page.html) | A | author | — | Set <html lang>. |
 | [3.1.2 Language of Parts](https://www.w3.org/WAI/WCAG22/Understanding/language-of-parts.html) | AA | author | — | Mark language changes with lang. |
 | [3.2.1 On Focus](https://www.w3.org/WAI/WCAG22/Understanding/on-focus.html) | A | author | — | Do not change context on focus; the widget does not. |
@@ -60,7 +60,7 @@ Using this framework does not make a site conformant. Conformance depends on the
 | [3.2.3 Consistent Navigation](https://www.w3.org/WAI/WCAG22/Understanding/consistent-navigation.html) | AA | author | — | Keep navigation consistent. |
 | [3.2.4 Consistent Identification](https://www.w3.org/WAI/WCAG22/Understanding/consistent-identification.html) | AA | author | — | Identify the same functions the same way. |
 | [3.2.6 Consistent Help](https://www.w3.org/WAI/WCAG22/Understanding/consistent-help.html) | A | supports | — | The widget sits in the same corner on every page; contact/help placement is the author's job. |
-| [3.3.1 Error Identification](https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html) | A | author | — | Identify errors in text (text-danger is contrast-tested for it). |
+| [3.3.1 Error Identification](https://www.w3.org/WAI/WCAG22/Understanding/error-identification.html) | A | author | — | Identify errors in text (ax-text-danger is contrast-tested for it). |
 | [3.3.2 Labels or Instructions](https://www.w3.org/WAI/WCAG22/Understanding/labels-or-instructions.html) | A | author | — | Provide labels or instructions. |
 | [3.3.3 Error Suggestion](https://www.w3.org/WAI/WCAG22/Understanding/error-suggestion.html) | AA | author | — | Suggest corrections. |
 | [3.3.4 Error Prevention (Legal, Financial, Data)](https://www.w3.org/WAI/WCAG22/Understanding/error-prevention-legal-financial-data.html) | AA | author | — | Let users review or reverse submissions. |

@@ -2,6 +2,324 @@
 
 @layer theme, base, components, atomic, utilities, a11y;
 
+@property --ax--p { syntax: "*"; inherits: false; }
+@property --ax--p-sm { syntax: "*"; inherits: false; }
+@property --ax--p-md { syntax: "*"; inherits: false; }
+@property --ax--p-lg { syntax: "*"; inherits: false; }
+@property --ax--p-xl { syntax: "*"; inherits: false; }
+@property --ax--p-2xl { syntax: "*"; inherits: false; }
+@property --ax--p-now { syntax: "*"; inherits: false; }
+@property --ax--p-large { syntax: "*"; inherits: false; }
+@property --ax--px { syntax: "*"; inherits: false; }
+@property --ax--px-sm { syntax: "*"; inherits: false; }
+@property --ax--px-md { syntax: "*"; inherits: false; }
+@property --ax--px-lg { syntax: "*"; inherits: false; }
+@property --ax--px-xl { syntax: "*"; inherits: false; }
+@property --ax--px-2xl { syntax: "*"; inherits: false; }
+@property --ax--px-now { syntax: "*"; inherits: false; }
+@property --ax--px-large { syntax: "*"; inherits: false; }
+@property --ax--py { syntax: "*"; inherits: false; }
+@property --ax--py-sm { syntax: "*"; inherits: false; }
+@property --ax--py-md { syntax: "*"; inherits: false; }
+@property --ax--py-lg { syntax: "*"; inherits: false; }
+@property --ax--py-xl { syntax: "*"; inherits: false; }
+@property --ax--py-2xl { syntax: "*"; inherits: false; }
+@property --ax--py-now { syntax: "*"; inherits: false; }
+@property --ax--py-large { syntax: "*"; inherits: false; }
+@property --ax--pt { syntax: "*"; inherits: false; }
+@property --ax--pt-sm { syntax: "*"; inherits: false; }
+@property --ax--pt-md { syntax: "*"; inherits: false; }
+@property --ax--pt-lg { syntax: "*"; inherits: false; }
+@property --ax--pt-xl { syntax: "*"; inherits: false; }
+@property --ax--pt-2xl { syntax: "*"; inherits: false; }
+@property --ax--pt-now { syntax: "*"; inherits: false; }
+@property --ax--pt-large { syntax: "*"; inherits: false; }
+@property --ax--pr { syntax: "*"; inherits: false; }
+@property --ax--pr-sm { syntax: "*"; inherits: false; }
+@property --ax--pr-md { syntax: "*"; inherits: false; }
+@property --ax--pr-lg { syntax: "*"; inherits: false; }
+@property --ax--pr-xl { syntax: "*"; inherits: false; }
+@property --ax--pr-2xl { syntax: "*"; inherits: false; }
+@property --ax--pr-now { syntax: "*"; inherits: false; }
+@property --ax--pr-large { syntax: "*"; inherits: false; }
+@property --ax--pb { syntax: "*"; inherits: false; }
+@property --ax--pb-sm { syntax: "*"; inherits: false; }
+@property --ax--pb-md { syntax: "*"; inherits: false; }
+@property --ax--pb-lg { syntax: "*"; inherits: false; }
+@property --ax--pb-xl { syntax: "*"; inherits: false; }
+@property --ax--pb-2xl { syntax: "*"; inherits: false; }
+@property --ax--pb-now { syntax: "*"; inherits: false; }
+@property --ax--pb-large { syntax: "*"; inherits: false; }
+@property --ax--pl { syntax: "*"; inherits: false; }
+@property --ax--pl-sm { syntax: "*"; inherits: false; }
+@property --ax--pl-md { syntax: "*"; inherits: false; }
+@property --ax--pl-lg { syntax: "*"; inherits: false; }
+@property --ax--pl-xl { syntax: "*"; inherits: false; }
+@property --ax--pl-2xl { syntax: "*"; inherits: false; }
+@property --ax--pl-now { syntax: "*"; inherits: false; }
+@property --ax--pl-large { syntax: "*"; inherits: false; }
+@property --ax--m { syntax: "*"; inherits: false; }
+@property --ax--m-sm { syntax: "*"; inherits: false; }
+@property --ax--m-md { syntax: "*"; inherits: false; }
+@property --ax--m-lg { syntax: "*"; inherits: false; }
+@property --ax--m-xl { syntax: "*"; inherits: false; }
+@property --ax--m-2xl { syntax: "*"; inherits: false; }
+@property --ax--m-now { syntax: "*"; inherits: false; }
+@property --ax--m-large { syntax: "*"; inherits: false; }
+@property --ax--mx { syntax: "*"; inherits: false; }
+@property --ax--mx-sm { syntax: "*"; inherits: false; }
+@property --ax--mx-md { syntax: "*"; inherits: false; }
+@property --ax--mx-lg { syntax: "*"; inherits: false; }
+@property --ax--mx-xl { syntax: "*"; inherits: false; }
+@property --ax--mx-2xl { syntax: "*"; inherits: false; }
+@property --ax--mx-now { syntax: "*"; inherits: false; }
+@property --ax--mx-large { syntax: "*"; inherits: false; }
+@property --ax--my { syntax: "*"; inherits: false; }
+@property --ax--my-sm { syntax: "*"; inherits: false; }
+@property --ax--my-md { syntax: "*"; inherits: false; }
+@property --ax--my-lg { syntax: "*"; inherits: false; }
+@property --ax--my-xl { syntax: "*"; inherits: false; }
+@property --ax--my-2xl { syntax: "*"; inherits: false; }
+@property --ax--my-now { syntax: "*"; inherits: false; }
+@property --ax--my-large { syntax: "*"; inherits: false; }
+@property --ax--mt { syntax: "*"; inherits: false; }
+@property --ax--mt-sm { syntax: "*"; inherits: false; }
+@property --ax--mt-md { syntax: "*"; inherits: false; }
+@property --ax--mt-lg { syntax: "*"; inherits: false; }
+@property --ax--mt-xl { syntax: "*"; inherits: false; }
+@property --ax--mt-2xl { syntax: "*"; inherits: false; }
+@property --ax--mt-now { syntax: "*"; inherits: false; }
+@property --ax--mt-large { syntax: "*"; inherits: false; }
+@property --ax--mb { syntax: "*"; inherits: false; }
+@property --ax--mb-sm { syntax: "*"; inherits: false; }
+@property --ax--mb-md { syntax: "*"; inherits: false; }
+@property --ax--mb-lg { syntax: "*"; inherits: false; }
+@property --ax--mb-xl { syntax: "*"; inherits: false; }
+@property --ax--mb-2xl { syntax: "*"; inherits: false; }
+@property --ax--mb-now { syntax: "*"; inherits: false; }
+@property --ax--mb-large { syntax: "*"; inherits: false; }
+@property --ax--gap { syntax: "*"; inherits: false; }
+@property --ax--gap-sm { syntax: "*"; inherits: false; }
+@property --ax--gap-md { syntax: "*"; inherits: false; }
+@property --ax--gap-lg { syntax: "*"; inherits: false; }
+@property --ax--gap-xl { syntax: "*"; inherits: false; }
+@property --ax--gap-2xl { syntax: "*"; inherits: false; }
+@property --ax--gap-now { syntax: "*"; inherits: false; }
+@property --ax--gap-large { syntax: "*"; inherits: false; }
+@property --ax--w { syntax: "*"; inherits: false; }
+@property --ax--w-sm { syntax: "*"; inherits: false; }
+@property --ax--w-md { syntax: "*"; inherits: false; }
+@property --ax--w-lg { syntax: "*"; inherits: false; }
+@property --ax--w-xl { syntax: "*"; inherits: false; }
+@property --ax--w-2xl { syntax: "*"; inherits: false; }
+@property --ax--w-now { syntax: "*"; inherits: false; }
+@property --ax--w-large { syntax: "*"; inherits: false; }
+@property --ax--h { syntax: "*"; inherits: false; }
+@property --ax--h-sm { syntax: "*"; inherits: false; }
+@property --ax--h-md { syntax: "*"; inherits: false; }
+@property --ax--h-lg { syntax: "*"; inherits: false; }
+@property --ax--h-xl { syntax: "*"; inherits: false; }
+@property --ax--h-2xl { syntax: "*"; inherits: false; }
+@property --ax--h-now { syntax: "*"; inherits: false; }
+@property --ax--h-large { syntax: "*"; inherits: false; }
+@property --ax--min-w { syntax: "*"; inherits: false; }
+@property --ax--min-w-sm { syntax: "*"; inherits: false; }
+@property --ax--min-w-md { syntax: "*"; inherits: false; }
+@property --ax--min-w-lg { syntax: "*"; inherits: false; }
+@property --ax--min-w-xl { syntax: "*"; inherits: false; }
+@property --ax--min-w-2xl { syntax: "*"; inherits: false; }
+@property --ax--min-w-now { syntax: "*"; inherits: false; }
+@property --ax--min-w-large { syntax: "*"; inherits: false; }
+@property --ax--max-w { syntax: "*"; inherits: false; }
+@property --ax--max-w-sm { syntax: "*"; inherits: false; }
+@property --ax--max-w-md { syntax: "*"; inherits: false; }
+@property --ax--max-w-lg { syntax: "*"; inherits: false; }
+@property --ax--max-w-xl { syntax: "*"; inherits: false; }
+@property --ax--max-w-2xl { syntax: "*"; inherits: false; }
+@property --ax--max-w-now { syntax: "*"; inherits: false; }
+@property --ax--max-w-large { syntax: "*"; inherits: false; }
+@property --ax--min-h { syntax: "*"; inherits: false; }
+@property --ax--min-h-sm { syntax: "*"; inherits: false; }
+@property --ax--min-h-md { syntax: "*"; inherits: false; }
+@property --ax--min-h-lg { syntax: "*"; inherits: false; }
+@property --ax--min-h-xl { syntax: "*"; inherits: false; }
+@property --ax--min-h-2xl { syntax: "*"; inherits: false; }
+@property --ax--min-h-now { syntax: "*"; inherits: false; }
+@property --ax--min-h-large { syntax: "*"; inherits: false; }
+@property --ax--display { syntax: "*"; inherits: false; }
+@property --ax--display-sm { syntax: "*"; inherits: false; }
+@property --ax--display-md { syntax: "*"; inherits: false; }
+@property --ax--display-lg { syntax: "*"; inherits: false; }
+@property --ax--display-xl { syntax: "*"; inherits: false; }
+@property --ax--display-2xl { syntax: "*"; inherits: false; }
+@property --ax--display-now { syntax: "*"; inherits: false; }
+@property --ax--display-large { syntax: "*"; inherits: false; }
+@property --ax--flow { syntax: "*"; inherits: false; }
+@property --ax--flow-sm { syntax: "*"; inherits: false; }
+@property --ax--flow-md { syntax: "*"; inherits: false; }
+@property --ax--flow-lg { syntax: "*"; inherits: false; }
+@property --ax--flow-xl { syntax: "*"; inherits: false; }
+@property --ax--flow-2xl { syntax: "*"; inherits: false; }
+@property --ax--flow-now { syntax: "*"; inherits: false; }
+@property --ax--flow-large { syntax: "*"; inherits: false; }
+@property --ax--wrap { syntax: "*"; inherits: false; }
+@property --ax--wrap-sm { syntax: "*"; inherits: false; }
+@property --ax--wrap-md { syntax: "*"; inherits: false; }
+@property --ax--wrap-lg { syntax: "*"; inherits: false; }
+@property --ax--wrap-xl { syntax: "*"; inherits: false; }
+@property --ax--wrap-2xl { syntax: "*"; inherits: false; }
+@property --ax--wrap-now { syntax: "*"; inherits: false; }
+@property --ax--wrap-large { syntax: "*"; inherits: false; }
+@property --ax--items { syntax: "*"; inherits: false; }
+@property --ax--items-sm { syntax: "*"; inherits: false; }
+@property --ax--items-md { syntax: "*"; inherits: false; }
+@property --ax--items-lg { syntax: "*"; inherits: false; }
+@property --ax--items-xl { syntax: "*"; inherits: false; }
+@property --ax--items-2xl { syntax: "*"; inherits: false; }
+@property --ax--items-now { syntax: "*"; inherits: false; }
+@property --ax--items-large { syntax: "*"; inherits: false; }
+@property --ax--justify { syntax: "*"; inherits: false; }
+@property --ax--justify-sm { syntax: "*"; inherits: false; }
+@property --ax--justify-md { syntax: "*"; inherits: false; }
+@property --ax--justify-lg { syntax: "*"; inherits: false; }
+@property --ax--justify-xl { syntax: "*"; inherits: false; }
+@property --ax--justify-2xl { syntax: "*"; inherits: false; }
+@property --ax--justify-now { syntax: "*"; inherits: false; }
+@property --ax--justify-large { syntax: "*"; inherits: false; }
+@property --ax--basis { syntax: "*"; inherits: false; }
+@property --ax--basis-sm { syntax: "*"; inherits: false; }
+@property --ax--basis-md { syntax: "*"; inherits: false; }
+@property --ax--basis-lg { syntax: "*"; inherits: false; }
+@property --ax--basis-xl { syntax: "*"; inherits: false; }
+@property --ax--basis-2xl { syntax: "*"; inherits: false; }
+@property --ax--basis-now { syntax: "*"; inherits: false; }
+@property --ax--basis-large { syntax: "*"; inherits: false; }
+@property --ax--grow { syntax: "*"; inherits: false; }
+@property --ax--grow-sm { syntax: "*"; inherits: false; }
+@property --ax--grow-md { syntax: "*"; inherits: false; }
+@property --ax--grow-lg { syntax: "*"; inherits: false; }
+@property --ax--grow-xl { syntax: "*"; inherits: false; }
+@property --ax--grow-2xl { syntax: "*"; inherits: false; }
+@property --ax--grow-now { syntax: "*"; inherits: false; }
+@property --ax--grow-large { syntax: "*"; inherits: false; }
+@property --ax--order { syntax: "*"; inherits: false; }
+@property --ax--order-sm { syntax: "*"; inherits: false; }
+@property --ax--order-md { syntax: "*"; inherits: false; }
+@property --ax--order-lg { syntax: "*"; inherits: false; }
+@property --ax--order-xl { syntax: "*"; inherits: false; }
+@property --ax--order-2xl { syntax: "*"; inherits: false; }
+@property --ax--order-now { syntax: "*"; inherits: false; }
+@property --ax--order-large { syntax: "*"; inherits: false; }
+@property --ax--cols { syntax: "*"; inherits: false; }
+@property --ax--cols-sm { syntax: "*"; inherits: false; }
+@property --ax--cols-md { syntax: "*"; inherits: false; }
+@property --ax--cols-lg { syntax: "*"; inherits: false; }
+@property --ax--cols-xl { syntax: "*"; inherits: false; }
+@property --ax--cols-2xl { syntax: "*"; inherits: false; }
+@property --ax--cols-now { syntax: "*"; inherits: false; }
+@property --ax--cols-large { syntax: "*"; inherits: false; }
+@property --ax--rows { syntax: "*"; inherits: false; }
+@property --ax--rows-sm { syntax: "*"; inherits: false; }
+@property --ax--rows-md { syntax: "*"; inherits: false; }
+@property --ax--rows-lg { syntax: "*"; inherits: false; }
+@property --ax--rows-xl { syntax: "*"; inherits: false; }
+@property --ax--rows-2xl { syntax: "*"; inherits: false; }
+@property --ax--rows-now { syntax: "*"; inherits: false; }
+@property --ax--rows-large { syntax: "*"; inherits: false; }
+@property --ax--span { syntax: "*"; inherits: false; }
+@property --ax--span-sm { syntax: "*"; inherits: false; }
+@property --ax--span-md { syntax: "*"; inherits: false; }
+@property --ax--span-lg { syntax: "*"; inherits: false; }
+@property --ax--span-xl { syntax: "*"; inherits: false; }
+@property --ax--span-2xl { syntax: "*"; inherits: false; }
+@property --ax--span-now { syntax: "*"; inherits: false; }
+@property --ax--span-large { syntax: "*"; inherits: false; }
+@property --ax--text { syntax: "*"; inherits: false; }
+@property --ax--text-sm { syntax: "*"; inherits: false; }
+@property --ax--text-md { syntax: "*"; inherits: false; }
+@property --ax--text-lg { syntax: "*"; inherits: false; }
+@property --ax--text-xl { syntax: "*"; inherits: false; }
+@property --ax--text-2xl { syntax: "*"; inherits: false; }
+@property --ax--text-now { syntax: "*"; inherits: false; }
+@property --ax--text-large { syntax: "*"; inherits: false; }
+@property --ax--leading { syntax: "*"; inherits: false; }
+@property --ax--leading-sm { syntax: "*"; inherits: false; }
+@property --ax--leading-md { syntax: "*"; inherits: false; }
+@property --ax--leading-lg { syntax: "*"; inherits: false; }
+@property --ax--leading-xl { syntax: "*"; inherits: false; }
+@property --ax--leading-2xl { syntax: "*"; inherits: false; }
+@property --ax--leading-now { syntax: "*"; inherits: false; }
+@property --ax--leading-large { syntax: "*"; inherits: false; }
+@property --ax--weight { syntax: "*"; inherits: false; }
+@property --ax--weight-sm { syntax: "*"; inherits: false; }
+@property --ax--weight-md { syntax: "*"; inherits: false; }
+@property --ax--weight-lg { syntax: "*"; inherits: false; }
+@property --ax--weight-xl { syntax: "*"; inherits: false; }
+@property --ax--weight-2xl { syntax: "*"; inherits: false; }
+@property --ax--weight-now { syntax: "*"; inherits: false; }
+@property --ax--weight-large { syntax: "*"; inherits: false; }
+@property --ax--align { syntax: "*"; inherits: false; }
+@property --ax--align-sm { syntax: "*"; inherits: false; }
+@property --ax--align-md { syntax: "*"; inherits: false; }
+@property --ax--align-lg { syntax: "*"; inherits: false; }
+@property --ax--align-xl { syntax: "*"; inherits: false; }
+@property --ax--align-2xl { syntax: "*"; inherits: false; }
+@property --ax--align-now { syntax: "*"; inherits: false; }
+@property --ax--align-large { syntax: "*"; inherits: false; }
+@property --ax--fg { syntax: "*"; inherits: false; }
+@property --ax--fg-sm { syntax: "*"; inherits: false; }
+@property --ax--fg-md { syntax: "*"; inherits: false; }
+@property --ax--fg-lg { syntax: "*"; inherits: false; }
+@property --ax--fg-xl { syntax: "*"; inherits: false; }
+@property --ax--fg-2xl { syntax: "*"; inherits: false; }
+@property --ax--fg-now { syntax: "*"; inherits: false; }
+@property --ax--fg-large { syntax: "*"; inherits: false; }
+@property --ax--fg-hover { syntax: "*"; inherits: false; }
+@property --ax--bg { syntax: "*"; inherits: false; }
+@property --ax--bg-sm { syntax: "*"; inherits: false; }
+@property --ax--bg-md { syntax: "*"; inherits: false; }
+@property --ax--bg-lg { syntax: "*"; inherits: false; }
+@property --ax--bg-xl { syntax: "*"; inherits: false; }
+@property --ax--bg-2xl { syntax: "*"; inherits: false; }
+@property --ax--bg-now { syntax: "*"; inherits: false; }
+@property --ax--bg-large { syntax: "*"; inherits: false; }
+@property --ax--bg-hover { syntax: "*"; inherits: false; }
+@property --ax--bd { syntax: "*"; inherits: false; }
+@property --ax--bd-sm { syntax: "*"; inherits: false; }
+@property --ax--bd-md { syntax: "*"; inherits: false; }
+@property --ax--bd-lg { syntax: "*"; inherits: false; }
+@property --ax--bd-xl { syntax: "*"; inherits: false; }
+@property --ax--bd-2xl { syntax: "*"; inherits: false; }
+@property --ax--bd-now { syntax: "*"; inherits: false; }
+@property --ax--bd-large { syntax: "*"; inherits: false; }
+@property --ax--bd-hover { syntax: "*"; inherits: false; }
+@property --ax--radius { syntax: "*"; inherits: false; }
+@property --ax--radius-sm { syntax: "*"; inherits: false; }
+@property --ax--radius-md { syntax: "*"; inherits: false; }
+@property --ax--radius-lg { syntax: "*"; inherits: false; }
+@property --ax--radius-xl { syntax: "*"; inherits: false; }
+@property --ax--radius-2xl { syntax: "*"; inherits: false; }
+@property --ax--radius-now { syntax: "*"; inherits: false; }
+@property --ax--radius-large { syntax: "*"; inherits: false; }
+@property --ax--shadow { syntax: "*"; inherits: false; }
+@property --ax--shadow-sm { syntax: "*"; inherits: false; }
+@property --ax--shadow-md { syntax: "*"; inherits: false; }
+@property --ax--shadow-lg { syntax: "*"; inherits: false; }
+@property --ax--shadow-xl { syntax: "*"; inherits: false; }
+@property --ax--shadow-2xl { syntax: "*"; inherits: false; }
+@property --ax--shadow-now { syntax: "*"; inherits: false; }
+@property --ax--shadow-large { syntax: "*"; inherits: false; }
+@property --ax--shadow-hover { syntax: "*"; inherits: false; }
+@property --ax--opacity { syntax: "*"; inherits: false; }
+@property --ax--opacity-sm { syntax: "*"; inherits: false; }
+@property --ax--opacity-md { syntax: "*"; inherits: false; }
+@property --ax--opacity-lg { syntax: "*"; inherits: false; }
+@property --ax--opacity-xl { syntax: "*"; inherits: false; }
+@property --ax--opacity-2xl { syntax: "*"; inherits: false; }
+@property --ax--opacity-now { syntax: "*"; inherits: false; }
+@property --ax--opacity-large { syntax: "*"; inherits: false; }
+@property --ax--opacity-hover { syntax: "*"; inherits: false; }
+
 @layer theme {
 :root {
   --ax-a11y-text-scale: 1;
@@ -7995,6 +8313,324 @@ a:hover { text-decoration-thickness: 0.15em; }
   .\32 xl\:ax-text-start { text-align: start; }
   .\32 xl\:ax-text-end { text-align: end; }
 }
+/* variable utilities */
+.ax--p { --ax--p-now: var(--ax--p); }
+@media (min-width: 640px) { .ax--p { --ax--p-now: var(--ax--p-sm, var(--ax--p)); } }
+@media (min-width: 768px) { .ax--p { --ax--p-now: var(--ax--p-md, var(--ax--p-sm, var(--ax--p))); } }
+@media (min-width: 1024px) { .ax--p { --ax--p-now: var(--ax--p-lg, var(--ax--p-md, var(--ax--p-sm, var(--ax--p)))); } }
+@media (min-width: 1268px) { .ax--p { --ax--p-now: var(--ax--p-xl, var(--ax--p-lg, var(--ax--p-md, var(--ax--p-sm, var(--ax--p))))); } }
+@media (min-width: 1440px) { .ax--p { --ax--p-now: var(--ax--p-2xl, var(--ax--p-xl, var(--ax--p-lg, var(--ax--p-md, var(--ax--p-sm, var(--ax--p)))))); } }
+.ax--p { padding: var(--ax--p-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--p { padding: var(--ax--p-large, var(--ax--p-now, revert-layer)); }
+.ax--px { --ax--px-now: var(--ax--px); }
+@media (min-width: 640px) { .ax--px { --ax--px-now: var(--ax--px-sm, var(--ax--px)); } }
+@media (min-width: 768px) { .ax--px { --ax--px-now: var(--ax--px-md, var(--ax--px-sm, var(--ax--px))); } }
+@media (min-width: 1024px) { .ax--px { --ax--px-now: var(--ax--px-lg, var(--ax--px-md, var(--ax--px-sm, var(--ax--px)))); } }
+@media (min-width: 1268px) { .ax--px { --ax--px-now: var(--ax--px-xl, var(--ax--px-lg, var(--ax--px-md, var(--ax--px-sm, var(--ax--px))))); } }
+@media (min-width: 1440px) { .ax--px { --ax--px-now: var(--ax--px-2xl, var(--ax--px-xl, var(--ax--px-lg, var(--ax--px-md, var(--ax--px-sm, var(--ax--px)))))); } }
+.ax--px { padding-inline: var(--ax--px-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--px { padding-inline: var(--ax--px-large, var(--ax--px-now, revert-layer)); }
+.ax--py { --ax--py-now: var(--ax--py); }
+@media (min-width: 640px) { .ax--py { --ax--py-now: var(--ax--py-sm, var(--ax--py)); } }
+@media (min-width: 768px) { .ax--py { --ax--py-now: var(--ax--py-md, var(--ax--py-sm, var(--ax--py))); } }
+@media (min-width: 1024px) { .ax--py { --ax--py-now: var(--ax--py-lg, var(--ax--py-md, var(--ax--py-sm, var(--ax--py)))); } }
+@media (min-width: 1268px) { .ax--py { --ax--py-now: var(--ax--py-xl, var(--ax--py-lg, var(--ax--py-md, var(--ax--py-sm, var(--ax--py))))); } }
+@media (min-width: 1440px) { .ax--py { --ax--py-now: var(--ax--py-2xl, var(--ax--py-xl, var(--ax--py-lg, var(--ax--py-md, var(--ax--py-sm, var(--ax--py)))))); } }
+.ax--py { padding-block: var(--ax--py-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--py { padding-block: var(--ax--py-large, var(--ax--py-now, revert-layer)); }
+.ax--pt { --ax--pt-now: var(--ax--pt); }
+@media (min-width: 640px) { .ax--pt { --ax--pt-now: var(--ax--pt-sm, var(--ax--pt)); } }
+@media (min-width: 768px) { .ax--pt { --ax--pt-now: var(--ax--pt-md, var(--ax--pt-sm, var(--ax--pt))); } }
+@media (min-width: 1024px) { .ax--pt { --ax--pt-now: var(--ax--pt-lg, var(--ax--pt-md, var(--ax--pt-sm, var(--ax--pt)))); } }
+@media (min-width: 1268px) { .ax--pt { --ax--pt-now: var(--ax--pt-xl, var(--ax--pt-lg, var(--ax--pt-md, var(--ax--pt-sm, var(--ax--pt))))); } }
+@media (min-width: 1440px) { .ax--pt { --ax--pt-now: var(--ax--pt-2xl, var(--ax--pt-xl, var(--ax--pt-lg, var(--ax--pt-md, var(--ax--pt-sm, var(--ax--pt)))))); } }
+.ax--pt { padding-top: var(--ax--pt-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--pt { padding-top: var(--ax--pt-large, var(--ax--pt-now, revert-layer)); }
+.ax--pr { --ax--pr-now: var(--ax--pr); }
+@media (min-width: 640px) { .ax--pr { --ax--pr-now: var(--ax--pr-sm, var(--ax--pr)); } }
+@media (min-width: 768px) { .ax--pr { --ax--pr-now: var(--ax--pr-md, var(--ax--pr-sm, var(--ax--pr))); } }
+@media (min-width: 1024px) { .ax--pr { --ax--pr-now: var(--ax--pr-lg, var(--ax--pr-md, var(--ax--pr-sm, var(--ax--pr)))); } }
+@media (min-width: 1268px) { .ax--pr { --ax--pr-now: var(--ax--pr-xl, var(--ax--pr-lg, var(--ax--pr-md, var(--ax--pr-sm, var(--ax--pr))))); } }
+@media (min-width: 1440px) { .ax--pr { --ax--pr-now: var(--ax--pr-2xl, var(--ax--pr-xl, var(--ax--pr-lg, var(--ax--pr-md, var(--ax--pr-sm, var(--ax--pr)))))); } }
+.ax--pr { padding-right: var(--ax--pr-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--pr { padding-right: var(--ax--pr-large, var(--ax--pr-now, revert-layer)); }
+.ax--pb { --ax--pb-now: var(--ax--pb); }
+@media (min-width: 640px) { .ax--pb { --ax--pb-now: var(--ax--pb-sm, var(--ax--pb)); } }
+@media (min-width: 768px) { .ax--pb { --ax--pb-now: var(--ax--pb-md, var(--ax--pb-sm, var(--ax--pb))); } }
+@media (min-width: 1024px) { .ax--pb { --ax--pb-now: var(--ax--pb-lg, var(--ax--pb-md, var(--ax--pb-sm, var(--ax--pb)))); } }
+@media (min-width: 1268px) { .ax--pb { --ax--pb-now: var(--ax--pb-xl, var(--ax--pb-lg, var(--ax--pb-md, var(--ax--pb-sm, var(--ax--pb))))); } }
+@media (min-width: 1440px) { .ax--pb { --ax--pb-now: var(--ax--pb-2xl, var(--ax--pb-xl, var(--ax--pb-lg, var(--ax--pb-md, var(--ax--pb-sm, var(--ax--pb)))))); } }
+.ax--pb { padding-bottom: var(--ax--pb-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--pb { padding-bottom: var(--ax--pb-large, var(--ax--pb-now, revert-layer)); }
+.ax--pl { --ax--pl-now: var(--ax--pl); }
+@media (min-width: 640px) { .ax--pl { --ax--pl-now: var(--ax--pl-sm, var(--ax--pl)); } }
+@media (min-width: 768px) { .ax--pl { --ax--pl-now: var(--ax--pl-md, var(--ax--pl-sm, var(--ax--pl))); } }
+@media (min-width: 1024px) { .ax--pl { --ax--pl-now: var(--ax--pl-lg, var(--ax--pl-md, var(--ax--pl-sm, var(--ax--pl)))); } }
+@media (min-width: 1268px) { .ax--pl { --ax--pl-now: var(--ax--pl-xl, var(--ax--pl-lg, var(--ax--pl-md, var(--ax--pl-sm, var(--ax--pl))))); } }
+@media (min-width: 1440px) { .ax--pl { --ax--pl-now: var(--ax--pl-2xl, var(--ax--pl-xl, var(--ax--pl-lg, var(--ax--pl-md, var(--ax--pl-sm, var(--ax--pl)))))); } }
+.ax--pl { padding-left: var(--ax--pl-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--pl { padding-left: var(--ax--pl-large, var(--ax--pl-now, revert-layer)); }
+.ax--m { --ax--m-now: var(--ax--m); }
+@media (min-width: 640px) { .ax--m { --ax--m-now: var(--ax--m-sm, var(--ax--m)); } }
+@media (min-width: 768px) { .ax--m { --ax--m-now: var(--ax--m-md, var(--ax--m-sm, var(--ax--m))); } }
+@media (min-width: 1024px) { .ax--m { --ax--m-now: var(--ax--m-lg, var(--ax--m-md, var(--ax--m-sm, var(--ax--m)))); } }
+@media (min-width: 1268px) { .ax--m { --ax--m-now: var(--ax--m-xl, var(--ax--m-lg, var(--ax--m-md, var(--ax--m-sm, var(--ax--m))))); } }
+@media (min-width: 1440px) { .ax--m { --ax--m-now: var(--ax--m-2xl, var(--ax--m-xl, var(--ax--m-lg, var(--ax--m-md, var(--ax--m-sm, var(--ax--m)))))); } }
+.ax--m { margin: var(--ax--m-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--m { margin: var(--ax--m-large, var(--ax--m-now, revert-layer)); }
+.ax--mx { --ax--mx-now: var(--ax--mx); }
+@media (min-width: 640px) { .ax--mx { --ax--mx-now: var(--ax--mx-sm, var(--ax--mx)); } }
+@media (min-width: 768px) { .ax--mx { --ax--mx-now: var(--ax--mx-md, var(--ax--mx-sm, var(--ax--mx))); } }
+@media (min-width: 1024px) { .ax--mx { --ax--mx-now: var(--ax--mx-lg, var(--ax--mx-md, var(--ax--mx-sm, var(--ax--mx)))); } }
+@media (min-width: 1268px) { .ax--mx { --ax--mx-now: var(--ax--mx-xl, var(--ax--mx-lg, var(--ax--mx-md, var(--ax--mx-sm, var(--ax--mx))))); } }
+@media (min-width: 1440px) { .ax--mx { --ax--mx-now: var(--ax--mx-2xl, var(--ax--mx-xl, var(--ax--mx-lg, var(--ax--mx-md, var(--ax--mx-sm, var(--ax--mx)))))); } }
+.ax--mx { margin-inline: var(--ax--mx-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--mx { margin-inline: var(--ax--mx-large, var(--ax--mx-now, revert-layer)); }
+.ax--my { --ax--my-now: var(--ax--my); }
+@media (min-width: 640px) { .ax--my { --ax--my-now: var(--ax--my-sm, var(--ax--my)); } }
+@media (min-width: 768px) { .ax--my { --ax--my-now: var(--ax--my-md, var(--ax--my-sm, var(--ax--my))); } }
+@media (min-width: 1024px) { .ax--my { --ax--my-now: var(--ax--my-lg, var(--ax--my-md, var(--ax--my-sm, var(--ax--my)))); } }
+@media (min-width: 1268px) { .ax--my { --ax--my-now: var(--ax--my-xl, var(--ax--my-lg, var(--ax--my-md, var(--ax--my-sm, var(--ax--my))))); } }
+@media (min-width: 1440px) { .ax--my { --ax--my-now: var(--ax--my-2xl, var(--ax--my-xl, var(--ax--my-lg, var(--ax--my-md, var(--ax--my-sm, var(--ax--my)))))); } }
+.ax--my { margin-block: var(--ax--my-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--my { margin-block: var(--ax--my-large, var(--ax--my-now, revert-layer)); }
+.ax--mt { --ax--mt-now: var(--ax--mt); }
+@media (min-width: 640px) { .ax--mt { --ax--mt-now: var(--ax--mt-sm, var(--ax--mt)); } }
+@media (min-width: 768px) { .ax--mt { --ax--mt-now: var(--ax--mt-md, var(--ax--mt-sm, var(--ax--mt))); } }
+@media (min-width: 1024px) { .ax--mt { --ax--mt-now: var(--ax--mt-lg, var(--ax--mt-md, var(--ax--mt-sm, var(--ax--mt)))); } }
+@media (min-width: 1268px) { .ax--mt { --ax--mt-now: var(--ax--mt-xl, var(--ax--mt-lg, var(--ax--mt-md, var(--ax--mt-sm, var(--ax--mt))))); } }
+@media (min-width: 1440px) { .ax--mt { --ax--mt-now: var(--ax--mt-2xl, var(--ax--mt-xl, var(--ax--mt-lg, var(--ax--mt-md, var(--ax--mt-sm, var(--ax--mt)))))); } }
+.ax--mt { margin-top: var(--ax--mt-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--mt { margin-top: var(--ax--mt-large, var(--ax--mt-now, revert-layer)); }
+.ax--mb { --ax--mb-now: var(--ax--mb); }
+@media (min-width: 640px) { .ax--mb { --ax--mb-now: var(--ax--mb-sm, var(--ax--mb)); } }
+@media (min-width: 768px) { .ax--mb { --ax--mb-now: var(--ax--mb-md, var(--ax--mb-sm, var(--ax--mb))); } }
+@media (min-width: 1024px) { .ax--mb { --ax--mb-now: var(--ax--mb-lg, var(--ax--mb-md, var(--ax--mb-sm, var(--ax--mb)))); } }
+@media (min-width: 1268px) { .ax--mb { --ax--mb-now: var(--ax--mb-xl, var(--ax--mb-lg, var(--ax--mb-md, var(--ax--mb-sm, var(--ax--mb))))); } }
+@media (min-width: 1440px) { .ax--mb { --ax--mb-now: var(--ax--mb-2xl, var(--ax--mb-xl, var(--ax--mb-lg, var(--ax--mb-md, var(--ax--mb-sm, var(--ax--mb)))))); } }
+.ax--mb { margin-bottom: var(--ax--mb-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--mb { margin-bottom: var(--ax--mb-large, var(--ax--mb-now, revert-layer)); }
+.ax--gap { --ax--gap-now: var(--ax--gap); }
+@media (min-width: 640px) { .ax--gap { --ax--gap-now: var(--ax--gap-sm, var(--ax--gap)); } }
+@media (min-width: 768px) { .ax--gap { --ax--gap-now: var(--ax--gap-md, var(--ax--gap-sm, var(--ax--gap))); } }
+@media (min-width: 1024px) { .ax--gap { --ax--gap-now: var(--ax--gap-lg, var(--ax--gap-md, var(--ax--gap-sm, var(--ax--gap)))); } }
+@media (min-width: 1268px) { .ax--gap { --ax--gap-now: var(--ax--gap-xl, var(--ax--gap-lg, var(--ax--gap-md, var(--ax--gap-sm, var(--ax--gap))))); } }
+@media (min-width: 1440px) { .ax--gap { --ax--gap-now: var(--ax--gap-2xl, var(--ax--gap-xl, var(--ax--gap-lg, var(--ax--gap-md, var(--ax--gap-sm, var(--ax--gap)))))); } }
+.ax--gap { gap: var(--ax--gap-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--gap { gap: var(--ax--gap-large, var(--ax--gap-now, revert-layer)); }
+.ax--w { --ax--w-now: var(--ax--w); }
+@media (min-width: 640px) { .ax--w { --ax--w-now: var(--ax--w-sm, var(--ax--w)); } }
+@media (min-width: 768px) { .ax--w { --ax--w-now: var(--ax--w-md, var(--ax--w-sm, var(--ax--w))); } }
+@media (min-width: 1024px) { .ax--w { --ax--w-now: var(--ax--w-lg, var(--ax--w-md, var(--ax--w-sm, var(--ax--w)))); } }
+@media (min-width: 1268px) { .ax--w { --ax--w-now: var(--ax--w-xl, var(--ax--w-lg, var(--ax--w-md, var(--ax--w-sm, var(--ax--w))))); } }
+@media (min-width: 1440px) { .ax--w { --ax--w-now: var(--ax--w-2xl, var(--ax--w-xl, var(--ax--w-lg, var(--ax--w-md, var(--ax--w-sm, var(--ax--w)))))); } }
+.ax--w { width: var(--ax--w-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--w { width: var(--ax--w-large, var(--ax--w-now, revert-layer)); }
+.ax--h { --ax--h-now: var(--ax--h); }
+@media (min-width: 640px) { .ax--h { --ax--h-now: var(--ax--h-sm, var(--ax--h)); } }
+@media (min-width: 768px) { .ax--h { --ax--h-now: var(--ax--h-md, var(--ax--h-sm, var(--ax--h))); } }
+@media (min-width: 1024px) { .ax--h { --ax--h-now: var(--ax--h-lg, var(--ax--h-md, var(--ax--h-sm, var(--ax--h)))); } }
+@media (min-width: 1268px) { .ax--h { --ax--h-now: var(--ax--h-xl, var(--ax--h-lg, var(--ax--h-md, var(--ax--h-sm, var(--ax--h))))); } }
+@media (min-width: 1440px) { .ax--h { --ax--h-now: var(--ax--h-2xl, var(--ax--h-xl, var(--ax--h-lg, var(--ax--h-md, var(--ax--h-sm, var(--ax--h)))))); } }
+.ax--h { height: var(--ax--h-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--h { height: var(--ax--h-large, var(--ax--h-now, revert-layer)); }
+.ax--min-w { --ax--min-w-now: var(--ax--min-w); }
+@media (min-width: 640px) { .ax--min-w { --ax--min-w-now: var(--ax--min-w-sm, var(--ax--min-w)); } }
+@media (min-width: 768px) { .ax--min-w { --ax--min-w-now: var(--ax--min-w-md, var(--ax--min-w-sm, var(--ax--min-w))); } }
+@media (min-width: 1024px) { .ax--min-w { --ax--min-w-now: var(--ax--min-w-lg, var(--ax--min-w-md, var(--ax--min-w-sm, var(--ax--min-w)))); } }
+@media (min-width: 1268px) { .ax--min-w { --ax--min-w-now: var(--ax--min-w-xl, var(--ax--min-w-lg, var(--ax--min-w-md, var(--ax--min-w-sm, var(--ax--min-w))))); } }
+@media (min-width: 1440px) { .ax--min-w { --ax--min-w-now: var(--ax--min-w-2xl, var(--ax--min-w-xl, var(--ax--min-w-lg, var(--ax--min-w-md, var(--ax--min-w-sm, var(--ax--min-w)))))); } }
+.ax--min-w { min-width: var(--ax--min-w-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--min-w { min-width: var(--ax--min-w-large, var(--ax--min-w-now, revert-layer)); }
+.ax--max-w { --ax--max-w-now: var(--ax--max-w); }
+@media (min-width: 640px) { .ax--max-w { --ax--max-w-now: var(--ax--max-w-sm, var(--ax--max-w)); } }
+@media (min-width: 768px) { .ax--max-w { --ax--max-w-now: var(--ax--max-w-md, var(--ax--max-w-sm, var(--ax--max-w))); } }
+@media (min-width: 1024px) { .ax--max-w { --ax--max-w-now: var(--ax--max-w-lg, var(--ax--max-w-md, var(--ax--max-w-sm, var(--ax--max-w)))); } }
+@media (min-width: 1268px) { .ax--max-w { --ax--max-w-now: var(--ax--max-w-xl, var(--ax--max-w-lg, var(--ax--max-w-md, var(--ax--max-w-sm, var(--ax--max-w))))); } }
+@media (min-width: 1440px) { .ax--max-w { --ax--max-w-now: var(--ax--max-w-2xl, var(--ax--max-w-xl, var(--ax--max-w-lg, var(--ax--max-w-md, var(--ax--max-w-sm, var(--ax--max-w)))))); } }
+.ax--max-w { max-width: var(--ax--max-w-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--max-w { max-width: var(--ax--max-w-large, var(--ax--max-w-now, revert-layer)); }
+.ax--min-h { --ax--min-h-now: var(--ax--min-h); }
+@media (min-width: 640px) { .ax--min-h { --ax--min-h-now: var(--ax--min-h-sm, var(--ax--min-h)); } }
+@media (min-width: 768px) { .ax--min-h { --ax--min-h-now: var(--ax--min-h-md, var(--ax--min-h-sm, var(--ax--min-h))); } }
+@media (min-width: 1024px) { .ax--min-h { --ax--min-h-now: var(--ax--min-h-lg, var(--ax--min-h-md, var(--ax--min-h-sm, var(--ax--min-h)))); } }
+@media (min-width: 1268px) { .ax--min-h { --ax--min-h-now: var(--ax--min-h-xl, var(--ax--min-h-lg, var(--ax--min-h-md, var(--ax--min-h-sm, var(--ax--min-h))))); } }
+@media (min-width: 1440px) { .ax--min-h { --ax--min-h-now: var(--ax--min-h-2xl, var(--ax--min-h-xl, var(--ax--min-h-lg, var(--ax--min-h-md, var(--ax--min-h-sm, var(--ax--min-h)))))); } }
+.ax--min-h { min-height: var(--ax--min-h-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--min-h { min-height: var(--ax--min-h-large, var(--ax--min-h-now, revert-layer)); }
+.ax--display { --ax--display-now: var(--ax--display); }
+@media (min-width: 640px) { .ax--display { --ax--display-now: var(--ax--display-sm, var(--ax--display)); } }
+@media (min-width: 768px) { .ax--display { --ax--display-now: var(--ax--display-md, var(--ax--display-sm, var(--ax--display))); } }
+@media (min-width: 1024px) { .ax--display { --ax--display-now: var(--ax--display-lg, var(--ax--display-md, var(--ax--display-sm, var(--ax--display)))); } }
+@media (min-width: 1268px) { .ax--display { --ax--display-now: var(--ax--display-xl, var(--ax--display-lg, var(--ax--display-md, var(--ax--display-sm, var(--ax--display))))); } }
+@media (min-width: 1440px) { .ax--display { --ax--display-now: var(--ax--display-2xl, var(--ax--display-xl, var(--ax--display-lg, var(--ax--display-md, var(--ax--display-sm, var(--ax--display)))))); } }
+.ax--display { display: var(--ax--display-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--display { display: var(--ax--display-large, var(--ax--display-now, revert-layer)); }
+.ax--flow { --ax--flow-now: var(--ax--flow); }
+@media (min-width: 640px) { .ax--flow { --ax--flow-now: var(--ax--flow-sm, var(--ax--flow)); } }
+@media (min-width: 768px) { .ax--flow { --ax--flow-now: var(--ax--flow-md, var(--ax--flow-sm, var(--ax--flow))); } }
+@media (min-width: 1024px) { .ax--flow { --ax--flow-now: var(--ax--flow-lg, var(--ax--flow-md, var(--ax--flow-sm, var(--ax--flow)))); } }
+@media (min-width: 1268px) { .ax--flow { --ax--flow-now: var(--ax--flow-xl, var(--ax--flow-lg, var(--ax--flow-md, var(--ax--flow-sm, var(--ax--flow))))); } }
+@media (min-width: 1440px) { .ax--flow { --ax--flow-now: var(--ax--flow-2xl, var(--ax--flow-xl, var(--ax--flow-lg, var(--ax--flow-md, var(--ax--flow-sm, var(--ax--flow)))))); } }
+.ax--flow { flex-direction: var(--ax--flow-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--flow { flex-direction: var(--ax--flow-large, var(--ax--flow-now, revert-layer)); }
+.ax--wrap { --ax--wrap-now: var(--ax--wrap); }
+@media (min-width: 640px) { .ax--wrap { --ax--wrap-now: var(--ax--wrap-sm, var(--ax--wrap)); } }
+@media (min-width: 768px) { .ax--wrap { --ax--wrap-now: var(--ax--wrap-md, var(--ax--wrap-sm, var(--ax--wrap))); } }
+@media (min-width: 1024px) { .ax--wrap { --ax--wrap-now: var(--ax--wrap-lg, var(--ax--wrap-md, var(--ax--wrap-sm, var(--ax--wrap)))); } }
+@media (min-width: 1268px) { .ax--wrap { --ax--wrap-now: var(--ax--wrap-xl, var(--ax--wrap-lg, var(--ax--wrap-md, var(--ax--wrap-sm, var(--ax--wrap))))); } }
+@media (min-width: 1440px) { .ax--wrap { --ax--wrap-now: var(--ax--wrap-2xl, var(--ax--wrap-xl, var(--ax--wrap-lg, var(--ax--wrap-md, var(--ax--wrap-sm, var(--ax--wrap)))))); } }
+.ax--wrap { flex-wrap: var(--ax--wrap-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--wrap { flex-wrap: var(--ax--wrap-large, var(--ax--wrap-now, revert-layer)); }
+.ax--items { --ax--items-now: var(--ax--items); }
+@media (min-width: 640px) { .ax--items { --ax--items-now: var(--ax--items-sm, var(--ax--items)); } }
+@media (min-width: 768px) { .ax--items { --ax--items-now: var(--ax--items-md, var(--ax--items-sm, var(--ax--items))); } }
+@media (min-width: 1024px) { .ax--items { --ax--items-now: var(--ax--items-lg, var(--ax--items-md, var(--ax--items-sm, var(--ax--items)))); } }
+@media (min-width: 1268px) { .ax--items { --ax--items-now: var(--ax--items-xl, var(--ax--items-lg, var(--ax--items-md, var(--ax--items-sm, var(--ax--items))))); } }
+@media (min-width: 1440px) { .ax--items { --ax--items-now: var(--ax--items-2xl, var(--ax--items-xl, var(--ax--items-lg, var(--ax--items-md, var(--ax--items-sm, var(--ax--items)))))); } }
+.ax--items { align-items: var(--ax--items-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--items { align-items: var(--ax--items-large, var(--ax--items-now, revert-layer)); }
+.ax--justify { --ax--justify-now: var(--ax--justify); }
+@media (min-width: 640px) { .ax--justify { --ax--justify-now: var(--ax--justify-sm, var(--ax--justify)); } }
+@media (min-width: 768px) { .ax--justify { --ax--justify-now: var(--ax--justify-md, var(--ax--justify-sm, var(--ax--justify))); } }
+@media (min-width: 1024px) { .ax--justify { --ax--justify-now: var(--ax--justify-lg, var(--ax--justify-md, var(--ax--justify-sm, var(--ax--justify)))); } }
+@media (min-width: 1268px) { .ax--justify { --ax--justify-now: var(--ax--justify-xl, var(--ax--justify-lg, var(--ax--justify-md, var(--ax--justify-sm, var(--ax--justify))))); } }
+@media (min-width: 1440px) { .ax--justify { --ax--justify-now: var(--ax--justify-2xl, var(--ax--justify-xl, var(--ax--justify-lg, var(--ax--justify-md, var(--ax--justify-sm, var(--ax--justify)))))); } }
+.ax--justify { justify-content: var(--ax--justify-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--justify { justify-content: var(--ax--justify-large, var(--ax--justify-now, revert-layer)); }
+.ax--basis { --ax--basis-now: var(--ax--basis); }
+@media (min-width: 640px) { .ax--basis { --ax--basis-now: var(--ax--basis-sm, var(--ax--basis)); } }
+@media (min-width: 768px) { .ax--basis { --ax--basis-now: var(--ax--basis-md, var(--ax--basis-sm, var(--ax--basis))); } }
+@media (min-width: 1024px) { .ax--basis { --ax--basis-now: var(--ax--basis-lg, var(--ax--basis-md, var(--ax--basis-sm, var(--ax--basis)))); } }
+@media (min-width: 1268px) { .ax--basis { --ax--basis-now: var(--ax--basis-xl, var(--ax--basis-lg, var(--ax--basis-md, var(--ax--basis-sm, var(--ax--basis))))); } }
+@media (min-width: 1440px) { .ax--basis { --ax--basis-now: var(--ax--basis-2xl, var(--ax--basis-xl, var(--ax--basis-lg, var(--ax--basis-md, var(--ax--basis-sm, var(--ax--basis)))))); } }
+.ax--basis { flex-basis: var(--ax--basis-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--basis { flex-basis: var(--ax--basis-large, var(--ax--basis-now, revert-layer)); }
+.ax--grow { --ax--grow-now: var(--ax--grow); }
+@media (min-width: 640px) { .ax--grow { --ax--grow-now: var(--ax--grow-sm, var(--ax--grow)); } }
+@media (min-width: 768px) { .ax--grow { --ax--grow-now: var(--ax--grow-md, var(--ax--grow-sm, var(--ax--grow))); } }
+@media (min-width: 1024px) { .ax--grow { --ax--grow-now: var(--ax--grow-lg, var(--ax--grow-md, var(--ax--grow-sm, var(--ax--grow)))); } }
+@media (min-width: 1268px) { .ax--grow { --ax--grow-now: var(--ax--grow-xl, var(--ax--grow-lg, var(--ax--grow-md, var(--ax--grow-sm, var(--ax--grow))))); } }
+@media (min-width: 1440px) { .ax--grow { --ax--grow-now: var(--ax--grow-2xl, var(--ax--grow-xl, var(--ax--grow-lg, var(--ax--grow-md, var(--ax--grow-sm, var(--ax--grow)))))); } }
+.ax--grow { flex-grow: var(--ax--grow-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--grow { flex-grow: var(--ax--grow-large, var(--ax--grow-now, revert-layer)); }
+.ax--order { --ax--order-now: var(--ax--order); }
+@media (min-width: 640px) { .ax--order { --ax--order-now: var(--ax--order-sm, var(--ax--order)); } }
+@media (min-width: 768px) { .ax--order { --ax--order-now: var(--ax--order-md, var(--ax--order-sm, var(--ax--order))); } }
+@media (min-width: 1024px) { .ax--order { --ax--order-now: var(--ax--order-lg, var(--ax--order-md, var(--ax--order-sm, var(--ax--order)))); } }
+@media (min-width: 1268px) { .ax--order { --ax--order-now: var(--ax--order-xl, var(--ax--order-lg, var(--ax--order-md, var(--ax--order-sm, var(--ax--order))))); } }
+@media (min-width: 1440px) { .ax--order { --ax--order-now: var(--ax--order-2xl, var(--ax--order-xl, var(--ax--order-lg, var(--ax--order-md, var(--ax--order-sm, var(--ax--order)))))); } }
+.ax--order { order: var(--ax--order-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--order { order: var(--ax--order-large, var(--ax--order-now, revert-layer)); }
+.ax--cols { --ax--cols-now: var(--ax--cols); }
+@media (min-width: 640px) { .ax--cols { --ax--cols-now: var(--ax--cols-sm, var(--ax--cols)); } }
+@media (min-width: 768px) { .ax--cols { --ax--cols-now: var(--ax--cols-md, var(--ax--cols-sm, var(--ax--cols))); } }
+@media (min-width: 1024px) { .ax--cols { --ax--cols-now: var(--ax--cols-lg, var(--ax--cols-md, var(--ax--cols-sm, var(--ax--cols)))); } }
+@media (min-width: 1268px) { .ax--cols { --ax--cols-now: var(--ax--cols-xl, var(--ax--cols-lg, var(--ax--cols-md, var(--ax--cols-sm, var(--ax--cols))))); } }
+@media (min-width: 1440px) { .ax--cols { --ax--cols-now: var(--ax--cols-2xl, var(--ax--cols-xl, var(--ax--cols-lg, var(--ax--cols-md, var(--ax--cols-sm, var(--ax--cols)))))); } }
+.ax--cols { grid-template-columns: var(--ax--cols-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--cols { grid-template-columns: var(--ax--cols-large, var(--ax--cols-now, revert-layer)); }
+.ax--rows { --ax--rows-now: var(--ax--rows); }
+@media (min-width: 640px) { .ax--rows { --ax--rows-now: var(--ax--rows-sm, var(--ax--rows)); } }
+@media (min-width: 768px) { .ax--rows { --ax--rows-now: var(--ax--rows-md, var(--ax--rows-sm, var(--ax--rows))); } }
+@media (min-width: 1024px) { .ax--rows { --ax--rows-now: var(--ax--rows-lg, var(--ax--rows-md, var(--ax--rows-sm, var(--ax--rows)))); } }
+@media (min-width: 1268px) { .ax--rows { --ax--rows-now: var(--ax--rows-xl, var(--ax--rows-lg, var(--ax--rows-md, var(--ax--rows-sm, var(--ax--rows))))); } }
+@media (min-width: 1440px) { .ax--rows { --ax--rows-now: var(--ax--rows-2xl, var(--ax--rows-xl, var(--ax--rows-lg, var(--ax--rows-md, var(--ax--rows-sm, var(--ax--rows)))))); } }
+.ax--rows { grid-template-rows: var(--ax--rows-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--rows { grid-template-rows: var(--ax--rows-large, var(--ax--rows-now, revert-layer)); }
+.ax--span { --ax--span-now: var(--ax--span); }
+@media (min-width: 640px) { .ax--span { --ax--span-now: var(--ax--span-sm, var(--ax--span)); } }
+@media (min-width: 768px) { .ax--span { --ax--span-now: var(--ax--span-md, var(--ax--span-sm, var(--ax--span))); } }
+@media (min-width: 1024px) { .ax--span { --ax--span-now: var(--ax--span-lg, var(--ax--span-md, var(--ax--span-sm, var(--ax--span)))); } }
+@media (min-width: 1268px) { .ax--span { --ax--span-now: var(--ax--span-xl, var(--ax--span-lg, var(--ax--span-md, var(--ax--span-sm, var(--ax--span))))); } }
+@media (min-width: 1440px) { .ax--span { --ax--span-now: var(--ax--span-2xl, var(--ax--span-xl, var(--ax--span-lg, var(--ax--span-md, var(--ax--span-sm, var(--ax--span)))))); } }
+.ax--span { grid-column: var(--ax--span-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--span { grid-column: var(--ax--span-large, var(--ax--span-now, revert-layer)); }
+.ax--text { --ax--text-now: var(--ax--text); }
+@media (min-width: 640px) { .ax--text { --ax--text-now: var(--ax--text-sm, var(--ax--text)); } }
+@media (min-width: 768px) { .ax--text { --ax--text-now: var(--ax--text-md, var(--ax--text-sm, var(--ax--text))); } }
+@media (min-width: 1024px) { .ax--text { --ax--text-now: var(--ax--text-lg, var(--ax--text-md, var(--ax--text-sm, var(--ax--text)))); } }
+@media (min-width: 1268px) { .ax--text { --ax--text-now: var(--ax--text-xl, var(--ax--text-lg, var(--ax--text-md, var(--ax--text-sm, var(--ax--text))))); } }
+@media (min-width: 1440px) { .ax--text { --ax--text-now: var(--ax--text-2xl, var(--ax--text-xl, var(--ax--text-lg, var(--ax--text-md, var(--ax--text-sm, var(--ax--text)))))); } }
+.ax--text { font-size: var(--ax--text-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--text { font-size: var(--ax--text-large, var(--ax--text-now, revert-layer)); }
+.ax--leading { --ax--leading-now: var(--ax--leading); }
+@media (min-width: 640px) { .ax--leading { --ax--leading-now: var(--ax--leading-sm, var(--ax--leading)); } }
+@media (min-width: 768px) { .ax--leading { --ax--leading-now: var(--ax--leading-md, var(--ax--leading-sm, var(--ax--leading))); } }
+@media (min-width: 1024px) { .ax--leading { --ax--leading-now: var(--ax--leading-lg, var(--ax--leading-md, var(--ax--leading-sm, var(--ax--leading)))); } }
+@media (min-width: 1268px) { .ax--leading { --ax--leading-now: var(--ax--leading-xl, var(--ax--leading-lg, var(--ax--leading-md, var(--ax--leading-sm, var(--ax--leading))))); } }
+@media (min-width: 1440px) { .ax--leading { --ax--leading-now: var(--ax--leading-2xl, var(--ax--leading-xl, var(--ax--leading-lg, var(--ax--leading-md, var(--ax--leading-sm, var(--ax--leading)))))); } }
+.ax--leading { line-height: var(--ax--leading-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--leading { line-height: var(--ax--leading-large, var(--ax--leading-now, revert-layer)); }
+.ax--weight { --ax--weight-now: var(--ax--weight); }
+@media (min-width: 640px) { .ax--weight { --ax--weight-now: var(--ax--weight-sm, var(--ax--weight)); } }
+@media (min-width: 768px) { .ax--weight { --ax--weight-now: var(--ax--weight-md, var(--ax--weight-sm, var(--ax--weight))); } }
+@media (min-width: 1024px) { .ax--weight { --ax--weight-now: var(--ax--weight-lg, var(--ax--weight-md, var(--ax--weight-sm, var(--ax--weight)))); } }
+@media (min-width: 1268px) { .ax--weight { --ax--weight-now: var(--ax--weight-xl, var(--ax--weight-lg, var(--ax--weight-md, var(--ax--weight-sm, var(--ax--weight))))); } }
+@media (min-width: 1440px) { .ax--weight { --ax--weight-now: var(--ax--weight-2xl, var(--ax--weight-xl, var(--ax--weight-lg, var(--ax--weight-md, var(--ax--weight-sm, var(--ax--weight)))))); } }
+.ax--weight { font-weight: var(--ax--weight-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--weight { font-weight: var(--ax--weight-large, var(--ax--weight-now, revert-layer)); }
+.ax--align { --ax--align-now: var(--ax--align); }
+@media (min-width: 640px) { .ax--align { --ax--align-now: var(--ax--align-sm, var(--ax--align)); } }
+@media (min-width: 768px) { .ax--align { --ax--align-now: var(--ax--align-md, var(--ax--align-sm, var(--ax--align))); } }
+@media (min-width: 1024px) { .ax--align { --ax--align-now: var(--ax--align-lg, var(--ax--align-md, var(--ax--align-sm, var(--ax--align)))); } }
+@media (min-width: 1268px) { .ax--align { --ax--align-now: var(--ax--align-xl, var(--ax--align-lg, var(--ax--align-md, var(--ax--align-sm, var(--ax--align))))); } }
+@media (min-width: 1440px) { .ax--align { --ax--align-now: var(--ax--align-2xl, var(--ax--align-xl, var(--ax--align-lg, var(--ax--align-md, var(--ax--align-sm, var(--ax--align)))))); } }
+.ax--align { text-align: var(--ax--align-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--align { text-align: var(--ax--align-large, var(--ax--align-now, revert-layer)); }
+.ax--fg { --ax--fg-now: var(--ax--fg); }
+@media (min-width: 640px) { .ax--fg { --ax--fg-now: var(--ax--fg-sm, var(--ax--fg)); } }
+@media (min-width: 768px) { .ax--fg { --ax--fg-now: var(--ax--fg-md, var(--ax--fg-sm, var(--ax--fg))); } }
+@media (min-width: 1024px) { .ax--fg { --ax--fg-now: var(--ax--fg-lg, var(--ax--fg-md, var(--ax--fg-sm, var(--ax--fg)))); } }
+@media (min-width: 1268px) { .ax--fg { --ax--fg-now: var(--ax--fg-xl, var(--ax--fg-lg, var(--ax--fg-md, var(--ax--fg-sm, var(--ax--fg))))); } }
+@media (min-width: 1440px) { .ax--fg { --ax--fg-now: var(--ax--fg-2xl, var(--ax--fg-xl, var(--ax--fg-lg, var(--ax--fg-md, var(--ax--fg-sm, var(--ax--fg)))))); } }
+.ax--fg { color: var(--ax--fg-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--fg { color: var(--ax--fg-large, var(--ax--fg-now, revert-layer)); }
+.ax--fg:hover { color: var(--ax--fg-hover, var(--ax--fg-now, revert-layer)); }
+.ax--bg { --ax--bg-now: var(--ax--bg); }
+@media (min-width: 640px) { .ax--bg { --ax--bg-now: var(--ax--bg-sm, var(--ax--bg)); } }
+@media (min-width: 768px) { .ax--bg { --ax--bg-now: var(--ax--bg-md, var(--ax--bg-sm, var(--ax--bg))); } }
+@media (min-width: 1024px) { .ax--bg { --ax--bg-now: var(--ax--bg-lg, var(--ax--bg-md, var(--ax--bg-sm, var(--ax--bg)))); } }
+@media (min-width: 1268px) { .ax--bg { --ax--bg-now: var(--ax--bg-xl, var(--ax--bg-lg, var(--ax--bg-md, var(--ax--bg-sm, var(--ax--bg))))); } }
+@media (min-width: 1440px) { .ax--bg { --ax--bg-now: var(--ax--bg-2xl, var(--ax--bg-xl, var(--ax--bg-lg, var(--ax--bg-md, var(--ax--bg-sm, var(--ax--bg)))))); } }
+.ax--bg { background-color: var(--ax--bg-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--bg { background-color: var(--ax--bg-large, var(--ax--bg-now, revert-layer)); }
+.ax--bg:hover { background-color: var(--ax--bg-hover, var(--ax--bg-now, revert-layer)); }
+.ax--bd { --ax--bd-now: var(--ax--bd); }
+@media (min-width: 640px) { .ax--bd { --ax--bd-now: var(--ax--bd-sm, var(--ax--bd)); } }
+@media (min-width: 768px) { .ax--bd { --ax--bd-now: var(--ax--bd-md, var(--ax--bd-sm, var(--ax--bd))); } }
+@media (min-width: 1024px) { .ax--bd { --ax--bd-now: var(--ax--bd-lg, var(--ax--bd-md, var(--ax--bd-sm, var(--ax--bd)))); } }
+@media (min-width: 1268px) { .ax--bd { --ax--bd-now: var(--ax--bd-xl, var(--ax--bd-lg, var(--ax--bd-md, var(--ax--bd-sm, var(--ax--bd))))); } }
+@media (min-width: 1440px) { .ax--bd { --ax--bd-now: var(--ax--bd-2xl, var(--ax--bd-xl, var(--ax--bd-lg, var(--ax--bd-md, var(--ax--bd-sm, var(--ax--bd)))))); } }
+.ax--bd { border-color: var(--ax--bd-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--bd { border-color: var(--ax--bd-large, var(--ax--bd-now, revert-layer)); }
+.ax--bd:hover { border-color: var(--ax--bd-hover, var(--ax--bd-now, revert-layer)); }
+.ax--radius { --ax--radius-now: var(--ax--radius); }
+@media (min-width: 640px) { .ax--radius { --ax--radius-now: var(--ax--radius-sm, var(--ax--radius)); } }
+@media (min-width: 768px) { .ax--radius { --ax--radius-now: var(--ax--radius-md, var(--ax--radius-sm, var(--ax--radius))); } }
+@media (min-width: 1024px) { .ax--radius { --ax--radius-now: var(--ax--radius-lg, var(--ax--radius-md, var(--ax--radius-sm, var(--ax--radius)))); } }
+@media (min-width: 1268px) { .ax--radius { --ax--radius-now: var(--ax--radius-xl, var(--ax--radius-lg, var(--ax--radius-md, var(--ax--radius-sm, var(--ax--radius))))); } }
+@media (min-width: 1440px) { .ax--radius { --ax--radius-now: var(--ax--radius-2xl, var(--ax--radius-xl, var(--ax--radius-lg, var(--ax--radius-md, var(--ax--radius-sm, var(--ax--radius)))))); } }
+.ax--radius { border-radius: var(--ax--radius-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--radius { border-radius: var(--ax--radius-large, var(--ax--radius-now, revert-layer)); }
+.ax--shadow { --ax--shadow-now: var(--ax--shadow); }
+@media (min-width: 640px) { .ax--shadow { --ax--shadow-now: var(--ax--shadow-sm, var(--ax--shadow)); } }
+@media (min-width: 768px) { .ax--shadow { --ax--shadow-now: var(--ax--shadow-md, var(--ax--shadow-sm, var(--ax--shadow))); } }
+@media (min-width: 1024px) { .ax--shadow { --ax--shadow-now: var(--ax--shadow-lg, var(--ax--shadow-md, var(--ax--shadow-sm, var(--ax--shadow)))); } }
+@media (min-width: 1268px) { .ax--shadow { --ax--shadow-now: var(--ax--shadow-xl, var(--ax--shadow-lg, var(--ax--shadow-md, var(--ax--shadow-sm, var(--ax--shadow))))); } }
+@media (min-width: 1440px) { .ax--shadow { --ax--shadow-now: var(--ax--shadow-2xl, var(--ax--shadow-xl, var(--ax--shadow-lg, var(--ax--shadow-md, var(--ax--shadow-sm, var(--ax--shadow)))))); } }
+.ax--shadow { box-shadow: var(--ax--shadow-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--shadow { box-shadow: var(--ax--shadow-large, var(--ax--shadow-now, revert-layer)); }
+.ax--shadow:hover { box-shadow: var(--ax--shadow-hover, var(--ax--shadow-now, revert-layer)); }
+.ax--opacity { --ax--opacity-now: var(--ax--opacity); }
+@media (min-width: 640px) { .ax--opacity { --ax--opacity-now: var(--ax--opacity-sm, var(--ax--opacity)); } }
+@media (min-width: 768px) { .ax--opacity { --ax--opacity-now: var(--ax--opacity-md, var(--ax--opacity-sm, var(--ax--opacity))); } }
+@media (min-width: 1024px) { .ax--opacity { --ax--opacity-now: var(--ax--opacity-lg, var(--ax--opacity-md, var(--ax--opacity-sm, var(--ax--opacity)))); } }
+@media (min-width: 1268px) { .ax--opacity { --ax--opacity-now: var(--ax--opacity-xl, var(--ax--opacity-lg, var(--ax--opacity-md, var(--ax--opacity-sm, var(--ax--opacity))))); } }
+@media (min-width: 1440px) { .ax--opacity { --ax--opacity-now: var(--ax--opacity-2xl, var(--ax--opacity-xl, var(--ax--opacity-lg, var(--ax--opacity-md, var(--ax--opacity-sm, var(--ax--opacity)))))); } }
+.ax--opacity { opacity: var(--ax--opacity-now, revert-layer); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax--opacity { opacity: var(--ax--opacity-large, var(--ax--opacity-now, revert-layer)); }
+.ax--opacity:hover { opacity: var(--ax--opacity-hover, var(--ax--opacity-now, revert-layer)); }
 }
 
 @layer a11y {

@@ -326,6 +326,34 @@ try {
     for (const v of result.violations) fail(where, `axe ${v.id}: ${v.nodes.slice(0, 2).map(n => n.target.join(' ')).join(', ')}`);
     await context.close();
   }
+  // 14. Variable utilities: grid.css's variable-chain pattern for any property.
+  {
+    const where = 'var-utilities';
+    const look = async (width, state) => {
+      const context = await browser.newContext({viewport: {width, height: 800}});
+      const page = await context.newPage();
+      await page.goto(base + 'test/fixtures/vars.html');
+      if (state) await page.evaluate(s => document.documentElement.setAttribute('data-ax-text', s), state);
+      const r = await page.evaluate(() => {
+        const cs = id => getComputedStyle(document.getElementById(id));
+        return {p: cs('v').paddingTop, cols: cs('v').gridTemplateColumns.split(' ').length, bg: cs('v').backgroundColor,
+          child: cs('child').paddingTop, grid: cs('g').paddingLeft, plainGrid: cs('g2').paddingLeft};
+      });
+      await page.hover('#v');
+      r.hoverBg = await page.evaluate(() => getComputedStyle(document.getElementById('v')).backgroundColor);
+      await context.close();
+      return r;
+    };
+    const small = await look(390);
+    expect(where, small.p === '8px' && small.cols === 1 && small.bg === 'rgb(1, 2, 3)', `base values: ${JSON.stringify(small)}`);
+    expect(where, small.child === '0px', `variables must not inherit into children, got ${small.child}`);
+    expect(where, small.grid === small.plainGrid, `unset variable utility should revert to the grid's padding: ${small.grid} vs ${small.plainGrid}`);
+    expect(where, small.hoverBg === 'rgb(4, 5, 6)', `hover variable: ${small.hoverBg}`);
+    const wide = await look(1100);
+    expect(where, wide.p === '24px' && wide.cols === 3, `lg values: ${JSON.stringify(wide)}`);
+    const large = await look(1100, '200');
+    expect(where, large.cols === 1 && large.p === '24px', `-large should win at large text, others keep their breakpoint value: ${JSON.stringify(large)}`);
+  }
 } finally {
   await browser.close();
   server.kill();

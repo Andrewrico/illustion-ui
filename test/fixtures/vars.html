@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Variable utilities</title>
+  <link rel="stylesheet" href="/dist/a11y-atomic.css">
+</head>
+<body>
+  <main>
+    <div id="v" class="ax--p ax--cols ax--bg ax-grid" style="--ax--p: 8px; --ax--p-lg: 24px; --ax--cols: 1fr; --ax--cols-lg: repeat(3, 1fr); --ax--cols-large: 1fr; --ax--bg: rgb(1, 2, 3); --ax--bg-hover: rgb(4, 5, 6)">
+      <div id="child" class="ax--p">child</div><div>b</div><div>c</div>
+    </div>
+    <div id="g" class="ax-grid-wrapper ax--p">grid wrapper with an unset variable utility</div>
+    <div id="g2" class="ax-grid-wrapper">plain grid wrapper</div>
+  </main>
+</body>
+</html>

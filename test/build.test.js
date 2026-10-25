@@ -193,3 +193,21 @@ test('shadow DOM: document selectors are rewritten for :host', async () => {
   const generated = (await import('../dist/a11y-shadow.js')).default;
   assert.ok(generated.includes(':host([data-ax-spacing="on"]) *') && !generated.includes('saturation') && !generated.includes(':root'));
 });
+
+test('variable utilities: one declaration per rule, breakpoint chains, registered non-inheriting variables', async () => {
+  const {varUtility, VAR_UTILITIES} = await import('../scripts/build.mjs');
+  for (const key of Object.keys(VAR_UTILITIES)) {
+    const rules = varUtility(key);
+    for (const r of rules.filter(x => x.css)) assert.equal((r.css.match(/;/g) || []).length, 1, r.css);
+    assert.ok(rules.some(r => r.property === `@property --ax--${key} { syntax: "*"; inherits: false; }`));
+  }
+  const p = varUtility('p').map(r => r.css).filter(Boolean);
+  assert.ok(p.includes('.ax--p { padding: var(--ax--p-now, revert-layer); }'));
+  assert.ok(p.includes('.ax--p { --ax--p-now: var(--ax--p); }'));
+  assert.ok(p.includes('@media (min-width: 1024px) { .ax--p { --ax--p-now: var(--ax--p-lg, var(--ax--p-md, var(--ax--p-sm, var(--ax--p)))); } }'));
+  assert.ok(varUtility('bg').some(r => r.css?.includes('.ax--bg:hover')));
+  const {buildPage} = await import('../scripts/build.mjs');
+  const page = await buildPage('<div class="ax--p"></div>');
+  assert.ok(page.includes('@property --ax--p{') || page.includes('@property --ax--p {'));
+  assert.ok(!page.includes('--ax--cols'), 'unused variable utilities are left out');
+});

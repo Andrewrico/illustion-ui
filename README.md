@@ -1,10 +1,50 @@
 # a11y-atomic
 
-`a11y-atomic` is an atomic CSS framework. It uses Tailwind-compatible class names and variant syntax. Accessibility values are stored in CSS variables. The widget changes those variables and sets `data-a11y-*` attributes on `<html>`.
+`a11y-atomic` is an atomic CSS framework. It uses Tailwind-compatible class names and variant syntax. Accessibility values are stored in CSS variables. The widget changes those variables and sets `data-ax-*` attributes on `<html>`.
 
 When a setting is automatic, the operating system preference is used.
 
 The framework is tied to the W3C WAI rules: every feature maps to WCAG 2.2 success criteria, checked against W3C's own data, and a sync script reports when W3C changes them. See [Tied to W3C WAI](#tied-to-w3c-wai) and [WCAG.md](WCAG.md).
+
+## Naming standard
+
+Every name the framework owns starts with `ax` (a11y + atomic), so nothing generic can clash with a site's own CSS or with Tailwind on the same page. The prefix lives in `src/naming.js`.
+
+| Kind | Pattern | Example |
+|---|---|---|
+| Utility class | `ax-NAME`, variants before it | `ax-p-4`, `lg:ax-grid-cols-3`, `hover:ax-bg-primary` |
+| Variable utility | `ax--KEY` (double dash: reads a variable) | `ax--p` with `--ax--p`, `--ax--p-lg`, `--ax--p-large` |
+| Generated atomic class | `ax_HASH` (underscore: generated) | `ax_1k2j3` |
+| Grid | `ax-grid-PART`, `--ax-grid-VAR` | `ax-grid-wrapper`, `--ax-grid-column-desktop` |
+| Token | `--ax-GROUP-NAME` | `--ax-color-text`, `--ax-spacing`, `--ax-a11y-motion` |
+| Widget setting | `data-ax-KEY` on `<html>` | `data-ax-text="150"` |
+| Hooks and events | `ax-`, `data-ax-`, `ax:` | `.ax-widget`, `data-ax-part`, `data-ax-page`, `ax:change` |
+
+## Variable utilities
+
+The andrewrico grid picks columns by reading one variable per breakpoint, each falling back to the one below. Variable utilities use that pattern for any property: **one class, any value, any breakpoint**, with no class per value.
+
+```html
+<ul class="ax-grid ax--cols ax--gap"
+    style="--ax--cols: 1fr; --ax--cols-md: repeat(2, 1fr); --ax--cols-xl: repeat(4, 1fr);
+           --ax--cols-large: 1fr; --ax--gap: var(--ax-space-3)">
+```
+
+| Variable | Applies |
+|---|---|
+| `--ax--KEY` | Always (base). |
+| `--ax--KEY-sm` … `-2xl` | From that breakpoint up; unset ones fall back to the next smaller one. |
+| `--ax--KEY-large` | When the reader picks 150% text or more: reflow for readers, not just for screens. |
+| `--ax--KEY-hover` | On hover (`fg`, `bg`, `bd`, `shadow`, `opacity`). |
+
+How it stays efficient and safe:
+
+- The breakpoint chain resolves once per element into `--ax--KEY-now`; the property, large-text and hover rules each read it. About 0.8 KB per key, and per-page builds include only the keys a page uses.
+- Every variable is registered with `@property … { inherits: false }`, so a parent's value never leaks into a child.
+- Unset everywhere, the class falls back to `revert-layer`, as if it were absent (on an `ax-grid-wrapper` it keeps the grid's own padding).
+- Every rule has one declaration.
+
+Keys: `p px py pt pr pb pl m mx my mt mb gap w h min-w max-w min-h display flow wrap items justify basis grow order cols rows span text leading weight align fg bg bd radius shadow opacity` (class `ax--KEY`).
 
 ## Atomic, Facebook style
 
@@ -31,9 +71,9 @@ el.className = classes(s.card, isActive && s.active);  // active's background wi
 Compiles to rules like:
 
 ```css
-.x1k2j3 { padding: var(--space-6); }
-.x9a8b7:hover { background-color: var(--color-surface-2); }
-:root:is([data-a11y-text="150"], [data-a11y-text="175"], [data-a11y-text="200"]) .x4d5e6 { flex-direction: column; }
+.ax_1k2j3 { padding: var(--ax-space-6); }
+.ax_9a8b7:hover { background-color: var(--ax-color-surface-2); }
+:root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) .ax_4d5e6 { flex-direction: column; }
 ```
 
 | Rule | Behaviour |
@@ -54,8 +94,9 @@ The widget is built with this engine (`src/widget.styles.js`), and so is an atom
 | Part | Atomic? |
 |---|---|
 | Atomic engine, the widget and the atomic grid | Yes: one declaration per class, every rule tested. |
-| Tailwind-compatible utilities (1,359) | 1,287 set one property. 72 set two or more, exactly as Tailwind does (`text-lg` = size + line height, `rounded-t-lg`, `size-6`, `transition`, `sr-only`, `truncate`, `stretched-link`). Use the engine when you need strict atomic. |
-| `grid.css` | No — component classes, shipped unchanged for existing sites. `grid.styles.js` is its strict atomic twin. |
+| Tailwind-compatible utilities (1,359) | 1,287 set one property. 72 set two or more, exactly as Tailwind does (`ax-text-lg` = size + line height, `ax-rounded-t-lg`, `ax-size-6`, `ax-transition`, `ax-sr-only`, `ax-truncate`, `ax-stretched-link`). Use the engine when you need strict atomic. |
+| Grid (`ax-grid-*`) | No: component classes from `grid.css`, with standard names. `grid.styles.js` is its strict atomic twin. |
+| Variable utilities (`ax--KEY`) | Yes: one declaration per rule. |
 
 ## Quick start
 
@@ -98,29 +139,29 @@ Utility classes read framework variables.
 
 ```css
 :root {
-  --spacing: 0.25rem;
-  --a11y-text-scale: 1;
-  --color-muted: #4a5360;
+  --ax-spacing: 0.25rem;
+  --ax-a11y-text-scale: 1;
+  --ax-color-muted: #4a5360;
 }
 
 .p-4 {
-  padding: calc(var(--spacing) * 4);
+  padding: calc(var(--ax-spacing) * 4);
 }
 
 .text-muted {
-  color: var(--color-muted);
+  color: var(--ax-color-muted);
 }
 
 html {
-  font-size: calc(100% * var(--a11y-text-scale));
+  font-size: calc(100% * var(--ax-a11y-text-scale));
 }
 ```
 
 A widget mode changes the variable. The utility class does not change.
 
 ```css
-[data-a11y-text="150"] {
-  --a11y-text-scale: 1.5;
+[data-ax-text="150"] {
+  --ax-a11y-text-scale: 1.5;
 }
 ```
 
@@ -131,8 +172,8 @@ Rem-based type and spacing scale with the root font size. Grid measurements can 
 Class names and variants use Tailwind syntax.
 
 ```html
-<div class="grid grid-cols-3 gap-4 p-4 lg:col-span-2 hover:bg-primary dark:bg-primary motion-reduce:transition-none">
-  <a class="sr-only focus:not-sr-only">Skip to content</a>
+<div class="ax-grid ax-grid-cols-3 ax-gap-4 ax-p-4 lg:ax-col-span-2 hover:ax-bg-primary dark:ax-bg-primary motion-reduce:ax-transition-none">
+  <a class="ax-sr-only focus:ax-not-sr-only">Skip to content</a>
 </div>
 ```
 
@@ -142,15 +183,15 @@ The tokens, breakpoints, and accessibility behavior are specific to `a11y-atomic
 
 | Area | `a11y-atomic` behavior |
 |---|---|
-| Spacing | Uses Tailwind v4 spacing. `--spacing` is `0.25rem`. `p-4` equals `calc(var(--spacing) * 4)`. |
-| Colors | Uses semantic tokens only. Examples are `text-muted`, `bg-surface`, `border-border`, and `text-on-primary`. Color pairs are contrast-tested in four themes. There is no fixed color palette. |
+| Spacing | Uses Tailwind v4 spacing. `--ax-spacing` is `0.25rem`. `ax-p-4` equals `calc(var(--ax-spacing) * 4)`. |
+| Colors | Uses semantic tokens only. Examples are `ax-text-muted`, `ax-bg-surface`, `ax-border-border`, and `ax-text-on-primary`. Color pairs are contrast-tested in four themes. There is no fixed color palette. |
 | Breakpoints | Uses `sm` at 640px, `md` at 768px, `lg` at 1024px, `xl` at 1268px, and `2xl` at 1440px. The `lg`, `xl`, and `2xl` values match the andrewrico `grid.css` breakpoints. |
 | Reader variants | Adds `large-text:` for text scales of 150% or more and `text-spacing:` for the text spacing mode. |
 | Preference variants | `dark:`, `contrast-more:`, `motion-safe:`, and `motion-reduce:` follow an explicit widget choice first. If the widget leaves the choice automatic, they follow the operating system. |
-| Durations | Multiply their duration by `--a11y-motion`. The widget can set that variable to zero. |
-| Letter spacing | `tracking-*` never reduces the letter spacing set by the widget. |
-| Target sizes | `min-h-target`, `min-w-target`, and `size-target` use the widget target size. It ranges from 24px to 44px. |
-| Focus ring | `outline-focus-ring` uses the widget focus width, offset, and focus color. |
+| Durations | Multiply their duration by `--ax-a11y-motion`. The widget can set that variable to zero. |
+| Letter spacing | `ax-tracking-*` never reduces the letter spacing set by the widget. |
+| Target sizes | `ax-min-h-target`, `ax-min-w-target`, and `ax-size-target` use the widget target size. It ranges from 24px to 44px. |
+| Focus ring | `ax-outline-focus-ring` uses the widget focus width, offset, and focus color. |
 | Arbitrary values | Does not support values such as `p-[13px]`. Override a token or use a CSS variable instead. |
 | Build model | Does not use a JIT compiler. It scans content for class names. |
 
@@ -193,18 +234,18 @@ The widget stores only non-default settings. It removes an attribute when its va
 
 | Attribute | Values | Effect | Related WCAG criterion |
 |---|---|---|---|
-| `data-a11y-text` | `100` (default), `115`, `130`, `150`, `175`, `200` | Scales the root font size. Rem-based type, spacing, and the grid scale with it. | 1.4.4 Resize Text |
-| `data-a11y-theme` | `auto` (default), `light`, `dark` | Selects the system, light, or dark theme. `auto` follows `prefers-color-scheme`. | 1.4.3 Contrast (Minimum); 1.4.11 Non-text Contrast |
-| `data-a11y-contrast` | `auto` (default), `normal`, `high` | Selects the standard or high-contrast palette. `auto` follows the operating system contrast preference. | 1.4.3 Contrast (Minimum); 1.4.6 Contrast (Enhanced); 1.4.11 Non-text Contrast |
-| `data-a11y-font` | `default` (default), `readable`, `dyslexic` | Changes the body font. Readable and dyslexic stacks include local fallbacks. | 1.4.8 Visual Presentation (related) |
-| `data-a11y-saturation` | `normal` (default), `low`, `gray` | Applies full, low, or grayscale saturation to site content. The widget is excluded. | 1.4.1 Use of Color (related) |
-| `data-a11y-motion` | `auto` (default), `reduce`, `allow` | `reduce` stops animation and transitions. `auto` follows `prefers-reduced-motion`. `allow` overrides that operating system preference. | 2.2.2 Pause, Stop, Hide; 2.3.3 Animation from Interactions |
-| `data-a11y-spacing` | `off` (default), `on` | Sets a 1.8 line height, 0.12em letter spacing, 0.16em word spacing, and 2em paragraph spacing. | 1.4.12 Text Spacing |
-| `data-a11y-align` | `off` (default), `left` | Aligns headings and common text blocks to the left. | 1.4.8 Visual Presentation (related) |
-| `data-a11y-links` | `off` (default), `underline` | Underlines links and gives them a contrasting highlight. Widget links are excluded. | 1.4.1 Use of Color (related) |
-| `data-a11y-focus` | `off` (default), `strong` | Increases the focus outline to 5px with a 3px offset. | 2.4.7 Focus Visible; 2.4.13 Focus Appearance |
-| `data-a11y-target` | `off` (default), `large` | Sets most interactive targets to at least 44 by 44 pixels. Checkboxes and radio buttons become 1.5rem square. | 2.5.8 Target Size (Minimum); 2.5.5 Target Size (Enhanced) |
-| `data-a11y-cursor` | `off` (default), `large` | Uses a custom 48 by 48 pixel cursor. | No direct success criterion; related motor-accessibility support |
+| `data-ax-text` | `100` (default), `115`, `130`, `150`, `175`, `200` | Scales the root font size. Rem-based type, spacing, and the grid scale with it. | 1.4.4 Resize Text |
+| `data-ax-theme` | `auto` (default), `light`, `dark` | Selects the system, light, or dark theme. `auto` follows `prefers-color-scheme`. | 1.4.3 Contrast (Minimum); 1.4.11 Non-text Contrast |
+| `data-ax-contrast` | `auto` (default), `normal`, `high` | Selects the standard or high-contrast palette. `auto` follows the operating system contrast preference. | 1.4.3 Contrast (Minimum); 1.4.6 Contrast (Enhanced); 1.4.11 Non-text Contrast |
+| `data-ax-font` | `default` (default), `readable`, `dyslexic` | Changes the body font. Readable and dyslexic stacks include local fallbacks. | 1.4.8 Visual Presentation (related) |
+| `data-ax-saturation` | `normal` (default), `low`, `gray` | Applies full, low, or grayscale saturation to site content. The widget is excluded. | 1.4.1 Use of Color (related) |
+| `data-ax-motion` | `auto` (default), `reduce`, `allow` | `reduce` stops animation and transitions. `auto` follows `prefers-reduced-motion`. `allow` overrides that operating system preference. | 2.2.2 Pause, Stop, Hide; 2.3.3 Animation from Interactions |
+| `data-ax-spacing` | `off` (default), `on` | Sets a 1.8 line height, 0.12em letter spacing, 0.16em word spacing, and 2em paragraph spacing. | 1.4.12 Text Spacing |
+| `data-ax-align` | `off` (default), `left` | Aligns headings and common text blocks to the left. | 1.4.8 Visual Presentation (related) |
+| `data-ax-links` | `off` (default), `ax-underline` | Underlines links and gives them a contrasting highlight. Widget links are excluded. | 1.4.1 Use of Color (related) |
+| `data-ax-focus` | `off` (default), `strong` | Increases the focus outline to 5px with a 3px offset. | 2.4.7 Focus Visible; 2.4.13 Focus Appearance |
+| `data-ax-target` | `off` (default), `large` | Sets most interactive targets to at least 44 by 44 pixels. Checkboxes and radio buttons become 1.5rem square. | 2.5.8 Target Size (Minimum); 2.5.5 Target Size (Enhanced) |
+| `data-ax-cursor` | `off` (default), `large` | Uses a custom 48 by 48 pixel cursor. | No direct success criterion; related motor-accessibility support |
 
 Forced-colors mode is handled separately through the `forced-colors: active` media query.
 
@@ -238,18 +279,18 @@ WCAG 3 is still a W3C draft. Point `WCAG_SOURCE` at a newer W3C data file when o
 
 The token definitions are in `src/tokens.mjs`.
 
-- `--a11y-*` contains the text scale, line height, letter spacing, word spacing, paragraph spacing, body and monospace fonts, focus width and offset, minimum target size, and motion multiplier.
-- `--spacing` is the base spacing unit. It is `0.25rem`.
-- `--space-*` follows the spacing scale (a dot becomes an underscore, so `0.5` is `--space-0_5`): `0`, `px`, `0.5`, `1`, `1.5`, `2`, `2.5`, `3`, `3.5`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `11`, `12`, `14`, `16`, `20`, `24`, `28`, `32`, `36`, `40`, `44`, `48`, `52`, `56`, `60`, `64`, `72`, `80`, and `96`.
-- `--text-*` contains type sizes and line heights from `xs` through `9xl`.
-- `--radius-*` contains border radii from `none` through `full`.
-- `--shadow-*` contains shadows from `2xs` through `2xl`, plus `inner` and `none`.
-- `--duration-fast`, `--duration-base`, and `--duration-slow` are named component durations. Each one already includes `--a11y-motion`.
-- `--ease-*` contains `linear`, `in`, `out`, `in-out`, and `spring`.
-- `--space-fluid-*` contains fluid spacing from `2xs` through `3xl`.
-- `--color-*` contains semantic colors used by the four themes: `light`, `dark`, `high-light`, and `high-dark`.
+- `--ax-a11y-*` contains the text scale, line height, letter spacing, word spacing, paragraph spacing, body and monospace fonts, focus width and offset, minimum target size, and motion multiplier.
+- `--ax-spacing` is the base spacing unit. It is `0.25rem`.
+- `--ax-space-*` follows the spacing scale (a dot becomes an underscore, so `0.5` is `--ax-space-0_5`): `0`, `px`, `0.5`, `1`, `1.5`, `2`, `2.5`, `3`, `3.5`, `4`, `5`, `6`, `7`, `8`, `9`, `10`, `11`, `12`, `14`, `16`, `20`, `24`, `28`, `32`, `36`, `40`, `44`, `48`, `52`, `56`, `60`, `64`, `72`, `80`, and `96`.
+- `--ax-text-*` contains type sizes and line heights from `xs` through `9xl`.
+- `--ax-radius-*` contains border radii from `none` through `full`.
+- `--ax-shadow-*` contains shadows from `2xs` through `2xl`, plus `inner` and `none`.
+- `--ax-duration-fast`, `--ax-duration-base`, and `--ax-duration-slow` are named component durations. Each one already includes `--ax-a11y-motion`.
+- `--ax-ease-*` contains `linear`, `in`, `out`, `in-out`, and `spring`.
+- `--ax-space-fluid-*` contains fluid spacing from `2xs` through `3xl`.
+- `--ax-color-*` contains semantic colors used by the four themes: `light`, `dark`, `high-light`, and `high-dark`.
 
-The color tokens are `bg`, `surface`, `surface-2`, `text`, `muted`, `primary`, `primary-hover`, `on-primary`, `link`, `border`, `focus`, `danger`, `success`, `warning`, `highlight`, and `on-highlight`.
+The color tokens are `bg`, `surface`, `surface-2`, `text`, `muted`, `primary`, `primary-hover`, `on-primary`, `link`, `ax-border`, `focus`, `danger`, `success`, `warning`, `highlight`, and `on-highlight`.
 
 Tested text pairs meet 4.5:1 contrast. High-contrast text pairs meet 7:1. Tested border, focus, and primary colors meet 3:1.
 
@@ -268,25 +309,25 @@ The main groups are:
 - Semantic color utilities for text, background, border, outline, fill, stroke, accent, and caret colors.
 - Border, radius, shadow, opacity, transition, duration, delay, easing, and transform utilities.
 - Interaction utilities for cursor, pointer events, selection, appearance, and resizing.
-- Accessibility utilities such as `sr-only`, `not-sr-only`, and `outline-focus-ring`.
+- Accessibility utilities such as `ax-sr-only`, `ax-not-sr-only`, and `ax-outline-focus-ring`.
 
 State variants include `hover:`, `focus:`, `focus-visible:`, `focus-within:`, `active:`, `disabled:`, `group-hover:`, and `group-focus-within:`.
 
 ## Grid
 
-`src/grid.css` comes from the andrewrico Eleventy site. It ships unchanged in the `components` layer.
+`src/grid.css` is the andrewrico Eleventy file, byte for byte. The build renames its classes and variables to the naming standard (`grid__wrapper` → `ax-grid-wrapper`, `--column-desktop` → `--ax-grid-column-desktop`); values and structure are untouched, and a test checks that.
 
 It provides:
 
-- `grid__section`
-- `grid__wrapper`
-- `grid__column`
-- `grid__row`
-- `grid__title`
-- `--column-mobile`
-- `--column-table`
-- `--column-laptop`
-- `--column-desktop`
+- `ax-grid-section`
+- `ax-grid-wrapper`
+- `ax-grid-column`
+- `ax-grid-row`
+- `ax-grid-title`
+- `--ax-grid-column-mobile`
+- `--ax-grid-column-table`
+- `--ax-grid-column-laptop`
+- `--ax-grid-column-desktop`
 
 The grid is already efficient. It has one rule per breakpoint. Each rule reads a variable and uses earlier breakpoint values as fallbacks.
 
@@ -294,25 +335,25 @@ Tailwind utilities override the grid on the same element because utilities are i
 
 ### Atomic grid
 
-`src/grid.styles.js` is the same grid as strict atomic styles: same variables (`--column-mobile`, `--column-table`, `--column-laptop`, `--column-desktop`, `--gap`, `--padding`...), same values, same breakpoints. A browser test renders both side by side and compares computed styles at 390, 1024, 1100, 1300 and 1500px.
+`src/grid.styles.js` is the same grid as strict atomic styles: same variables (`--ax-grid-column-mobile`, `--ax-grid-column-table`, `--ax-grid-column-laptop`, `--ax-grid-column-desktop`, `--ax-grid-gap`, `--ax-grid-padding`...), same values, same breakpoints. A browser test renders both side by side and compares computed styles at 390, 1024, 1100, 1300 and 1500px.
 
 ```js
 import {grid} from 'a11y-atomic/grid';
 import {classes} from 'a11y-atomic/atomic';
-wrapper.className = classes(grid.wrapper);       // = grid__wrapper
-next.className = classes(grid.wrapper, grid.wrapperNext); // = .grid__wrapper + .grid__wrapper
+wrapper.className = classes(grid.wrapper);       // = ax-grid-wrapper
+next.className = classes(grid.wrapper, grid.wrapperNext); // = .ax-grid-wrapper + .ax-grid-wrapper
 ```
 
-Two things the conversion found in `grid.css` (kept as-is so behaviour is identical): sections set `padding-top`/`padding-bottom` and then `padding` overrides both, so `--padding-top`/`--padding-bottom` never apply; and `.grid__row` computes `padding-bottom: calc(var(--gap) * 2px)`, which is invalid (length × length), so rows get no bottom padding.
+Two things the conversion found in `grid.css` (kept as-is so behaviour is identical): sections set `padding-top`/`padding-bottom` and then `padding` overrides both, so `--ax-grid-padding-top`/`--ax-grid-padding-bottom` never apply; and `.ax-grid-row` computes `padding-bottom: calc(var(--ax-grid-gap) * 2px)`, which is invalid (length × length), so rows get no bottom padding.
 
 ```html
-<section class="grid__section">
-  <h2 class="grid__title">Title</h2>
+<section class="ax-grid-section">
+  <h2 class="ax-grid-title">Title</h2>
 
-  <div class="grid__wrapper lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4">
-    <div class="grid__row">Introduction</div>
-    <div class="grid__column">One</div>
-    <div class="grid__column">Two</div>
+  <div class="ax-grid-wrapper lg:ax-grid-cols-2 xl:ax-grid-cols-3 2xl:ax-grid-cols-4 ax-gap-4">
+    <div class="ax-grid-row">Introduction</div>
+    <div class="ax-grid-column">One</div>
+    <div class="ax-grid-column">Two</div>
   </div>
 </section>
 ```
@@ -320,7 +361,7 @@ Two things the conversion found in `grid.css` (kept as-is so behaviour is identi
 Order utilities work with the grid.
 
 ```html
-<div class="grid__column order-first lg:order-none">
+<div class="ax-grid-column ax-order-first lg:ax-order-none">
   Content
 </div>
 ```
@@ -328,7 +369,7 @@ Order utilities work with the grid.
 Use span utilities for grid placement.
 
 ```html
-<div class="grid__column col-span-full lg:col-span-2">
+<div class="ax-grid-column ax-col-span-full lg:ax-col-span-2">
   Content
 </div>
 ```
@@ -340,12 +381,12 @@ The mobile grid has one column. A span above 1 on that grid creates extra tracks
 | Framework | Idea used in `a11y-atomic` |
 |---|---|
 | Tailwind | Class syntax, variants, spacing scale, and cascade layers. |
-| Bootstrap | `stretched-link` makes the whole card clickable. The focus ring is drawn around the card. The parent needs `relative`. |
-| Every Layout | The switcher uses two class sets. The parent uses `flex flex-wrap`. Children use `grow basis-switch`. The threshold is `--switch-at`, with a default of `30rem`. It uses rem, so larger text stacks sooner. |
-| Utopia | Fluid space tokens run from `--space-fluid-2xs` to `--space-fluid-3xl`. Classes include `p-fluid-m`, `px-fluid-*`, `py-fluid-*`, `pt-fluid-*`, `pb-fluid-*`, `m-fluid-*`, `my-fluid-*`, `mt-fluid-*`, `mb-fluid-*`, and `gap-fluid-*`. Fluid spacing grows from 320px to 1440px. |
-| Open Props | `ease-spring` uses a `linear()` easing curve. The framework also provides `ease-linear`, `ease-in`, `ease-out`, and `ease-in-out`. |
-| Material Design | State layers use `hover:wash-8`, `focus-visible:wash-12`, and `active:wash-16`. Each layer uses a `currentColor` overlay, so it works on any background. |
-| Pico CSS | Native controls are themed. `accent-primary` applies the primary accent color. Each theme sets `color-scheme`. The framework provides a styled base instead of a stripped reset. |
+| Bootstrap | `ax-stretched-link` makes the whole card clickable. The focus ring is drawn around the card. The parent needs `ax-relative`. |
+| Every Layout | The switcher uses two class sets. The parent uses `ax-flex ax-flex-wrap`. Children use `ax-grow ax-basis-switch`. The threshold is `--ax-switch-at`, with a default of `30rem`. It uses rem, so larger text stacks sooner. |
+| Utopia | Fluid space tokens run from `--ax-space-fluid-2xs` to `--ax-space-fluid-3xl`. Classes include `ax-p-fluid-m`, `ax-px-fluid-*`, `ax-py-fluid-*`, `ax-pt-fluid-*`, `ax-pb-fluid-*`, `ax-m-fluid-*`, `ax-my-fluid-*`, `ax-mt-fluid-*`, `ax-mb-fluid-*`, and `ax-gap-fluid-*`. Fluid spacing grows from 320px to 1440px. |
+| Open Props | `ax-ease-spring` uses a `linear()` easing curve. The framework also provides `ax-ease-linear`, `ax-ease-in`, `ax-ease-out`, and `ax-ease-in-out`. |
+| Material Design | State layers use `hover:ax-wash-8`, `focus-visible:ax-wash-12`, and `active:ax-wash-16`. Each layer uses a `currentColor` overlay, so it works on any background. |
+| Pico CSS | Native controls are themed. `ax-accent-primary` applies the primary accent color. Each theme sets `color-scheme`. The framework provides a styled base instead of a stripped reset. |
 
 ## Only what the page loads
 
@@ -353,11 +394,11 @@ Each page gets a shared core plus only its own classes:
 
 | Part | What | Size (demo page) |
 |---|---|---|
-| `a11y-core.css` | Layer order, tokens and themes, base, widget modes. Same on every page, so the browser caches it once. | 13 KB |
-| Inline `<style data-a11y-page>` in `<head>` | Only the Tailwind classes, atomic classes and grid rules found in **this page's** HTML. `grid.css` is left out when the page does not use the grid. | 9 KB |
+| `a11y-core.css` | Layer order, tokens and themes, base, widget modes. Same on every page, so the browser caches it once. | 14 KB |
+| Inline `<style data-ax-page>` in `<head>` | Only the Tailwind classes, atomic classes and grid rules found in **this page's** HTML. `grid.css` is left out when the page does not use the grid. | 15 KB (incl. four variable utilities) |
 | Widget / JS-rendered atomic styles | Injected at runtime, only for classes actually rendered, and only if the page CSS does not already have them (checked before the widget paints, so no flash). | — |
 
-Compared with the 465 KB full bundle. A browser test serves the demo this way and checks every element's computed styles match the full bundle (desktop, mobile, and high contrast at 200% text).
+Compared with the 555 KB full bundle. A browser test serves the demo this way and checks every element's computed styles match the full bundle (desktop, mobile, and high contrast at 200% text).
 
 ```sh
 npx a11y-atomic --pages "_site/**/*.html" --core css/a11y-core.css --styles "src/**/*.styles.js"
@@ -395,7 +436,7 @@ customElements.define('my-card', class extends AtomicElement {
 | Piece | How |
 |---|---|
 | One shared sheet | `adopt()` attaches a single constructable stylesheet to every shadow root: base essentials, the widget modes, and the atomic rules in use (updated as new classes are used). |
-| Modes inside shadows | Document selectors are rewritten for the host (`:root[data-a11y-theme="dark"] .x` → `:host([data-a11y-theme="dark"]) .x`), and each host mirrors `<html>`'s `data-a11y-*` attributes, so it works in every browser without `:host-context()`. |
+| Modes inside shadows | Document selectors are rewritten for the host (`:root[data-ax-theme="dark"] .x` → `:host([data-ax-theme="dark"]) .x`), and each host mirrors `<html>`'s `data-ax-*` attributes, so it works in every browser without `:host-context()`. |
 | Tokens and text size | Inherit through the boundary on their own (variables and `rem`). |
 | Saturation | Not repeated inside shadows: the page-level filter already covers them. |
 | The widget | `mount({shadow: true})` renders the widget in its own shadow root, isolated from site CSS. Outside-click detection uses `composedPath()`. |
@@ -514,10 +555,10 @@ Use one method, not both.
 
 ### Manual attributes
 
-Set `data-a11y-*` attributes directly on `<html>`.
+Set `data-ax-*` attributes directly on `<html>`.
 
 ```html
-<html lang="en" data-a11y-text="150" data-a11y-theme="dark">
+<html lang="en" data-ax-text="150" data-ax-theme="dark">
 ```
 
 ### CSS variable overrides
@@ -526,8 +567,8 @@ Override framework variables in CSS.
 
 ```css
 :root {
-  --spacing: 0.3rem;
-  --a11y-target-min: 44px;
+  --ax-spacing: 0.3rem;
+  --ax-a11y-target-min: 44px;
 }
 ```
 
@@ -535,15 +576,15 @@ A variable can also be scoped to one element.
 
 ```css
 .card {
-  --spacing: 0.2rem;
+  --ax-spacing: 0.2rem;
 }
 ```
 
 ## Performance
 
-The measured full bundle is 463 KB raw and 55 KB gzipped (minified). It contains 1,359 utilities and builds in about 30 ms. Use it for prototyping.
+The measured full bundle is 555 KB raw and about 60 KB gzipped (minified): 1,359 utilities, 37 variable utilities and the atomic layer, built in about 35 ms. Use it for prototyping. On the real andrewrico site (628 pages) the per-page build ran in about 2 seconds, with 2.3 KB inline per page on average plus the shared core.
 
-The demo page produces 28 KB of content-scanned CSS (Tailwind classes it uses plus every atomic rule). Its build takes about 15 ms.
+The demo page produces about 41 KB of content-scanned CSS (one file for the whole site, scanned from its pages).
 
 The browser test confirms that the content-scanned CSS and the full bundle produce identical computed styles on desktop and mobile.
 
@@ -558,8 +599,8 @@ Mounts the widget and returns its control object.
 | `position` | `"bottom-right" \| "bottom-left"` | `"bottom-right"` | Places the widget at the bottom of the page. |
 | `shortcut` | `boolean` | `true` | Enables `Alt+Shift+A` to open or close the widget. Set it to `false` to disable the shortcut. |
 | `storage` | Storage-like object | `localStorage` | Stores non-default settings. |
-| `root` | Element | `document.documentElement` | Receives the `data-a11y-*` attributes. |
-| `container` | Element | `document.body` | Receives the widget element. |
+| `root` | Element | `document.documentElement` | Receives the `data-ax-*` attributes. |
+| `ax-container` | Element | `document.body` | Receives the widget element. |
 | `title` | `string` | `"Accessibility"` | Sets the visible and accessible widget title. |
 | `document` | Document | Current document | Selects the document used by the widget. |
 
@@ -587,14 +628,14 @@ console.log(widget.state);
 
 ### Change event
 
-The widget dispatches an `a11y:change` event after a setting changes. It also dispatches the event when a setting is set through the API or all settings are reset.
+The widget dispatches an `ax:change` event after a setting changes. It also dispatches the event when a setting is set through the API or all settings are reset.
 
 The event bubbles. Its `detail` property contains the current state.
 
 ```js
 const widget = mount();
 
-widget.element.addEventListener("a11y:change", event => {
+widget.element.addEventListener("ax:change", event => {
   console.log(event.detail);
 });
 ```
@@ -604,7 +645,7 @@ widget.element.addEventListener("a11y:change", event => {
 The module also exports helpers that do not mount the widget:
 
 - `sanitize(input)`: Keeps known keys and allowed values. It fills missing or invalid values with defaults.
-- `applySettings(root, input)`: Sanitizes a state, updates the `data-a11y-*` attributes on `root`, and returns the state.
+- `applySettings(root, input)`: Sanitizes a state, updates the `data-ax-*` attributes on `root`, and returns the state.
 - `loadState(storage)`: Loads and sanitizes the saved state.
 - `saveState(storage, state)`: Stores only non-default values. It returns `false` when storage is unavailable.
 - `SETTINGS`: The setting definitions and allowed options.
@@ -634,7 +675,7 @@ npm run dev
 
 `npm test` runs the unit tests: contrast of every token pair in all themes, Tailwind class names and values, variants, layers, the content scan, the Eleventy plugin, the widget state helpers and the WCAG mapping.
 
-`npm run test:browser` runs 72 Chromium checks: axe-core (WCAG 2.2 A/AA) in 6 theme and mode states with the widget open, keyboard flow, persistence, reflow at 320px with 200% text, grid columns per breakpoint, `large-text:` and the switcher at 200% text, the stretched link, OS preference fallbacks, identical computed styles between the content-scanned CSS and the full bundle, the atomic grid against `grid.css` at five widths, per-page builds against the full bundle, and web components / shadow DOM.
+`npm run test:browser` runs 78 Chromium checks: axe-core (WCAG 2.2 A/AA) in 6 theme and mode states with the widget open, keyboard flow, persistence, reflow at 320px with 200% text, grid columns per breakpoint, `large-text:` and the switcher at 200% text, the stretched link, OS preference fallbacks, identical computed styles between the content-scanned CSS and the full bundle, the atomic grid against `grid.css` at five widths, per-page builds against the full bundle, web components / shadow DOM, and variable utilities (breakpoints, large text, hover, no inheritance, `revert-layer` fallback).
 
 `npm run check` runs both test commands. `npm run wcag:sync` checks for W3C rule changes.
 

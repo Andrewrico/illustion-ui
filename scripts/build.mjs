@@ -269,6 +269,56 @@ export function utilities() {
   return u;
 }
 
+// ---------- variable utilities (andrewrico grid.css pattern, framework-wide) ----------
+// One class per property reads a chain of variables, one per breakpoint, each
+// falling back to the one below — exactly how grid.css picks columns. Any value,
+// any breakpoint, no class per value:
+//   <div class="ax--p ax--cols" style="--ax--p: 1rem; --ax--p-lg: 2rem; --ax--cols-lg: repeat(3, 1fr); --ax--cols-large: 1fr">
+// --ax--KEY-large applies when the reader picks 150%+ text; --ax--KEY-hover for colours.
+// Unset everywhere → revert-layer, as if the class were absent. Variables are
+// registered with inherits: false, so a parent's value never leaks into a child.
+export const VAR_UTILITIES = {
+  p: 'padding', px: 'padding-inline', py: 'padding-block', pt: 'padding-top', pr: 'padding-right', pb: 'padding-bottom', pl: 'padding-left',
+  m: 'margin', mx: 'margin-inline', my: 'margin-block', mt: 'margin-top', mb: 'margin-bottom', gap: 'gap',
+  w: 'width', h: 'height', 'min-w': 'min-width', 'max-w': 'max-width', 'min-h': 'min-height',
+  display: 'display', flow: 'flex-direction', wrap: 'flex-wrap', items: 'align-items', justify: 'justify-content',
+  basis: 'flex-basis', grow: 'flex-grow', order: 'order', cols: 'grid-template-columns', rows: 'grid-template-rows', span: 'grid-column',
+  text: 'font-size', leading: 'line-height', weight: 'font-weight', align: 'text-align',
+  fg: 'color', bg: 'background-color', bd: 'border-color', radius: 'border-radius', shadow: 'box-shadow', opacity: 'opacity',
+};
+const HOVERABLE = new Set(['fg', 'bg', 'bd', 'shadow', 'opacity']);
+const LARGE_TEXT = ':root:is([data-ax-text="150"], [data-ax-text="175"], [data-ax-text="200"]) ';
+
+/**
+ * Rules for one variable utility — every rule has one declaration. The breakpoint
+ * chain resolves once into --ax--KEY-now (like grid.css's per-breakpoint rules),
+ * so large-text and hover each need a single short rule.
+ */
+export function varUtility(key) {
+  const prop = VAR_UTILITIES[key];
+  const v = suffix => `--${PREFIX}--${key}${suffix}`;
+  const cls = `.${PREFIX}--${key}`;
+  const steps = ['', ...Object.keys(tokens.breakpoints).map(b => `-${b}`)];
+  const vars = [...steps, '-now', '-large', ...(HOVERABLE.has(key) ? ['-hover'] : [])];
+  const out = vars.map(suffix => ({property: `@property ${v(suffix)} { syntax: "*"; inherits: false; }`}));
+  steps.forEach((suffix, i) => {
+    const bp = suffix.slice(1);
+    const chain = steps.slice(1, i + 1).reverse().reduceRight((fb, sf) => `var(${v(sf)}, ${fb})`, `var(${v('')})`);
+    const css = `${cls} { ${v('-now')}: ${chain}; }`;
+    out.push({css: bp ? `@media (min-width: ${tokens.breakpoints[bp]}) { ${css} }` : css});
+  });
+  out.push({css: `${cls} { ${prop}: var(${v('-now')}, revert-layer); }`});
+  out.push({css: `${LARGE_TEXT}${cls} { ${prop}: var(${v('-large')}, var(${v('-now')}, revert-layer)); }`});
+  if (HOVERABLE.has(key)) out.push({css: `${cls}:hover { ${prop}: var(${v('-hover')}, var(${v('-now')}, revert-layer)); }`});
+  return out;
+}
+
+function varUtilitiesCss(used) {
+  const keys = Object.keys(VAR_UTILITIES).filter(k => !used || used.has(`${PREFIX}--${k}`));
+  const rules = keys.flatMap(varUtility);
+  return {css: rules.filter(r => r.css).map(r => r.css).join('\n'), properties: rules.filter(r => r.property).map(r => r.property).join('\n')};
+}
+
 // Rules that need a pseudo-element or child selector, keyed by class name.
 const SPECIAL = {
   'stretched-link': s => `${s}::after { content: ""; position: absolute; inset: 0; z-index: 1; }\n${s}:focus-visible { outline: none; }\n${s}:focus-visible::after { outline: var(--ax-a11y-focus-width) solid var(--ax-color-focus); outline-offset: var(--ax-a11y-focus-offset); }`,
@@ -353,11 +403,12 @@ export async function build({content, styles, cwd} = {}) {
   return [
     `/*! a11y-atomic v${pkg.version} | MIT | Tailwind-compatible atomic CSS on accessibility tokens */`,
     '@layer theme, base, components, atomic, utilities, a11y;',
+    varUtilitiesCss(used).properties,
     layer('theme', themeCss()),
     layer('base', await read('base.css')),
     layer('components', `/* src/grid.css (andrewrico eleventy grid) with standard names */\n${standardizeGrid(await read('grid.css'))}`),
     layer('atomic', atomicRules().map(r => r.css).join('\n')),
-    layer('utilities', utilitiesCss(used)),
+    layer('utilities', `${utilitiesCss(used)}\n/* variable utilities */\n${varUtilitiesCss(used).css}`),
     layer('a11y', await read('modes.css')),
   ].join('\n\n') + '\n';
 }
@@ -381,8 +432,10 @@ export async function buildPage(html, {styles, cwd} = {}) {
   if ([...used].some(t => t.startsWith(`${PREFIX}-grid-`))) parts.push(layer('components', standardizeGrid(await read('grid.css'))));
   const atomic = atomicRules().filter(r => used.has(r.className));
   if (atomic.length) parts.push(layer('atomic', atomic.map(r => r.css).join('\n')));
-  const util = utilitiesCss(used);
+  const vu = varUtilitiesCss(used);
+  const util = `${utilitiesCss(used)}\n${vu.css}`;
   if (util.trim()) parts.push(layer('utilities', util));
+  if (vu.properties) parts.unshift(vu.properties);
   return minify(parts.join('\n'));
 }
 
