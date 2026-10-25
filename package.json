@@ -20,11 +20,13 @@
   "exports": {
     ".": "./dist/a11y-atomic.css",
     "./min": "./dist/a11y-atomic.min.css",
+    "./core": "./dist/a11y-core.css",
     "./init": "./dist/a11y-init.js",
     "./widget": "./src/widget.js",
     "./atomic": "./src/atomic.js",
     "./vars": "./src/vars.js",
     "./grid": "./src/grid.styles.js",
+    "./shadow": "./src/shadow.js",
     "./auto": "./src/auto.js",
     "./tokens": "./src/tokens.mjs",
     "./build": "./scripts/build.mjs",

@@ -2,8 +2,9 @@
 // Settings become data-a11y-<key> attributes on <html>; the CSS framework reads
 // them. Pure helpers (sanitize/apply/load/save) work without a DOM for tests.
 
-import {classes as cx} from './atomic.js';
+import {classes as cx, inject} from './atomic.js';
 import {styles as st} from './widget.styles.js';
+import {adopt} from './shadow.js';
 
 export const STORAGE_KEY = 'a11y-atomic';
 
@@ -81,7 +82,8 @@ let uid = 0;
 /**
  * Render the widget and wire it up. Returns {open, close, reset, state, destroy}.
  * Options: position ('bottom-right' | 'bottom-left'), shortcut (true: Alt+Shift+A),
- * storage (default localStorage), root (default <html>), title.
+ * storage (default localStorage), root (default <html>), title,
+ * shadow (true: render inside a shadow root, isolated from the site's CSS).
  */
 export function mount(options = {}) {
   const doc = options.document || document;
@@ -112,7 +114,30 @@ export function mount(options = {}) {
       </div>
       <p class="${sr}" aria-live="polite" data-a11y-status></p>
     </section>`;
-  (options.container || doc.body).append(el);
+  const container = options.container || doc.body;
+  let host = null;
+  if (options.shadow) {
+    // Isolated from site CSS; adopt() brings in the atomic rules this widget uses.
+    host = doc.createElement('div');
+    host.className = 'a11y-widget';
+    el.classList.remove('a11y-widget');
+    const shadow = host.attachShadow({mode: 'open'});
+    adopt(shadow);
+    shadow.append(el);
+    container.append(host);
+  } else {
+    // Built CSS may not include the widget (per-page builds keep only classes found
+    // in the HTML). Check with an invisible probe BEFORE inserting the widget, and
+    // inject just the rules it uses, so it never paints unstyled or transitions in.
+    const probe = doc.createElement('span');
+    probe.className = cx(st.toggle);
+    probe.style.cssText = 'position:absolute;visibility:hidden;pointer-events:none';
+    doc.body.append(probe);
+    const styled = doc.defaultView?.getComputedStyle(probe).display === 'grid';
+    probe.remove();
+    if (!styled) inject(doc);
+    container.append(el);
+  }
 
   const toggle = el.querySelector('[data-part="toggle"]');
   const panel = el.querySelector('[data-part="panel"]');
@@ -165,7 +190,8 @@ export function mount(options = {}) {
   el.addEventListener('keydown', event => {
     if (event.key === 'Escape' && !panel.hidden) { event.preventDefault(); close(); }
   });
-  const onPointer = event => { if (!panel.hidden && !el.contains(event.target)) close(false); };
+  // composedPath() sees through shadow roots (event.target is retargeted to the host).
+  const onPointer = event => { if (!panel.hidden && !event.composedPath().includes(el)) close(false); };
   const onKey = event => {
     if (options.shortcut !== false && event.altKey && event.shiftKey && event.code === 'KeyA') {
       event.preventDefault();
@@ -177,10 +203,10 @@ export function mount(options = {}) {
   sync();
 
   return {
-    element: el, open, close, reset,
+    element: el, host, open, close, reset,
     get state() { return {...state}; },
     set(key, value) { commit({...state, [key]: value}); },
-    destroy() { doc.removeEventListener('pointerdown', onPointer); doc.removeEventListener('keydown', onKey); el.remove(); },
+    destroy() { doc.removeEventListener('pointerdown', onPointer); doc.removeEventListener('keydown', onKey); (host || el).remove(); },
   };
 }
 

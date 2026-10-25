@@ -6,7 +6,7 @@ import {spawn} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
 import {chromium} from 'playwright';
-import {build, minify} from './build.mjs';
+import {build, minify, buildCore, buildPage, inlinePage} from './build.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const port = Number(process.env.PORT || 8095);
@@ -232,6 +232,99 @@ try {
     const dir = await big.page.evaluate(() => getComputedStyle(document.getElementById('atomic-card')).flexDirection);
     expect(where, dir === 'column', `@large-text should stack the card, got ${dir}`);
     await big.context.close();
+  }
+  // 12. Per page: shared core + only this page's classes inline; the widget injects
+  //     just the rules it renders. Must look identical to the full bundle.
+  {
+    const where = 'per-page';
+    const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+    const pageCss = await buildPage(html);
+    const core = await buildCore();
+    const full = await readFile(new URL('../dist/a11y-atomic.css', import.meta.url), 'utf8');
+    const rewritten = inlinePage(html, pageCss, '/dist/a11y-core.css');
+    expect(where, !rewritten.includes('dist/a11y-atomic.css'), 'full bundle link should be removed');
+    console.log(`  per page: core ${(core.length / 1024).toFixed(1)} KB (cached) + page ${(pageCss.length / 1024).toFixed(1)} KB inline, vs full ${(full.length / 1024).toFixed(0)} KB`);
+    const signature = async page => page.evaluate(() => [...document.querySelectorAll('body *')].map(el => {
+      const c = getComputedStyle(el);
+      return `${el.tagName.toLowerCase()}#${el.id}.${String(el.className).slice(0, 40)} ` + [c.display, c.gridTemplateColumns, c.padding, c.margin, c.color, c.backgroundColor, c.fontSize, c.flexDirection, c.borderWidth, c.borderRadius, c.order].join('|');
+    }).join('\n'));
+    const firstDiff = (x, y) => { const a = x.split('\n'), b = y.split('\n'); const i = a.findIndex((l, k) => l !== b[k]); return i < 0 ? '' : `\n      full: ${a[i]}\n      page: ${b[i]}`; };
+    for (const [vp, label, state] of [[desktop, 'desktop'], [{viewport: {width: 390, height: 844}}, 'mobile'], [desktop, 'high-200', {contrast: 'high', text: '200'}]]) {
+      const a = await open(vp, `${where}/${label}`, state);
+      await a.page.evaluate(() => globalThis.a11yWidget.open());
+      await a.page.waitForTimeout(400); // let the open-state colour transition finish
+      const fullSig = await signature(a.page);
+      await a.context.close();
+      const context = await browser.newContext(vp);
+      if (state) await context.addInitScript(s => localStorage.setItem('a11y-atomic', s), JSON.stringify(state));
+      await context.route(base, route => route.fulfill({contentType: 'text/html', body: rewritten}));
+      await context.route('**/dist/a11y-core.css', route => route.fulfill({contentType: 'text/css', body: core}));
+      const page = await context.newPage();
+      page.on('pageerror', error => fail(`${where}/${label}`, error.message));
+      await page.goto(base);
+      await page.waitForFunction(() => globalThis.a11yWidget);
+      await page.evaluate(() => globalThis.a11yWidget.open());
+      await page.waitForTimeout(400);
+      const injected = await page.evaluate(() => document.querySelector('style[data-atomic-runtime]')?.textContent.split('\n').length - 2);
+      const pageSig = await signature(page);
+      expect(`${where}/${label}`, pageSig === fullSig, `computed styles differ from the full bundle${firstDiff(fullSig, pageSig)}`);
+      expect(`${where}/${label}`, injected > 50 && injected < 200, `widget should inject only its own rules, got ${injected}`);
+      await context.close();
+    }
+  }
+  // 13. Web components: styles, tokens and every mode reach into shadow roots; the
+  //     widget works when mounted in its own shadow root.
+  {
+    const where = 'shadow';
+    const context = await browser.newContext(desktop);
+    const page = await context.newPage();
+    page.on('pageerror', error => fail(where, error.message));
+    page.on('console', message => { if (message.type() === 'error') fail(where, message.text()); });
+    await page.goto(base + 'test/fixtures/shadow.html');
+    await page.waitForSelector('body[data-ready]');
+    const card = () => page.evaluate(() => {
+      const root = document.querySelector('a11y-card').shadowRoot;
+      const div = root.querySelector('div'), p = root.querySelector('p'), a = root.querySelector('a');
+      const c = getComputedStyle(div), pc = getComputedStyle(p), ac = getComputedStyle(a);
+      return {display: c.display, padding: c.paddingTop, dir: c.flexDirection, bg: c.backgroundColor, color: c.color, letter: pc.letterSpacing, linkBg: ac.backgroundColor};
+    });
+    const set = async (name, value) => { await page.evaluate(([n, v]) => v === null ? document.documentElement.removeAttribute(n) : document.documentElement.setAttribute(n, v), [name, value]); await page.waitForTimeout(60); };
+    let c = await card();
+    expect(where, c.display === 'flex' && c.padding === '24px' && c.dir === 'row', `atomic classes should style shadow content: ${JSON.stringify(c)}`);
+    expect(where, c.bg === 'rgb(243, 245, 248)', `tokens should inherit into shadow: ${c.bg}`);
+    await set('data-a11y-text', '200');
+    c = await card();
+    expect(where, c.dir === 'column' && c.padding === '48px', `@large-text and text size should apply inside shadow: ${c.dir} ${c.padding}`);
+    await set('data-a11y-spacing', 'on');
+    expect(where, (await card()).letter !== 'normal', 'text spacing mode should reach shadow text');
+    await set('data-a11y-theme', 'dark');
+    expect(where, (await card()).color === 'rgb(238, 241, 244)', 'dark theme should reach shadow content');
+    await set('data-a11y-links', 'underline');
+    expect(where, (await card()).linkBg !== 'rgba(0, 0, 0, 0)', 'highlight links should reach shadow links');
+    for (const n of ['data-a11y-text', 'data-a11y-spacing', 'data-a11y-theme', 'data-a11y-links']) await set(n, null);
+    expect(where, (await card()).dir === 'row', 'removing the attribute should be mirrored too');
+
+    // Widget mounted in a shadow root
+    const w = () => page.evaluate(() => {
+      const root = document.querySelector('div.a11y-widget').shadowRoot;
+      const t = root.querySelector('[data-part="toggle"]');
+      return {display: getComputedStyle(t).display, open: !root.querySelector('[data-part="panel"]').hidden, expanded: t.getAttribute('aria-expanded')};
+    });
+    expect(where, (await w()).display === 'grid', 'shadow widget should be styled');
+    await page.locator('div.a11y-widget [data-part="toggle"]').click();
+    expect(where, (await w()).open, 'shadow widget should open on click');
+    await page.locator('div.a11y-widget input[name="text"][value="150"]').check();
+    expect(where, await page.getAttribute('html', 'data-a11y-text') === '150', 'shadow widget should set modes on <html>');
+    await page.mouse.click(10, 10);
+    expect(where, !(await w()).open, 'click outside should close the shadow widget');
+    await page.locator('div.a11y-widget [data-part="toggle"]').click();
+    await page.keyboard.press('Escape');
+    expect(where, !(await w()).open && (await w()).expanded === 'false', 'Escape should close the shadow widget');
+    await page.addScriptTag({content: axeSource});
+    const result = await page.evaluate(() => globalThis.axe.run(document, {runOnly: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']}));
+    checks++;
+    for (const v of result.violations) fail(where, `axe ${v.id}: ${v.nodes.slice(0, 2).map(n => n.target.join(' ')).join(', ')}`);
+    await context.close();
   }
 } finally {
   await browser.close();

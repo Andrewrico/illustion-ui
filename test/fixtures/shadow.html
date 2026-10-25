@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web components and shadow DOM</title>
+  <link rel="stylesheet" href="/dist/a11y-core.css">
+</head>
+<body>
+  <main>
+    <h1>Shadow DOM</h1>
+    <a11y-card></a11y-card>
+  </main>
+  <script type="module">
+    import {AtomicElement} from '/src/shadow.js';
+    import {create, classes} from '/src/atomic.js';
+    import {vars} from '/src/vars.js';
+    import {mount} from '/src/widget.js';
+
+    const s = create({
+      card: {
+        display: 'flex', gap: vars.space[4], padding: vars.space[6], borderRadius: vars.radius.lg,
+        color: vars.color.text, backgroundColor: vars.color.surface,
+        flexDirection: {default: 'row', '@large-text': 'column'},
+      },
+    });
+    customElements.define('a11y-card', class extends AtomicElement {
+      connectedCallback() {
+        super.connectedCallback();
+        this.shadowRoot.innerHTML = `<div class="${classes(s.card)}"><span aria-hidden="true">◆</span><p>Inside a shadow root. <a href="#top">A link</a></p></div>`;
+      }
+    });
+    globalThis.a11yWidget = mount({shadow: true});
+    await new Promise(r => setTimeout(r));
+    document.body.dataset.ready = 'true';
+  </script>
+</body>
+</html>

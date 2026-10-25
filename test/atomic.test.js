@@ -81,3 +81,12 @@ test('props returns {className}', () => {
   const s = create({p: {display: 'flex'}});
   assert.deepEqual(Object.keys(props(s.p)), ['className']);
 });
+
+test('runtime tracks which classes a page actually uses', async () => {
+  const {used} = await import('../src/atomic.js');
+  const s = create({only: {letterSpacing: '0.01em'}});
+  const cls = Object.values(s.only)[0];
+  assert.ok(!used.has(cls));
+  classes(s.only);
+  assert.ok(used.has(cls));
+});

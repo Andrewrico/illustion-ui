@@ -114,3 +114,75 @@ test('Eleventy plugin writes scanned CSS after a build', async () => {
   assert.ok(out.includes('.grid-cols-2{grid-template-columns:repeat(2, minmax(0, 1fr))}') || out.includes('.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}'));
   assert.ok(!out.includes('.grid-cols-5{'));
 });
+
+test('per page: only the classes a page uses, grid.css only when the page uses the grid', async () => {
+  const {buildPage, buildCore} = await import('../scripts/build.mjs');
+  const small = await buildPage('<main class="flex p-4 hover:bg-primary"><p class="text-muted">Hi</p></main>');
+  for (const s of ['.flex{', '.p-4{', '.hover\\:bg-primary:hover', '.text-muted{']) assert.ok(small.includes(s), s);
+  assert.ok(!small.includes('.p-8{'));
+  assert.ok(!small.includes('grid__wrapper'), 'no grid.css without grid classes');
+  assert.ok(!small.includes('@layer atomic'), 'no atomic rules without atomic classes');
+  assert.ok(small.length < 1500, `${small.length} bytes`);
+  const withGrid = await buildPage('<div class="grid__wrapper"></div>');
+  assert.ok(withGrid.includes('grid__wrapper'));
+  const core = await buildCore();
+  assert.ok(core.startsWith('/*! a11y-atomic core') && core.includes('@layer theme,base,components,atomic,utilities,a11y'));
+  assert.ok(!core.includes('.flex{'), 'core has no utilities');
+});
+
+test('per page: atomic classes found in the HTML bring only their own rules', async () => {
+  const {buildPage, atomicRules} = await import('../scripts/build.mjs');
+  const [one, two] = atomicRules();
+  const page = await buildPage(`<div class="${one.className}"></div>`);
+  assert.ok(page.includes(`.${one.className}`));
+  assert.ok(!page.includes(`.${two.className}{`));
+});
+
+test('inlinePage swaps the full bundle for core + page style, and is idempotent', async () => {
+  const {inlinePage} = await import('../scripts/build.mjs');
+  const html = '<html><head><link rel="stylesheet" href="dist/a11y-atomic.css"></head><body></body></html>';
+  const once = inlinePage(html, '.flex{display:flex}', '/css/a11y-core.css');
+  assert.ok(!once.includes('a11y-atomic.css'));
+  assert.ok(once.includes('<link rel="stylesheet" href="/css/a11y-core.css" data-a11y-core><style data-a11y-page>.flex{display:flex}</style>'));
+  const twice = inlinePage(once, '.block{display:block}', '/css/a11y-core.css');
+  assert.equal(twice.match(/data-a11y-page/g).length, 1);
+  assert.ok(twice.includes('.block{display:block}') && !twice.includes('.flex{display:flex}'));
+});
+
+test('buildPages rewrites each page with its own CSS', async () => {
+  const {buildPages} = await import('../scripts/build.mjs');
+  const dir = await mkdtemp(path.join(tmpdir(), 'a11y-pages-'));
+  await writeFile(path.join(dir, 'a.html'), '<html><head></head><body class="flex"></body></html>');
+  await writeFile(path.join(dir, 'b.html'), '<html><head></head><body class="grid grid-cols-3"></body></html>');
+  const result = await buildPages(['*.html'], {cwd: dir});
+  const a = await readFile(path.join(dir, 'a.html'), 'utf8');
+  const b = await readFile(path.join(dir, 'b.html'), 'utf8');
+  assert.ok(a.includes('.flex{') && !a.includes('.grid-cols-3{'));
+  assert.ok(b.includes('.grid-cols-3{') && !b.includes('.flex{'));
+  assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).includes('--color-text'));
+  assert.equal(result.pages.length, 2);
+});
+
+test('Eleventy perPage transform inlines each page and writes the core', async () => {
+  const {default: plugin} = await import('../src/eleventy.js');
+  const dir = await mkdtemp(path.join(tmpdir(), 'a11y-11ty-pp-'));
+  let transform, after;
+  plugin({addTransform: (name, fn) => { transform = fn; }, on: (e, fn) => { if (e === 'eleventy.after') after = fn; }}, {perPage: true});
+  const out = await transform.call({page: {outputPath: path.join(dir, 'index.html')}}, '<html><head></head><body class="p-2"></body></html>');
+  assert.ok(out.includes('.p-2{') && out.includes('href="/css/a11y-core.css"'));
+  assert.equal(await transform.call({page: {outputPath: 'feed.xml'}}, '<rss/>'), '<rss/>');
+  await after({dir: {output: dir}});
+  assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).length > 1000);
+});
+
+test('shadow DOM: document selectors are rewritten for :host', async () => {
+  const {shadowSelector, toShadow} = await import('../src/shadow-css.js');
+  assert.equal(shadowSelector(':root[data-a11y-theme="dark"] .x1'), ':host([data-a11y-theme="dark"]) .x1');
+  assert.equal(shadowSelector(':root:not([data-a11y-motion="allow"]) *'), ':host(:not([data-a11y-motion="allow"])) *');
+  assert.equal(shadowSelector('[data-a11y-spacing="on"] body *'), ':host([data-a11y-spacing="on"]) *');
+  assert.equal(shadowSelector(':is([data-a11y-font="readable"], [data-a11y-font="dyslexic"]) body p'), ':host(:is([data-a11y-font="readable"], [data-a11y-font="dyslexic"])) p');
+  assert.equal(shadowSelector('.x1:hover'), '.x1:hover');
+  assert.equal(toShadow('@media print { [data-a11y-links="underline"] a, .y { color: red; } }'), '@media print { :host([data-a11y-links="underline"]) a, .y { color: red; } }');
+  const generated = (await import('../dist/a11y-shadow.js')).default;
+  assert.ok(generated.includes(':host([data-a11y-spacing="on"]) *') && !generated.includes('saturation') && !generated.includes(':root'));
+});

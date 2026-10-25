@@ -347,6 +347,61 @@ The mobile grid has one column. A span above 1 on that grid creates extra tracks
 | Material Design | State layers use `hover:wash-8`, `focus-visible:wash-12`, and `active:wash-16`. Each layer uses a `currentColor` overlay, so it works on any background. |
 | Pico CSS | Native controls are themed. `accent-primary` applies the primary accent color. Each theme sets `color-scheme`. The framework provides a styled base instead of a stripped reset. |
 
+## Only what the page loads
+
+Each page gets a shared core plus only its own classes:
+
+| Part | What | Size (demo page) |
+|---|---|---|
+| `a11y-core.css` | Layer order, tokens and themes, base, widget modes. Same on every page, so the browser caches it once. | 13 KB |
+| Inline `<style data-a11y-page>` in `<head>` | Only the Tailwind classes, atomic classes and grid rules found in **this page's** HTML. `grid.css` is left out when the page does not use the grid. | 9 KB |
+| Widget / JS-rendered atomic styles | Injected at runtime, only for classes actually rendered, and only if the page CSS does not already have them (checked before the widget paints, so no flash). | — |
+
+Compared with the 465 KB full bundle. A browser test serves the demo this way and checks every element's computed styles match the full bundle (desktop, mobile, and high contrast at 200% text).
+
+```sh
+npx a11y-atomic --pages "_site/**/*.html" --core css/a11y-core.css --styles "src/**/*.styles.js"
+```
+
+Rewrites each built page in place (removes any full-bundle `<link>`, adds the core link and the page's `<style>`; safe to run twice). Eleventy does it per page as it writes:
+
+```js
+eleventyConfig.addPlugin(a11yAtomic, {perPage: true, core: 'css/a11y-core.css', styles: ['src/**/*.styles.js']});
+```
+
+Node API: `buildCore()`, `buildPage(html)`, `inlinePage(html, css, coreHref)`, `buildPages(globs, options)`. In the browser, `inject()` keeps one `<style>` in step with the atomic classes the page has used (`inject(document, {all: true})` for every registered rule).
+
+## Web components and shadow DOM
+
+Shadow DOM blocks document stylesheets; CSS variables still inherit through it. `a11y-atomic/shadow` closes the gap:
+
+```js
+import {AtomicElement, adopt} from 'a11y-atomic/shadow';
+import {create, classes} from 'a11y-atomic/atomic';
+import {vars} from 'a11y-atomic/vars';
+
+const s = create({card: {padding: vars.space[6], flexDirection: {default: 'row', '@large-text': 'column'}}});
+
+customElements.define('my-card', class extends AtomicElement {
+  connectedCallback() {
+    super.connectedCallback();
+    this.shadowRoot.innerHTML = `<div class="${classes(s.card)}"><slot></slot></div>`;
+  }
+});
+
+// An existing component: adopt(this.shadowRoot)  ·  extra CSS: adopt(root, {css: await buildPage(template)})
+```
+
+| Piece | How |
+|---|---|
+| One shared sheet | `adopt()` attaches a single constructable stylesheet to every shadow root: base essentials, the widget modes, and the atomic rules in use (updated as new classes are used). |
+| Modes inside shadows | Document selectors are rewritten for the host (`:root[data-a11y-theme="dark"] .x` → `:host([data-a11y-theme="dark"]) .x`), and each host mirrors `<html>`'s `data-a11y-*` attributes, so it works in every browser without `:host-context()`. |
+| Tokens and text size | Inherit through the boundary on their own (variables and `rem`). |
+| Saturation | Not repeated inside shadows: the page-level filter already covers them. |
+| The widget | `mount({shadow: true})` renders the widget in its own shadow root, isolated from site CSS. Outside-click detection uses `composedPath()`. |
+
+The browser check styles a real custom element and verifies atomic classes, tokens, `@large-text`, text spacing, dark theme, highlighted links and attribute removal inside the shadow root, plus the shadow-mounted widget (open, set a mode, outside click, Escape, axe).
+
 ## Ways to connect
 
 ### CSS
@@ -377,7 +432,9 @@ The init script can be inlined. It must not use `defer` or `async`.
 | `a11y-atomic/min` | Minified CSS. |
 | `a11y-atomic/init` | The init script. |
 | `a11y-atomic/widget` | The widget and its state helpers. |
-| `a11y-atomic/atomic` | The atomic engine: `create`, `props`, `classes`. |
+| `a11y-atomic/atomic` | The atomic engine: `create`, `props`, `classes`, `inject`. |
+| `a11y-atomic/shadow` | `adopt`, `AtomicElement` for web components. |
+| `a11y-atomic/core` | The shared core CSS for per-page builds. |
 | `a11y-atomic/vars` | Token references for style objects. |
 | `a11y-atomic/grid` | The atomic grid styles. |
 | `a11y-atomic/auto` | The automatic widget entry point. |
@@ -577,7 +634,7 @@ npm run dev
 
 `npm test` runs the unit tests: contrast of every token pair in all themes, Tailwind class names and values, variants, layers, the content scan, the Eleventy plugin, the widget state helpers and the WCAG mapping.
 
-`npm run test:browser` runs 48 Chromium checks: axe-core (WCAG 2.2 A/AA) in 6 theme and mode states with the widget open, keyboard flow, persistence, reflow at 320px with 200% text, grid columns per breakpoint, `large-text:` and the switcher at 200% text, the stretched link, OS preference fallbacks, identical computed styles between the content-scanned CSS and the full bundle, and the atomic grid against `grid.css` at five widths.
+`npm run test:browser` runs 72 Chromium checks: axe-core (WCAG 2.2 A/AA) in 6 theme and mode states with the widget open, keyboard flow, persistence, reflow at 320px with 200% text, grid columns per breakpoint, `large-text:` and the switcher at 200% text, the stretched link, OS preference fallbacks, identical computed styles between the content-scanned CSS and the full bundle, the atomic grid against `grid.css` at five widths, per-page builds against the full bundle, and web components / shadow DOM.
 
 `npm run check` runs both test commands. `npm run wcag:sync` checks for W3C rule changes.
 

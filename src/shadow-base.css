@@ -1,0 +1,7 @@
+/* Base essentials inside shadow roots (document styles stop at the shadow boundary;
+   CSS variables, including every token, inherit through it). */
+*, *::before, *::after { box-sizing: border-box; border: 0 solid var(--color-border); }
+:focus-visible { outline: var(--a11y-focus-width) solid var(--color-focus); outline-offset: var(--a11y-focus-offset); }
+[hidden] { display: none !important; }
+a { color: var(--color-link); text-underline-offset: 0.15em; }
+input, button, select, textarea { font: inherit; letter-spacing: inherit; word-spacing: inherit; color: inherit; }

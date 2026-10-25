@@ -15,6 +15,8 @@
 import {VARIANTS} from './conditions.js';
 
 export const registry = new Map(); // className → {property, value, conditions, pseudoElement}
+export const used = new Set(); // classes actually returned by props()/classes() at runtime
+let live = null; // set by inject(): keep the injected <style> in step with `used`
 
 // Our own field: condition names the build turns into widget/OS-aware selectors.
 export const SHORTCUTS = ['@sm', '@md', '@lg', '@xl', '@2xl', '@dark', '@contrast-more', '@motion-safe', '@motion-reduce', '@large-text', '@text-spacing', '@forced-colors', '@print'];
@@ -105,7 +107,11 @@ export function props(...styles) {
       merged[key] = className;
     }
   }
-  return {className: Object.values(merged).join(' ')};
+  const names = Object.values(merged);
+  let added = false;
+  for (const name of names) if (!used.has(name)) { used.add(name); added = true; }
+  if (added && (live || listeners.size)) schedule();
+  return {className: names.join(' ')};
 }
 
 export const classes = (...styles) => props(...styles).className;
@@ -138,18 +144,41 @@ export function rules() {
   return out.sort((a, b) => { const i = cmp(a, b); return i < 0 ? 0 : a.order[i] - b.order[i]; });
 }
 
+let pending = false;
+const listeners = new Set();
+/** Call fn (batched, after the current task) whenever new classes start being used. Returns an unsubscribe. */
+export function onUse(fn) {
+  listeners.add(fn);
+  return () => listeners.delete(fn);
+}
+function schedule() {
+  if (pending) return;
+  pending = true;
+  queueMicrotask(() => {
+    pending = false;
+    if (live) write();
+    for (const fn of listeners) fn();
+  });
+}
+function write() {
+  const rulesCss = rules().filter(r => live.all || used.has(r.className)).map(r => r.css).join('\n');
+  live.el.textContent = `@layer atomic {\n${rulesCss}\n}`;
+}
+
 /**
- * Development helper (like StyleX's dev runtime): writes every registered rule
- * into one <style> in @layer atomic, so styles created in the page work without
- * a rebuild. Production pages should use the built CSS (npx a11y-atomic --styles).
+ * Runtime injection (like StyleX's dev runtime): writes atomic rules into one
+ * <style> in @layer atomic and keeps it updated as new classes are used.
+ * Default: only classes this page has actually rendered. {all: true}: every registered rule.
+ * Production pages should prefer built CSS (npx a11y-atomic --pages).
  */
-export function inject(doc = globalThis.document) {
-  let el = doc.querySelector('style[data-atomic-dev]');
+export function inject(doc = globalThis.document, {all = false} = {}) {
+  let el = doc.querySelector('style[data-atomic-runtime]');
   if (!el) {
     el = doc.createElement('style');
-    el.dataset.atomicDev = '';
+    el.dataset.atomicRuntime = '';
     doc.head.append(el);
   }
-  el.textContent = `@layer atomic {\n${rules().map(r => r.css).join('\n')}\n}`;
+  live = {el, all};
+  write();
   return el;
 }
