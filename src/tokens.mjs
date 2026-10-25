@@ -16,29 +16,63 @@ export const a11y = {
   'a11y-motion': '1',
 };
 
-// Everything below is in rem, so the widget's text scale (applied to the root
-// font size) scales type, spacing and the grid together, like text-only zoom.
-export const space = {
-  0: '0', px: '1px', 1: '0.25rem', 2: '0.5rem', 3: '0.75rem', 4: '1rem', 5: '1.25rem',
-  6: '1.5rem', 8: '2rem', 10: '2.5rem', 12: '3rem', 16: '4rem', 20: '5rem', 24: '6rem',
-};
+// Tailwind-compatible scales, on our own variables. Everything is in rem, so the
+// widget's text scale (applied to the root font size) scales type, spacing and
+// layout together, like text-only zoom.
 
+// p-4 = calc(var(--spacing) * 4) = 1rem, exactly like Tailwind v4.
+export const spacing = '0.25rem';
+export const spaceSteps = ['0', 'px', '0.5', '1', '1.5', '2', '2.5', '3', '3.5', '4', '5', '6', '7', '8', '9', '10', '11', '12', '14', '16', '20', '24', '28', '32', '36', '40', '44', '48', '52', '56', '60', '64', '72', '80', '96'];
+
+// [font-size, line-height]. Base and lg use the widget-controlled line height.
 export const text = {
-  xs: ['0.75rem', '1.6'], sm: ['0.875rem', '1.55'], base: ['1rem', 'var(--a11y-line-height)'],
-  lg: ['1.125rem', 'var(--a11y-line-height)'], xl: ['1.25rem', '1.45'], '2xl': ['1.5rem', '1.35'],
-  '3xl': ['1.875rem', '1.25'], '4xl': ['clamp(2rem, 1.4rem + 2.4vw, 2.75rem)', '1.15'],
-  '5xl': ['clamp(2.5rem, 1.6rem + 3.6vw, 3.75rem)', '1.1'],
+  xs: ['0.75rem', '1.334'], sm: ['0.875rem', '1.43'], base: ['1rem', 'var(--a11y-line-height)'],
+  lg: ['1.125rem', 'max(1.556, var(--a11y-line-height))'], xl: ['1.25rem', '1.4'], '2xl': ['1.5rem', '1.334'],
+  '3xl': ['1.875rem', '1.2'], '4xl': ['2.25rem', '1.112'], '5xl': ['3rem', '1'], '6xl': ['3.75rem', '1'],
+  '7xl': ['4.5rem', '1'], '8xl': ['6rem', '1'], '9xl': ['8rem', '1'],
 };
 
-export const radius = { none: '0', sm: '0.25rem', md: '0.5rem', lg: '1rem', full: '9999px' };
+export const radius = {
+  none: '0', xs: '0.125rem', sm: '0.25rem', DEFAULT: '0.25rem', md: '0.375rem', lg: '0.5rem',
+  xl: '0.75rem', '2xl': '1rem', '3xl': '1.5rem', full: '9999px',
+};
 
 export const shadow = {
-  sm: '0 1px 2px rgb(0 0 0 / 0.12)',
-  md: '0 4px 12px rgb(0 0 0 / 0.14)',
-  lg: '0 12px 32px rgb(0 0 0 / 0.18)',
+  '2xs': '0 1px rgb(0 0 0 / 0.05)', xs: '0 1px 2px 0 rgb(0 0 0 / 0.05)',
+  sm: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)', DEFAULT: '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
+  md: '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+  lg: '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
+  xl: '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
+  '2xl': '0 25px 50px -12px rgb(0 0 0 / 0.25)', inner: 'inset 0 2px 4px 0 rgb(0 0 0 / 0.05)', none: '0 0 #0000',
 };
 
+// Named durations for components; duration-* utilities use milliseconds like Tailwind.
+// Both are multiplied by --a11y-motion, so "Stop animations" zeroes them.
 export const duration = { fast: '150ms', base: '250ms', slow: '400ms' };
+
+// Tailwind's three easings, plus Open Props' spring (a linear() curve).
+export const ease = {
+  linear: 'linear',
+  in: 'cubic-bezier(0.4, 0, 1, 1)',
+  out: 'cubic-bezier(0, 0, 0.2, 1)',
+  'in-out': 'cubic-bezier(0.4, 0, 0.2, 1)',
+  spring: 'linear(0, 0.006, 0.025 2.8%, 0.101 6.1%, 0.539 18.9%, 0.721 25.3%, 0.849 31.5%, 0.937 38.1%, 0.968 41.8%, 0.991 45.7%, 1.006 50.1%, 1.015 55%, 1.017 63.9%, 1.001)',
+};
+
+// Utopia-style fluid space: [min rem at 320px, max rem at 1440px].
+export const fluid = {
+  '2xs': [0.25, 0.375], xs: [0.5, 0.75], s: [0.75, 1.125], m: [1, 1.5],
+  l: [1.5, 2.25], xl: [2, 3], '2xl': [3, 4.5], '3xl': [4, 6],
+};
+
+export const maxWidth = {
+  '3xs': '16rem', '2xs': '18rem', xs: '20rem', sm: '24rem', md: '28rem', lg: '32rem', xl: '36rem',
+  '2xl': '42rem', '3xl': '48rem', '4xl': '56rem', '5xl': '64rem', '6xl': '72rem', '7xl': '80rem',
+  prose: '65ch', measure: 'var(--measure)', full: '100%', none: 'none',
+};
+
+// Tailwind names; lg/xl/2xl are the andrewrico grid.css breakpoints (1024/1268/1440).
+export const breakpoints = { sm: '640px', md: '768px', lg: '1024px', xl: '1268px', '2xl': '1440px' };
 
 // Colour themes. Pairs that must meet contrast are listed in `pairs` below.
 export const themes = {

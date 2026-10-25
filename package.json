@@ -23,26 +23,37 @@
     "./init": "./dist/a11y-init.js",
     "./widget": "./src/widget.js",
     "./auto": "./src/auto.js",
-    "./tokens": "./src/tokens.mjs"
+    "./tokens": "./src/tokens.mjs",
+    "./build": "./scripts/build.mjs",
+    "./eleventy": "./src/eleventy.js"
   },
   "files": [
     "dist/",
     "src/",
+    "scripts/build.mjs",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "WCAG.md",
+    "wcag/"
   ],
+  "bin": {
+    "a11y-atomic": "scripts/build.mjs"
+  },
   "engines": {
     "node": ">=22"
   },
   "scripts": {
     "build": "node scripts/build.mjs",
+    "build:site": "node scripts/build.mjs --content",
     "dev": "node scripts/build.mjs && node scripts/serve.mjs",
     "test": "node scripts/build.mjs && node --test",
     "test:browser": "node scripts/build.mjs && node scripts/browser-check.mjs",
-    "check": "npm test && npm run test:browser"
+    "check": "npm test && npm run test:browser",
+    "wcag:sync": "node scripts/wcag-sync.mjs",
+    "wcag:report": "node scripts/wcag-report.mjs"
   },
   "devDependencies": {
-    "axe-core": "^4.10.3",
+    "axe-core": "^4.14.0",
     "playwright": "^1.64.1"
   }
 }

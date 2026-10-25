@@ -3,24 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>a11y-atomic — accessible atomic CSS</title>
-  <meta name="description" content="Atomic CSS framework driven by an accessibility widget. Every utility reads CSS variables that the widget changes.">
+  <title>a11y-atomic — Tailwind-compatible, accessibility-first</title>
+  <meta name="description" content="Tailwind-compatible atomic CSS on accessibility tokens. An accessibility widget changes the tokens, so every class adapts.">
   <script src="dist/a11y-init.js"></script>
   <link rel="stylesheet" href="dist/a11y-atomic.css">
   <script type="module" src="src/auto.js"></script>
 </head>
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-on-primary focus:rounded-md" href="#main">Skip to content</a>
 
-  <header class="grid__section section-surface border-b">
+  <header class="grid__section bg-surface border-b border-border">
     <div class="grid__wrapper">
-      <nav class="grid__row flex flex-col md:flex-row items-start md:items-center justify-between gap-3" aria-label="Primary">
-        <a href="#" class="text-xl font-bold no-underline fg-text">a11y-atomic</a>
-        <ul class="cluster list-none m-0">
+      <nav class="grid__row flex flex-col md:flex-row items-start md:items-center justify-between gap-3 large-text:flex-col large-text:items-start" aria-label="Primary">
+        <a href="#" class="text-xl font-bold no-underline text-text">a11y-atomic</a>
+        <ul class="flex flex-wrap gap-4 list-none m-0 p-0">
           <li><a href="#modes">Modes</a></li>
           <li><a href="#grid">Grid</a></li>
+          <li><a href="#lineage">Lineage</a></li>
           <li><a href="#utilities">Utilities</a></li>
-          <li><a href="#tokens">Tokens</a></li>
         </ul>
       </nav>
     </div>
@@ -28,22 +28,22 @@
 
   <main id="main">
     <section class="grid__section" aria-labelledby="hero-title">
-      <div class="grid__wrapper cols-t-2 cols-d-2 grid-gap-8">
+      <div class="grid__wrapper lg:grid-cols-2 gap-8">
         <div class="grid__column justify-center gap-4">
-          <p class="text-sm font-semibold uppercase fg-primary m-0">Atomic CSS · CSS variables · WCAG 2.2</p>
-          <h1 id="hero-title" class="text-5xl font-bold m-0 text-balance">Every class bends to the reader.</h1>
-          <p class="text-lg fg-muted m-0 reading">Utilities read CSS variables. The accessibility widget changes those variables, so text size, spacing, contrast, fonts and motion adapt across the whole page — no extra markup.</p>
-          <div class="cluster">
-            <button type="button" class="tap-target px-5 py-3 rounded-md border-0 bg-primary fg-on-primary font-semibold cursor-pointer transition hover:bg-primary-hover" data-open-widget>Open the accessibility widget</button>
-            <a class="tap-target inline-flex items-center px-5 py-3 rounded-md border-2 bd-primary font-semibold no-underline" href="#utilities">Browse utilities</a>
+          <p class="text-sm font-semibold uppercase tracking-wide text-primary m-0">Tailwind syntax · accessibility tokens · WCAG 2.2</p>
+          <h1 id="hero-title" class="text-4xl lg:text-6xl font-bold leading-tight m-0 text-balance">Every class bends to the reader.</h1>
+          <p class="text-lg text-muted m-0 max-w-prose">Write <code>p-4 lg:grid-cols-3 hover:bg-primary</code> like you already do. Underneath, every value is an accessibility variable the widget can change — text size, spacing, contrast, fonts and motion adapt everywhere.</p>
+          <div class="flex flex-wrap gap-3">
+            <button type="button" class="min-h-target px-5 py-3 rounded-md border-0 bg-primary text-on-primary font-semibold cursor-pointer transition hover:bg-primary-hover active:scale-95" data-open-widget>Open the accessibility widget</button>
+            <a class="min-h-target inline-flex items-center px-5 py-3 rounded-md border-2 border-primary font-semibold no-underline hover:wash-8" href="#utilities">Browse utilities</a>
           </div>
-          <p class="text-sm fg-muted m-0">Shortcut: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd></p>
+          <p class="text-sm text-muted m-0">Shortcut: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd></p>
         </div>
         <div class="grid__column">
-          <div class="p-6 rounded-lg bg-surface border shadow-md stack">
+          <div class="p-6 rounded-xl bg-surface border border-border shadow-md flex flex-col gap-4">
             <h2 class="text-xl m-0">Try a mode</h2>
-            <p class="m-0 fg-muted">These buttons call the widget's API.</p>
-            <div class="cluster">
+            <p class="m-0 text-muted">These buttons call the widget's API.</p>
+            <div class="flex flex-wrap gap-2">
               <button type="button" class="demo-btn" data-set="text=150">Text 150%</button>
               <button type="button" class="demo-btn" data-set="contrast=high">High contrast</button>
               <button type="button" class="demo-btn" data-set="theme=dark">Dark</button>
@@ -57,80 +57,89 @@
       </div>
     </section>
 
-    <section id="modes" class="grid__section section-surface" aria-labelledby="modes-title">
-      <h2 id="modes-title" class="grid__title text-3xl m-0 mb-6">Accessibility modes</h2>
-      <div class="grid__wrapper cols-auto grid-gap-6" style="--min-column: 15rem">
-        <article class="grid__column p-5 rounded-lg bg-bg border gap-2">
-          <h3 class="text-lg m-0">Text size</h3>
-          <p class="m-0 fg-muted">100–200%. Scales the root font size, so rem-based spacing and the grid scale too (1.4.4).</p>
+    <section id="modes" class="grid__section bg-surface" aria-labelledby="modes-title">
+      <h2 id="modes-title" class="grid__title text-3xl m-0 mb-6">Variants for our own field</h2>
+      <div class="grid__wrapper md:grid-cols-2 xl:grid-cols-3 gap-6">
+        <article class="grid__column p-5 rounded-lg bg-bg border border-border gap-2">
+          <h3 class="text-lg m-0"><code>large-text:</code></h3>
+          <p class="m-0 text-muted">Applies when the reader picks 150% text or more. The nav above stacks with <code>large-text:flex-col</code>.</p>
         </article>
-        <article class="grid__column p-5 rounded-lg bg-bg border gap-2">
-          <h3 class="text-lg m-0">Contrast &amp; theme</h3>
-          <p class="m-0 fg-muted">Light, dark and two high-contrast themes, all tested for 4.5:1 or 7:1 (1.4.3, 1.4.6).</p>
+        <article class="grid__column p-5 rounded-lg bg-bg border border-border contrast-more:border-4 gap-2">
+          <h3 class="text-lg m-0"><code>contrast-more:</code></h3>
+          <p class="m-0 text-muted">Follows the widget <em>and</em> the OS setting. This card gets <code>contrast-more:border-4</code>.</p>
         </article>
-        <article class="grid__column p-5 rounded-lg bg-bg border gap-2">
-          <h3 class="text-lg m-0">Text spacing</h3>
-          <p class="m-0 fg-muted">Exact 1.4.12 values: letters 0.12em, words 0.16em, paragraphs 2em.</p>
-        </article>
-        <article class="grid__column p-5 rounded-lg bg-bg border gap-2">
-          <h3 class="text-lg m-0">Motion</h3>
-          <p class="m-0 fg-muted">Durations multiply by <code>--a11y-motion</code>; stop it or follow the OS (2.3.3).</p>
-        </article>
-        <article class="grid__column p-5 rounded-lg bg-bg border gap-2">
-          <h3 class="text-lg m-0">Fonts &amp; links</h3>
-          <p class="m-0 fg-muted">Readable or dyslexia-friendly fonts, highlighted links, left-aligned text.</p>
-        </article>
-        <article class="grid__column p-5 rounded-lg bg-bg border gap-2">
-          <h3 class="text-lg m-0">Focus &amp; targets</h3>
-          <p class="m-0 fg-muted">Strong focus outline, 44px targets (2.5.5) and a large cursor.</p>
+        <article class="grid__column p-5 rounded-lg bg-bg border border-border gap-2">
+          <h3 class="text-lg m-0"><code>motion-reduce:</code> · <code>dark:</code></h3>
+          <p class="m-0 text-muted">Both follow the widget first, then the OS. Every <code>duration-*</code> is multiplied by <code>--a11y-motion</code>.</p>
         </article>
       </div>
     </section>
 
     <section id="grid" class="grid__section" aria-labelledby="grid-title">
-      <h2 id="grid-title" class="grid__title text-3xl m-0 mb-6">Grid</h2>
-      <div class="grid__wrapper cols-t-2 cols-l-3 cols-d-4 grid-gap-4">
-        <div class="grid__row"><p class="m-0 fg-muted reading">1 column on mobile, 2 on tablet, 3 on laptop, 4 on desktop — set with <code>.cols-t-2 .cols-l-3 .cols-d-4</code> on <code>.grid__wrapper</code>.</p></div>
+      <h2 id="grid-title" class="grid__title text-3xl m-0 mb-6">Your grid, plus Tailwind classes</h2>
+      <div class="grid__wrapper lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-4" data-grid-demo>
+        <div class="grid__row"><p class="m-0 text-muted max-w-prose"><code>grid.css</code> drives the layout; <code>lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4</code> sit on top at its own breakpoints (1024 / 1268 / 1440).</p></div>
         <div class="grid__column p-4 rounded-md bg-surface-2">1</div>
         <div class="grid__column p-4 rounded-md bg-surface-2">2</div>
-        <div class="grid__column p-4 rounded-md bg-surface-2 mobile-first">3 (first on mobile)</div>
+        <div class="grid__column p-4 rounded-md bg-surface-2 order-first lg:order-none">3 (first on mobile)</div>
         <div class="grid__column p-4 rounded-md bg-surface-2">4</div>
-        <div class="grid__column p-4 rounded-md bg-surface-2 md:span-2">md:span-2</div>
-        <div class="grid__column p-4 rounded-md bg-surface-2 span-full">span-full</div>
+        <div class="grid__column p-4 rounded-md bg-surface-2 lg:col-span-2">lg:col-span-2</div>
+        <div class="grid__column p-4 rounded-md bg-surface-2 col-span-full">col-span-full</div>
       </div>
     </section>
 
-    <section id="utilities" class="grid__section section-surface" aria-labelledby="util-title">
+    <section id="lineage" class="grid__section bg-surface" aria-labelledby="lineage-title">
+      <h2 id="lineage-title" class="grid__title text-3xl m-0 mb-6">The best idea from each framework</h2>
+      <div class="grid__wrapper gap-6">
+        <div class="grid__row flex flex-wrap gap-4" style="--switch-at: 48rem">
+          <article class="grow basis-switch relative p-5 rounded-lg bg-bg border border-border hover:shadow-lg transition">
+            <h3 class="text-lg m-0 mb-2"><a class="stretched-link" href="#utilities">Bootstrap · stretched link</a></h3>
+            <p class="m-0 text-muted">The whole card is one link; the focus ring wraps the card.</p>
+          </article>
+          <article class="grow basis-switch p-5 rounded-lg bg-bg border border-border">
+            <h3 class="text-lg m-0 mb-2">Every Layout · switcher</h3>
+            <p class="m-0 text-muted"><code>grow basis-switch</code>: these cards stack below 48rem — sooner when text is larger.</p>
+          </article>
+          <article class="grow basis-switch p-fluid-m rounded-lg bg-bg border border-border">
+            <h3 class="text-lg m-0 mb-2">Utopia · fluid space</h3>
+            <p class="m-0 text-muted"><code>p-fluid-m</code> grows smoothly from 320px to 1440px.</p>
+          </article>
+        </div>
+        <div class="grid__row flex flex-wrap gap-3">
+          <button type="button" class="min-h-target px-4 py-2 rounded-full border-2 border-primary text-primary bg-transparent cursor-pointer hover:wash-8 focus-visible:wash-12 active:wash-16">Material · state layer</button>
+          <button type="button" class="min-h-target px-4 py-2 rounded-full border-0 bg-primary text-on-primary cursor-pointer transition-transform duration-500 ease-spring hover:scale-105">Open Props · ease-spring</button>
+          <label class="inline-flex items-center gap-2 min-h-target"><input type="checkbox" class="accent-primary size-6"> Pico · native controls, themed</label>
+        </div>
+      </div>
+    </section>
+
+    <section id="utilities" class="grid__section" aria-labelledby="util-title">
       <h2 id="util-title" class="grid__title text-3xl m-0 mb-6">Utilities</h2>
-      <div class="grid__wrapper cols-t-2 grid-gap-6">
+      <div class="grid__wrapper lg:grid-cols-2 gap-6">
         <div class="grid__column gap-3">
-          <h3 class="text-xl m-0">Typography</h3>
+          <h3 class="text-xl m-0">Typography &amp; colour</h3>
           <p class="text-2xl font-bold m-0">text-2xl font-bold</p>
           <p class="text-lg m-0">text-lg</p>
-          <p class="text-sm fg-muted m-0">text-sm fg-muted</p>
-          <p class="m-0"><span class="fg-danger font-semibold">fg-danger</span> · <span class="fg-success font-semibold">fg-success</span> · <span class="fg-warning font-semibold">fg-warning</span></p>
+          <p class="text-sm text-muted m-0">text-sm text-muted</p>
+          <p class="m-0"><span class="text-danger font-semibold">text-danger</span> · <span class="text-success font-semibold">text-success</span> · <span class="text-warning font-semibold">text-warning</span></p>
+          <ul class="grid grid-cols-2 sm:grid-cols-4 gap-3 list-none p-0 m-0" id="swatches"></ul>
         </div>
-        <form class="grid__column gap-3" aria-labelledby="form-title" onsubmit="event.preventDefault()">
+        <form class="grid__column gap-3" aria-labelledby="form-title">
           <h3 id="form-title" class="text-xl m-0">Form</h3>
-          <label class="stack gap-1" style="--stack-gap: var(--space-1)">
+          <label class="flex flex-col gap-1">
             <span class="font-semibold">Email</span>
-            <input class="tap-target px-3 py-2 rounded-md border-2 bg-bg" type="email" name="email" autocomplete="email" aria-describedby="email-hint">
-            <span id="email-hint" class="text-sm fg-muted">We never share it.</span>
+            <input class="min-h-target px-3 py-2 rounded-md border-2 border-border bg-bg focus-visible:border-primary" type="email" name="email" autocomplete="email" aria-describedby="email-hint">
+            <span id="email-hint" class="text-sm text-muted">We never share it.</span>
           </label>
-          <label class="flex items-center gap-2"><input type="checkbox" name="news"> Send me updates</label>
-          <button class="tap-target self-start px-5 py-2 rounded-md border-0 bg-primary fg-on-primary font-semibold cursor-pointer hover:bg-primary-hover">Subscribe</button>
+          <label class="flex items-center gap-2"><input type="checkbox" name="news" class="accent-primary"> Send me updates</label>
+          <button class="min-h-target self-start px-5 py-2 rounded-md border-0 bg-primary text-on-primary font-semibold cursor-pointer hover:bg-primary-hover">Subscribe</button>
         </form>
       </div>
     </section>
-
-    <section id="tokens" class="grid__section" aria-labelledby="tokens-title">
-      <h2 id="tokens-title" class="grid__title text-3xl m-0 mb-6">Colour tokens</h2>
-      <ul class="grid__wrapper cols-m-2 cols-t-4 cols-d-6 grid-gap-3" style="list-style: none" id="swatches"></ul>
-    </section>
   </main>
 
-  <footer class="grid__section section-surface border-t">
-    <div class="grid__wrapper"><p class="grid__row m-0 text-sm fg-muted">a11y-atomic · MIT · The widget helps readers; it does not make a site conformant on its own.</p></div>
+  <footer class="grid__section bg-surface border-t border-border">
+    <div class="grid__wrapper"><p class="grid__row m-0 text-sm text-muted">a11y-atomic · MIT · The widget helps readers; it does not make a site conformant on its own.</p></div>
   </footer>
 
   <style>
@@ -139,16 +148,17 @@
     kbd { padding: 0 var(--space-1); border: 1px solid var(--color-border); border-radius: var(--radius-sm); }
   </style>
   <script type="module">
-    const tokens = ['bg', 'surface', 'surface-2', 'text', 'muted', 'primary', 'link', 'border', 'focus', 'danger', 'success', 'warning'];
-    document.getElementById('swatches').innerHTML = tokens.map(t => `<li class="grid__column gap-2"><span class="block rounded-md border" style="height:3rem;background:var(--color-${t})"></span><code class="text-sm">--color-${t}</code></li>`).join('');
+    const tokens = ['bg', 'surface', 'text', 'muted', 'primary', 'link', 'border', 'focus'];
+    document.getElementById('swatches').innerHTML = tokens.map(t => `<li class="flex flex-col gap-1"><span class="block h-10 rounded-md border border-border" style="background:var(--color-${t})"></span><code class="text-xs">${t}</code></li>`).join('');
+    document.querySelector('form').addEventListener('submit', event => event.preventDefault());
     const status = document.getElementById('demo-status');
-    const widget = () => globalThis.a11yWidget;
     document.addEventListener('click', event => {
       const btn = event.target.closest('[data-set], [data-open-widget]');
-      if (!btn || !widget()) return;
-      if (btn.hasAttribute('data-open-widget')) return widget().open();
+      const widget = globalThis.a11yWidget;
+      if (!btn || !widget) return;
+      if (btn.hasAttribute('data-open-widget')) return widget.open();
       const [key, value] = btn.dataset.set.split('=');
-      if (key === 'reset') widget().reset(); else widget().set(key, value);
+      if (key === 'reset') widget.reset(); else widget.set(key, value);
       status.textContent = key === 'reset' ? 'Settings reset.' : `Applied ${key}: ${value}.`;
     });
   </script>

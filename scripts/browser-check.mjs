@@ -6,6 +6,7 @@ import {spawn} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
 import {createRequire} from 'node:module';
 import {chromium} from 'playwright';
+import {build, minify} from './build.mjs';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 const port = Number(process.env.PORT || 8095);
@@ -62,7 +63,8 @@ try {
     const where = 'keyboard';
     const {context, page} = await open(desktop, where);
     await page.keyboard.press('Tab');
-    expect(where, await page.evaluate(() => document.activeElement.classList.contains('skip-link')), 'first Tab should reach the skip link');
+    const skip = await page.evaluate(() => { const a = document.activeElement; return a.getAttribute('href') === '#main' && a.getBoundingClientRect().width > 50; });
+    expect(where, skip, 'first Tab should reach a visible skip link');
     await page.focus('.a11y-widget__toggle');
     await page.keyboard.press('Enter');
     expect(where, await page.getAttribute('.a11y-widget__toggle', 'aria-expanded') === 'true', 'Enter should open the panel');
@@ -144,6 +146,51 @@ try {
     const color = await page.evaluate(() => getComputedStyle(document.body).color);
     expect(where, color === expected, `body color should be ${expected}, got ${color}`);
     await context.close();
+  }
+  // 8. Our own variants + borrowed layouts react to the widget.
+  {
+    const where = 'variants';
+    const {context, page} = await open(desktop, where, {text: '200'});
+    const nav = await page.evaluate(() => getComputedStyle(document.querySelector('nav')).flexDirection);
+    expect(where, nav === 'column', `large-text:flex-col should stack the nav, got ${nav}`);
+    const tops = await page.evaluate(() => [...document.querySelectorAll('.basis-switch')].map(el => Math.round(el.getBoundingClientRect().top)));
+    expect(where, new Set(tops).size === tops.length, `switcher should stack at 200% text, tops ${tops}`);
+    await context.close();
+    const normal = await open(desktop, `${where}/100`);
+    const tops100 = await normal.page.evaluate(() => [...document.querySelectorAll('.basis-switch')].map(el => Math.round(el.getBoundingClientRect().top)));
+    expect(where, new Set(tops100).size === 1, `switcher should be one row at 100%, tops ${tops100}`);
+    const card = await normal.page.evaluate(() => { const a = document.querySelector('.stretched-link'); a.closest('article').scrollIntoView({block: 'center', behavior: 'instant'}); const r = a.closest('article').getBoundingClientRect(); const hit = document.elementFromPoint(r.right - 10, r.bottom - 10); return hit === a; });
+    expect(where, card, 'stretched link should cover the card corner');
+    const border = await normal.page.evaluate(() => { const c = getComputedStyle(document.querySelector('#lineage article')); return `${c.borderTopStyle} ${c.borderTopWidth}`; });
+    expect(where, border === 'solid 1px', `.border should draw a 1px solid border, got ${border}`);
+    await normal.context.close();
+  }
+
+  // 9. Content scan: the page with only its used classes renders identically.
+  {
+    const where = 'content-scan';
+    const t = performance.now();
+    const small = minify(await build({content: ['index.html', 'src/widget.js'], cwd: root}));
+    const ms = Math.round(performance.now() - t);
+    const full = await readFile(new URL('../dist/a11y-atomic.css', import.meta.url), 'utf8');
+    expect(where, small.length < full.length / 8, `scanned CSS ${small.length} B vs full ${full.length} B`);
+    const signature = async page => page.evaluate(() => [...document.querySelectorAll('body *')].map(el => {
+      const c = getComputedStyle(el);
+      return [c.display, c.gridTemplateColumns, c.padding, c.margin, c.color, c.backgroundColor, c.fontSize, c.flexDirection, c.borderWidth, c.order].join('|');
+    }).join('\n'));
+    for (const [vp, label] of [[desktop, 'desktop'], [{viewport: {width: 390, height: 844}}, 'mobile']]) {
+      const a = await open(vp, `${where}/${label}`);
+      const fullSig = await signature(a.page);
+      await a.context.close();
+      const context = await browser.newContext(vp);
+      await context.route('**/dist/a11y-atomic.css', route => route.fulfill({contentType: 'text/css', body: small}));
+      const page = await context.newPage();
+      await page.goto(base);
+      await page.waitForFunction(() => globalThis.a11yWidget);
+      expect(`${where}/${label}`, (await signature(page)) === fullSig, 'computed styles differ between scanned and full CSS');
+      await context.close();
+    }
+    console.log(`  content scan: ${(small.length / 1024).toFixed(1)} KB (full ${(full.length / 1024).toFixed(0)} KB) in ${ms} ms`);
   }
 } finally {
   await browser.close();

@@ -5,25 +5,27 @@
 export const STORAGE_KEY = 'a11y-atomic';
 
 // type 'choice' renders a radio group, 'toggle' a switch (options = [off, on]).
+// wcag: success criteria the setting helps with (checked against wcag/snapshot.json).
+// The large cursor helps low-vision users but maps to no WCAG criterion.
 export const SETTINGS = [
-  {key: 'text', label: 'Text size', type: 'choice', default: '100',
+  {key: 'text', wcag: ['1.4.4'], label: 'Text size', type: 'choice', default: '100',
     options: [['100', '100%'], ['115', '115%'], ['130', '130%'], ['150', '150%'], ['175', '175%'], ['200', '200%']]},
-  {key: 'theme', label: 'Theme', type: 'choice', default: 'auto',
+  {key: 'theme', wcag: ['1.4.3', '1.4.11'], label: 'Theme', type: 'choice', default: 'auto',
     options: [['auto', 'System'], ['light', 'Light'], ['dark', 'Dark']]},
-  {key: 'contrast', label: 'Contrast', type: 'choice', default: 'auto',
+  {key: 'contrast', wcag: ['1.4.3', '1.4.6', '1.4.11'], label: 'Contrast', type: 'choice', default: 'auto',
     options: [['auto', 'System'], ['normal', 'Standard'], ['high', 'High']]},
-  {key: 'font', label: 'Font', type: 'choice', default: 'default',
+  {key: 'font', wcag: ['1.4.8'], label: 'Font', type: 'choice', default: 'default',
     options: [['default', 'Default'], ['readable', 'Readable'], ['dyslexic', 'Dyslexia-friendly']]},
-  {key: 'saturation', label: 'Color', type: 'choice', default: 'normal',
+  {key: 'saturation', wcag: ['1.4.1'], label: 'Color', type: 'choice', default: 'normal',
     options: [['normal', 'Full'], ['low', 'Low'], ['gray', 'Grayscale']]},
-  {key: 'motion', label: 'Animations', type: 'choice', default: 'auto',
+  {key: 'motion', wcag: ['2.2.2', '2.3.3'], label: 'Animations', type: 'choice', default: 'auto',
     options: [['auto', 'System'], ['reduce', 'Stop'], ['allow', 'Allow']]},
-  {key: 'spacing', label: 'Wider text spacing', type: 'toggle', default: 'off', options: [['off', 'Off'], ['on', 'On']]},
-  {key: 'align', label: 'Align text left', type: 'toggle', default: 'off', options: [['off', 'Off'], ['left', 'On']]},
-  {key: 'links', label: 'Highlight links', type: 'toggle', default: 'off', options: [['off', 'Off'], ['underline', 'On']]},
-  {key: 'focus', label: 'Strong focus outline', type: 'toggle', default: 'off', options: [['off', 'Off'], ['strong', 'On']]},
-  {key: 'target', label: 'Larger click targets', type: 'toggle', default: 'off', options: [['off', 'Off'], ['large', 'On']]},
-  {key: 'cursor', label: 'Large cursor', type: 'toggle', default: 'off', options: [['off', 'Off'], ['large', 'On']]},
+  {key: 'spacing', wcag: ['1.4.12'], label: 'Wider text spacing', type: 'toggle', default: 'off', options: [['off', 'Off'], ['on', 'On']]},
+  {key: 'align', wcag: ['1.4.8'], label: 'Align text left', type: 'toggle', default: 'off', options: [['off', 'Off'], ['left', 'On']]},
+  {key: 'links', wcag: ['1.4.1'], label: 'Highlight links', type: 'toggle', default: 'off', options: [['off', 'Off'], ['underline', 'On']]},
+  {key: 'focus', wcag: ['2.4.7', '2.4.13'], label: 'Strong focus outline', type: 'toggle', default: 'off', options: [['off', 'Off'], ['strong', 'On']]},
+  {key: 'target', wcag: ['2.5.8', '2.5.5'], label: 'Larger click targets', type: 'toggle', default: 'off', options: [['off', 'Off'], ['large', 'On']]},
+  {key: 'cursor', wcag: [], label: 'Large cursor', type: 'toggle', default: 'off', options: [['off', 'Off'], ['large', 'On']]},
 ];
 
 const byKey = Object.fromEntries(SETTINGS.map(s => [s.key, s]));
@@ -90,17 +92,17 @@ export function mount(options = {}) {
   el.className = 'a11y-widget';
   el.dataset.position = options.position === 'bottom-left' ? 'bottom-left' : 'bottom-right';
   el.innerHTML = `
-    <button type="button" class="a11y-widget__toggle tap-target" aria-expanded="false" aria-controls="${id}-panel">${ICON}<span class="sr-only">${title} settings</span></button>
+    <button type="button" class="a11y-widget__toggle min-h-target min-w-target" aria-expanded="false" aria-controls="${id}-panel">${ICON}<span class="sr-only">${title} settings</span></button>
     <section id="${id}-panel" class="a11y-widget__panel" role="dialog" aria-modal="false" aria-labelledby="${id}-title" hidden>
       <div class="a11y-widget__header">
         <h2 id="${id}-title" class="a11y-widget__title" tabindex="-1">${title}</h2>
-        <button type="button" class="a11y-widget__close tap-target" data-a11y-close><span aria-hidden="true">&times;</span><span class="sr-only">Close ${title.toLowerCase()} settings</span></button>
+        <button type="button" class="a11y-widget__close min-h-target min-w-target" data-a11y-close><span aria-hidden="true">&times;</span><span class="sr-only">Close ${title.toLowerCase()} settings</span></button>
       </div>
       <form class="a11y-widget__form">
         ${SETTINGS.map(s => (s.type === 'toggle' ? toggleHtml(id, s) : choiceHtml(id, s))).join('')}
       </form>
       <div class="a11y-widget__footer">
-        <button type="button" class="a11y-widget__reset tap-target" data-a11y-reset>Reset all</button>
+        <button type="button" class="a11y-widget__reset min-h-target min-w-target" data-a11y-reset>Reset all</button>
       </div>
       <p class="sr-only" aria-live="polite" data-a11y-status></p>
     </section>`;

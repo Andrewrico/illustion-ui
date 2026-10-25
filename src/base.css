@@ -1,0 +1,40 @@
+/* Base element styles. Everything reads tokens; modes.css changes the tokens. */
+/* Like Tailwind's preflight: border-* utilities only set width, so give every element a solid, zero-width border in the border token. */
+*, *::before, *::after { box-sizing: border-box; border: 0 solid var(--color-border); }
+
+html {
+  font-size: calc(100% * var(--a11y-text-scale));
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  /* WCAG 2.4.11: keep focused elements clear of the fixed widget button. */
+  scroll-padding-block-end: 5rem;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--a11y-font-body);
+  font-size: var(--text-base);
+  line-height: var(--a11y-line-height);
+  letter-spacing: var(--a11y-letter-spacing);
+  word-spacing: var(--a11y-word-spacing);
+  overflow-wrap: break-word;
+}
+
+img, svg, video, canvas, picture { max-width: 100%; height: auto; }
+input, button, select, textarea { font: inherit; letter-spacing: inherit; word-spacing: inherit; color: inherit; }
+code, kbd, pre, samp { font-family: var(--a11y-font-mono); font-size: 0.95em; }
+
+a { color: var(--color-link); text-underline-offset: 0.15em; text-decoration-thickness: 0.08em; }
+a:hover { text-decoration-thickness: 0.15em; }
+
+:focus-visible {
+  outline: var(--a11y-focus-width) solid var(--color-focus);
+  outline-offset: var(--a11y-focus-offset);
+}
+
+[hidden] { display: none !important; }
+
+::selection { background: var(--color-highlight); color: var(--color-on-highlight); }

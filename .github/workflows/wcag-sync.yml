@@ -1,0 +1,19 @@
+# Weekly: compare the framework with W3C's current WCAG data and the latest axe-core.
+# Fails (and GitHub emails the repo owner) when W3C changed a criterion, so the
+# map, tests and WCAG.md are updated before the next release.
+name: wcag-sync
+on:
+  schedule:
+    - cron: '0 9 * * 1'
+  workflow_dispatch:
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npm run wcag:sync
+      - run: npm test

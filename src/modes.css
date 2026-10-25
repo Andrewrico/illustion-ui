@@ -1,49 +1,11 @@
 /* ==========================================================================
-   Base + accessibility modes.
+   Accessibility modes.
    Every mode is a data-a11y-* attribute on <html>, set by the widget (or by
    hand). Modes only change CSS variables or apply user overrides, so every
    atomic class and component picks them up automatically. OS preferences
    (reduced motion, more contrast, dark scheme, forced colors) apply unless
    the user picks an explicit value in the widget.
    ========================================================================== */
-
-/* ---------- Base ---------- */
-*, *::before, *::after { box-sizing: border-box; }
-
-html {
-  font-size: calc(100% * var(--a11y-text-scale));
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-  scroll-behavior: smooth;
-}
-
-body {
-  margin: 0;
-  background: var(--color-bg);
-  color: var(--color-text);
-  font-family: var(--a11y-font-body);
-  font-size: var(--text-base);
-  line-height: var(--a11y-line-height);
-  letter-spacing: var(--a11y-letter-spacing);
-  word-spacing: var(--a11y-word-spacing);
-  overflow-wrap: break-word;
-}
-
-img, svg, video, canvas, picture { max-width: 100%; height: auto; }
-input, button, select, textarea { font: inherit; letter-spacing: inherit; word-spacing: inherit; color: inherit; }
-code, kbd, pre, samp { font-family: var(--a11y-font-mono); font-size: 0.95em; }
-
-a { color: var(--color-link); text-underline-offset: 0.15em; text-decoration-thickness: 0.08em; }
-a:hover { text-decoration-thickness: 0.15em; }
-
-:focus-visible {
-  outline: var(--a11y-focus-width) solid var(--color-focus);
-  outline-offset: var(--a11y-focus-offset);
-}
-
-[hidden] { display: none !important; }
-
-::selection { background: var(--color-highlight); color: var(--color-on-highlight); }
 
 /* ---------- Text size (WCAG 1.4.4 Resize text) ---------- */
 [data-a11y-text="115"] { --a11y-text-scale: 1.15; }
@@ -99,7 +61,7 @@ a:hover { text-decoration-thickness: 0.15em; }
 
 /* ---------- Targets (WCAG 2.5.8 AA → 2.5.5 AAA size) ---------- */
 [data-a11y-target="large"] { --a11y-target-min: 44px; }
-[data-a11y-target="large"] :where(button, select, input:not([type="checkbox"], [type="radio"]), [role="button"], .tap-target) {
+[data-a11y-target="large"] :where(button, select, input:not([type="checkbox"], [type="radio"]), [role="button"], .min-h-target) {
   min-height: var(--a11y-target-min);
   min-width: var(--a11y-target-min);
 }
