@@ -6,6 +6,22 @@ When a setting is automatic, the operating system preference is used.
 
 The framework is tied to the W3C WAI rules: every feature maps to WCAG 2.2 success criteria, checked against W3C's own data, and a sync script reports when W3C changes them. See [Tied to W3C WAI](#tied-to-w3c-wai) and [WCAG.md](WCAG.md).
 
+## Efficiency: what it costs, measured
+
+Gzipped, on the demo page (what browsers download). Compiling classes only pays off when the CSS is shared:
+
+| Build | First page | Every further page |
+|---|---|---|
+| Readable classes, CSS inline per page | 10.5 KB | 7.2 KB |
+| Atomic classes, CSS inline per page | 12.0 KB | 8.8 KB (inline CSS is not shared, and hashes compress worse) |
+| **Atomic classes, one shared stylesheet (`--site`)** | **10.4 KB** | **4.6 KB** (HTML only; the CSS is cached) |
+
+Scale test, 628 variations of the demo page: the shared stylesheet is 28.9 KB for one page and 29.5 KB for 628, and the whole site compiles in under a second. (Variations of one page, so a real site with more variety grows somewhat before it levels off.) In `--site` mode the compiler sees every page, so the most used classes get the shortest names (`ax_0`, `ax_1`, …) and compiled HTML is no bigger than the readable source (4.6 KB gzipped).
+
+The widget JavaScript is one bundled file, `dist/a11y-widget.min.js`: **27 KB minified, 9.9 KB gzipped**, including the atomic engine and shadow DOM support. `npm run build` produces it.
+
+Recommended: `npx a11y-atomic --site "_site/**/*.html"` (or `{site: true}` in the Eleventy plugin). Use `--pages` (readable, inline) when a site is small and you want the least tooling, and `--pages --compile` only to inspect atomic output.
+
 ## What ships is atomic
 
 You write readable classes; pages ship atomic ones. The per-page build compiles every framework class in the HTML into generated `ax_` classes, **one declaration each**, shared across the site, Facebook style:
@@ -32,12 +48,12 @@ You write readable classes; pages ship atomic ones. The per-page build compiles 
 | Stays readable | Classes that need an ancestor or child selector (`group-hover:*`, `ax-space-x/y-*`) and your own classes. Class strings built inside `<script>` are not rewritten; their readable rules are still included. |
 
 ```sh
-npx a11y-atomic --pages "_site/**/*.html"            # compiled (default)
-npx a11y-atomic --pages "_site/**/*.html" --readable # keep readable names
-npm run demo:compile                                 # writes compiled.html (open /compiled.html on the dev server)
+npx a11y-atomic --site "_site/**/*.html"              # compiled, ONE shared stylesheet, short names (recommended)
+npx a11y-atomic --pages "_site/**/*.html" --compile    # compiled, CSS inline per page (larger)
+npm run demo:compile                                   # writes compiled.html and compiled-site.html
 ```
 
-The Eleventy plugin compiles with `perPage: true` (`compile: false` to keep readable names).
+The Eleventy plugin: `{site: true}` (shared stylesheet) or `{perPage: true, compile: true}`. Node API: `compileSite(pages)`, `linkSite(html, href)`, `buildSite(globs, options)`. The demo is served compiled at `/compiled.html` (inline) and `/compiled-site.html` (shared stylesheet, short names).
 
 ## Naming standard
 
@@ -507,6 +523,7 @@ The init script can be inlined. It must not use `defer` or `async`.
 | `a11y-atomic/min` | Minified CSS. |
 | `a11y-atomic/init` | The init script. |
 | `a11y-atomic/widget` | The widget and its state helpers. |
+| `a11y-atomic/widget.min` | The widget bundled and minified (9.9 KB gzipped). |
 | `a11y-atomic/atomic` | The atomic engine: `create`, `props`, `classes`, `inject`. |
 | `a11y-atomic/shadow` | `adopt`, `AtomicElement` for web components. |
 | `a11y-atomic/core` | The shared core CSS for per-page builds. |
@@ -709,7 +726,7 @@ npm run dev
 
 `npm test` runs the unit tests: contrast of every token pair in all themes, Tailwind class names and values, variants, layers, the content scan, the Eleventy plugin, the widget state helpers and the WCAG mapping.
 
-`npm run test:browser` runs 84 Chromium checks: axe-core (WCAG 2.2 A/AA) in 6 theme and mode states with the widget open, keyboard flow, persistence, reflow at 320px with 200% text, grid columns per breakpoint, `large-text:` and the switcher at 200% text, the stretched link, OS preference fallbacks, identical computed styles between the content-scanned CSS and the full bundle, the atomic grid against `grid.css` at five widths, per-page builds against the full bundle, web components / shadow DOM, variable utilities (breakpoints, large text, hover, no inheritance, `revert-layer` fallback), and the compiled demo against the readable source in four modes.
+`npm run test:browser` runs 89 Chromium checks: axe-core (WCAG 2.2 A/AA) in 6 theme and mode states with the widget open, keyboard flow, persistence, reflow at 320px with 200% text, grid columns per breakpoint, `large-text:` and the switcher at 200% text, the stretched link, OS preference fallbacks, identical computed styles between the content-scanned CSS and the full bundle, the atomic grid against `grid.css` at five widths, per-page builds against the full bundle, web components / shadow DOM, variable utilities (breakpoints, large text, hover, no inheritance, `revert-layer` fallback), and the compiled demo (inline and shared-stylesheet) against the readable source in four modes.
 
 `npm run check` runs both test commands. `npm run wcag:sync` checks for W3C rule changes.
 

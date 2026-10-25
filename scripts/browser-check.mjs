@@ -379,10 +379,16 @@ try {
         await context.close();
         return out;
       };
-      const [a, b] = [await read(''), await read('compiled.html')];
-      const i = a.findIndex((line, k) => line !== b[k]);
-      expect(`${where}/${label}`, a.length === b.length && i < 0, i < 0 ? 'element count differs' : `differs:\n      source:   ${a[i]}\n      compiled: ${b[i]}`);
+      const a = await read('');
+      for (const file of ['compiled.html', 'compiled-site.html']) {
+        const b = await read(file);
+        const i = a.findIndex((line, k) => line !== b[k]);
+        expect(`${where}/${label}/${file}`, a.length === b.length && i < 0, i < 0 ? 'element count differs' : `differs:\n      source:   ${a[i]}\n      compiled: ${b[i]}`);
+      }
     }
+    const siteHtml = (await readFile(new URL('../compiled-site.html', import.meta.url), 'utf8')).replace(/<script[\s\S]*?<\/script>/g, '');
+    const siteTokens = [...siteHtml.matchAll(/class="([^"]*)"/g)].flatMap(m => m[1].split(/\s+/)).filter(Boolean);
+    expect(where, siteTokens.every(t => /^ax_[0-9a-z]+$/.test(t)) && siteTokens.filter(t => t.length <= 6).length > siteTokens.length / 2, 'site mode should use short ax_N names');
     const context = await browser.newContext(desktop);
     const page = await context.newPage();
     await page.goto(base + 'compiled.html');

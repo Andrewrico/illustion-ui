@@ -161,17 +161,17 @@ test('buildPages rewrites each page with its own CSS', async () => {
   const dir = await mkdtemp(path.join(tmpdir(), 'a11y-pages-'));
   await writeFile(path.join(dir, 'a.html'), '<html><head></head><body class="ax-flex"></body></html>');
   await writeFile(path.join(dir, 'b.html'), '<html><head></head><body class="ax-grid ax-grid-cols-3"></body></html>');
-  const result = await buildPages(['*.html'], {cwd: dir});
+  const result = await buildPages(['*.html'], {cwd: dir, compile: true});
   const a = await readFile(path.join(dir, 'a.html'), 'utf8');
   const b = await readFile(path.join(dir, 'b.html'), 'utf8');
-  // compiled by default: markup has atomic classes; each page only has its own rules
+  // compile: true → markup has atomic classes; each page only has its own rules
   assert.match(a, /<body class="ax_[0-9a-z]+">/);
   assert.ok(a.includes('{display:flex}') && !a.includes('repeat(3,'));
   assert.ok(b.includes('repeat(3, minmax(0, 1fr))') || b.includes('repeat(3,minmax(0,1fr))'));
   assert.ok(!b.includes('{display:flex}'));
   await writeFile(path.join(dir, 'c.html'), '<html><head></head><body class="ax-flex"></body></html>');
-  await buildPages(['c.html'], {cwd: dir, compile: false});
-  assert.ok((await readFile(path.join(dir, 'c.html'), 'utf8')).includes('.ax-flex{'), 'compile: false keeps readable classes');
+  await buildPages(['c.html'], {cwd: dir});
+  assert.ok((await readFile(path.join(dir, 'c.html'), 'utf8')).includes('.ax-flex{'), 'readable classes by default (smaller inline)');
   assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).includes('--ax-color-text'));
   assert.equal(result.pages.length, 2);
 });
@@ -180,7 +180,7 @@ test('Eleventy perPage transform inlines each page and writes the core', async (
   const {default: plugin} = await import('../src/eleventy.js');
   const dir = await mkdtemp(path.join(tmpdir(), 'a11y-11ty-pp-'));
   let transform, after;
-  plugin({addTransform: (name, fn) => { transform = fn; }, on: (e, fn) => { if (e === 'eleventy.after') after = fn; }}, {perPage: true});
+  plugin({addTransform: (name, fn) => { transform = fn; }, on: (e, fn) => { if (e === 'eleventy.after') after = fn; }}, {perPage: true, compile: true});
   const out = await transform.call({page: {outputPath: path.join(dir, 'index.html')}}, '<html><head></head><body class="ax-p-2"></body></html>');
   assert.ok(/class="ax_[0-9a-z]+"/.test(out) && out.includes('padding:calc(var(--ax-spacing) * 2)') && out.includes('href="/css/a11y-core.css"'));
   assert.equal(await transform.call({page: {outputPath: 'feed.xml'}}, '<rss/>'), '<rss/>');
@@ -245,4 +245,45 @@ test('compile: readable classes become one-declaration atomic classes, layers pr
   assert.ok(!page.html.includes('ax-text-muted') && page.html.includes('ax_'));
   assert.ok(page.css.includes('@property --ax--p{') || page.css.includes('@property --ax--p {'));
   assert.ok(page.css.includes('color:var(--ax-color-muted)'));
+});
+
+test('site mode: one shared stylesheet, short names for the most used classes', async () => {
+  const {compileSite, linkSite, buildSite} = await import('../scripts/build.mjs');
+  const pages = {
+    'a.html': '<html><head></head><body class="ax-flex ax-p-4"><p class="ax-p-4 ax-text-muted">a</p><p class="ax-p-4">b</p></body></html>',
+    'b.html': '<html><head></head><body class="ax-p-4 ax-grid-cols-3"></body></html>',
+  };
+  const site = await compileSite(pages);
+  const tokens = Object.values(site.pages).flatMap(h => [...h.matchAll(/class="([^"]*)"/g)].flatMap(m => m[1].split(' ')));
+  assert.ok(tokens.every(t => /^ax_[0-9a-z]+$/.test(t)));
+  const padding = [...site.css.matchAll(/\.(ax_[0-9a-z]+)\{padding:calc\(var\(--ax-spacing\) \* 4\)\}/g)];
+  assert.equal(padding.length, 1, 'one shared rule for padding');
+  assert.equal(padding[0][1], 'ax_0', 'most used class gets the shortest name');
+  assert.ok(site.css.includes('--ax-color-text') && site.css.includes('@layer theme'), 'core included');
+  assert.ok(!site.css.includes('{padding:calc(var(--ax-spacing) * 8)}'), 'only used classes');
+  const linked = linkSite(linkSite(site.pages['a.html'], '/css/a11y-site.css'), '/css/a11y-site.css');
+  assert.equal(linked.match(/data-ax-site/g).length, 1, 'linking is idempotent');
+
+  const dir = await mkdtemp(path.join(tmpdir(), 'a11y-site-'));
+  for (const [f, h] of Object.entries(pages)) await writeFile(path.join(dir, f), h);
+  const result = await buildSite(['*.html'], {cwd: dir});
+  assert.equal(result.pages, 2);
+  assert.ok((await readFile(path.join(dir, 'b.html'), 'utf8')).includes('href="/css/a11y-site.css"'));
+  assert.ok((await readFile(path.join(dir, 'css/a11y-site.css'), 'utf8')).includes('@layer'));
+});
+
+test('Eleventy site mode compiles every page and links one shared stylesheet', async () => {
+  const {default: plugin} = await import('../src/eleventy.js');
+  const dir = await mkdtemp(path.join(tmpdir(), 'a11y-11ty-site-'));
+  await writeFile(path.join(dir, 'a.html'), '<html><head></head><body class="ax-p-4"></body></html>');
+  await writeFile(path.join(dir, 'b.html'), '<html><head></head><body class="ax-p-4 ax-flex"></body></html>');
+  let after;
+  plugin({on: (e, fn) => { if (e === 'eleventy.after') after = fn; }}, {site: true});
+  const cwd = process.cwd();
+  process.chdir(dir);
+  try { await after({dir: {output: '.'}}); } finally { process.chdir(cwd); }
+  const a = await readFile(path.join(dir, 'a.html'), 'utf8');
+  assert.match(a, /<body class="ax_[0-9a-z]+">/);
+  assert.ok(a.includes('href="/css/a11y-site.css"'));
+  assert.ok((await readFile(path.join(dir, 'css/a11y-site.css'), 'utf8')).includes('--ax-color-text'));
 });

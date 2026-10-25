@@ -16,7 +16,7 @@ import {pathToFileURL} from 'node:url';
 import path from 'node:path';
 import * as tokens from '../src/tokens.mjs';
 import {SETTINGS} from '../src/widget.js'; // also registers the widget's atomic styles
-import {rules, create, props as mergeStyles} from '../src/atomic.js';
+import {rules, create, props as mergeStyles, registry} from '../src/atomic.js';
 import {gridStyles} from '../src/grid.styles.js';
 import {VARIANTS} from '../src/conditions.js';
 import {PREFIX, standardizeGrid} from '../src/naming.js';
@@ -426,11 +426,11 @@ export async function buildCore() {
 }
 
 /** Only what this page's HTML uses: grid.css if it uses the grid, used atomic and Tailwind classes. */
-export async function buildPage(html, {styles, cwd, compile = false} = {}) {
-  await loadStyles(styles, cwd);
-  const compiled = compile ? compileHtml(html) : null;
-  const used = tokenize(compiled ? compiled.html : html);
-  const atomicIn = name => atomicRules().filter(r => r.layer === name && used.has(r.className)).map(r => r.css).join('\n');
+// CSS for a set of used class tokens: grid.css if used, atomic rules (in their
+// layers, optionally renamed), readable utilities, variable utilities + registrations.
+async function assembleCss(used, varKeys = [], rename = null) {
+  const name = r => (rename?.has(r.className) ? r.css.split(`.${r.className}`).join(`.${rename.get(r.className)}`) : r.css);
+  const atomicIn = layerName => atomicRules().filter(r => r.layer === layerName && used.has(r.className)).map(name).join('\n');
   const parts = [];
   const gridCss = [...used].some(t => t.startsWith(`${PREFIX}-grid-`)) ? standardizeGrid(await read('grid.css')) : '';
   const components = [gridCss, atomicIn('components')].filter(Boolean).join('\n');
@@ -440,10 +440,71 @@ export async function buildPage(html, {styles, cwd, compile = false} = {}) {
   const vu = varUtilitiesCss(used);
   const util = [utilitiesCss(used), vu.css, atomicIn('utilities')].filter(t => t.trim()).join('\n');
   if (util) parts.push(layer('utilities', util));
-  const registrations = [vu.properties, ...[...(compiled?.varKeys || [])].map(k => varUtility(k).filter(r => r.property).map(r => r.property).join('\n'))].filter(Boolean);
+  const registrations = [vu.properties, ...[...varKeys].map(k => varUtility(k).filter(r => r.property).map(r => r.property).join('\n'))].filter(Boolean);
   if (registrations.length) parts.unshift([...new Set(registrations.join('\n').split('\n'))].join('\n'));
-  const css = minify(parts.join('\n'));
+  return minify(parts.join('\n'));
+}
+
+export async function buildPage(html, {styles, cwd, compile = false} = {}) {
+  await loadStyles(styles, cwd);
+  const compiled = compile ? compileHtml(html) : null;
+  const css = await assembleCss(tokenize(compiled ? compiled.html : html), compiled?.varKeys);
   return compiled ? {css, html: compiled.html} : css;
+}
+
+// ---------- site mode: one shared, cached stylesheet + short atomic names ----------
+const CLASS_ATTR = /(<(script|style)\b[\s\S]*?<\/\2>)|\bclass="([^"]*)"/gi;
+const markupClasses = html => [...html.matchAll(CLASS_ATTR)].filter(m => !m[1]).flatMap(m => m[3].split(/\s+/)).filter(Boolean);
+
+/**
+ * Facebook-style site build: compile every page, then give the most used atomic
+ * classes the shortest names (ax_0, ax_1, …) and put core + every page's rules in
+ * one stylesheet that browsers cache once. pages: {name: html}. Returns {css, pages}.
+ */
+export async function compileSite(pages, {styles, cwd} = {}) {
+  await loadStyles(styles, cwd);
+  const compiled = {}, used = new Set(), varKeys = new Set(), counts = new Map();
+  for (const [name, html] of Object.entries(pages)) {
+    const c = compileHtml(html);
+    compiled[name] = c.html;
+    c.varKeys.forEach(k => varKeys.add(k));
+    tokenize(c.html, used);
+    for (const t of markupClasses(c.html)) if (registry.has(t)) counts.set(t, (counts.get(t) || 0) + 1);
+  }
+  const rename = new Map();
+  let n = 0;
+  for (const [cls] of [...counts].sort((a, b) => b[1] - a[1])) {
+    let short;
+    do short = `${PREFIX}_${(n++).toString(36)}`; while (registry.has(short));
+    rename.set(cls, short);
+  }
+  const out = {};
+  for (const [name, html] of Object.entries(compiled)) {
+    out[name] = html.replace(CLASS_ATTR, (m, block, tag, value) => (block ? block : `class="${value.split(/\s+/).filter(Boolean).map(t => rename.get(t) || t).join(' ')}"`));
+  }
+  const css = minify(`${await buildCore()}\n${await assembleCss(used, varKeys, rename)}`);
+  return {css, pages: out};
+}
+
+/** Link the shared site stylesheet, replacing full-bundle / core / page-style tags. Idempotent. */
+export function linkSite(html, href) {
+  const cleaned = html
+    .replace(/<link[^>]+href="[^"]*a11y-atomic(\.min)?\.css"[^>]*>\s*/g, '')
+    .replace(/<link[^>]+data-ax-(core|site)[^>]*>(<style data-ax-page>[\s\S]*?<\/style>)?\s*/g, '');
+  return cleaned.replace(/<\/head>/i, `<link rel="stylesheet" href="${href}" data-ax-site>\n</head>`);
+}
+
+/** Rewrite every built page in place and write one shared stylesheet. */
+export async function buildSite(patterns, {cwd = process.cwd(), styles, out = 'css/a11y-site.css', hrefRoot = ''} = {}) {
+  const files = [];
+  for (const pattern of [].concat(patterns)) for await (const file of glob(pattern, {cwd})) files.push(file);
+  const pages = Object.fromEntries(await Promise.all(files.map(async f => [f, await readFile(path.resolve(cwd, f), 'utf8')])));
+  const site = await compileSite(pages, {styles, cwd});
+  const href = `/${(hrefRoot ? path.relative(hrefRoot, out) : out).replace(/^\/+/, '')}`;
+  await mkdir(path.dirname(path.resolve(cwd, out)), {recursive: true});
+  await writeFile(path.resolve(cwd, out), site.css + '\n');
+  for (const [f, html] of Object.entries(site.pages)) await writeFile(path.resolve(cwd, f), linkSite(html, href));
+  return {css: site.css.length, pages: files.length};
 }
 
 // ---------- compile: readable classes → atomic classes (Facebook style) ----------
@@ -538,7 +599,7 @@ export function inlinePage(html, pageCss, coreHref) {
 }
 
 /** Rewrite every built HTML page in place and write the shared core file. */
-export async function buildPages(patterns, {cwd = process.cwd(), styles, core = 'css/a11y-core.css', compile = true} = {}) {
+export async function buildPages(patterns, {cwd = process.cwd(), styles, core = 'css/a11y-core.css', compile = false} = {}) {
   await loadStyles(styles, cwd);
   const corePath = path.resolve(cwd, core);
   await mkdir(path.dirname(corePath), {recursive: true});
@@ -579,8 +640,12 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const args = process.argv.slice(2);
   const opt = flag => { const i = args.indexOf(flag); return i > -1 ? args[i + 1] : undefined; };
   const t = performance.now();
-  if (opt('--pages')) {
-    const {core, pages} = await buildPages(opt('--pages').split(','), {styles: opt('--styles')?.split(','), core: opt('--core'), compile: !args.includes('--readable')});
+  if (opt('--site')) {
+    const out = opt('--out') || 'css/a11y-site.css';
+    const r = await buildSite(opt('--site').split(','), {styles: opt('--styles')?.split(','), out});
+    console.log(`${r.pages} pages compiled; one shared stylesheet ${out} ${(r.css / 1024).toFixed(1)} KB, in ${Math.round(performance.now() - t)} ms`);
+  } else if (opt('--pages')) {
+    const {core, pages} = await buildPages(opt('--pages').split(','), {styles: opt('--styles')?.split(','), core: opt('--core'), compile: args.includes('--compile')});
     const avg = pages.reduce((n, p) => n + p.bytes, 0) / Math.max(1, pages.length);
     console.log(`${pages.length} pages: shared core ${(core / 1024).toFixed(1)} KB + ${(avg / 1024).toFixed(1)} KB average inline per page, in ${Math.round(performance.now() - t)} ms`);
   } else if (opt('--content')) {
