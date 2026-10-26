@@ -1,4 +1,4 @@
-// a11y-atomic accessibility widget.
+// Illustion UI accessibility widget.
 // Settings become data-ax-<key> attributes on <html>; the CSS framework reads
 // them. Pure helpers (sanitize/apply/load/save) work without a DOM for tests.
 
@@ -6,7 +6,7 @@ import {classes as cx, inject} from './atomic.js';
 import {styles as st} from './widget.styles.js';
 import {adopt} from './shadow.js';
 
-export const STORAGE_KEY = 'a11y-atomic';
+export const STORAGE_KEY = 'illustion-ui';
 
 // type 'choice' renders a radio group, 'toggle' a switch (options = [off, on]).
 // wcag: success criteria the setting helps with (checked against wcag/snapshot.json).

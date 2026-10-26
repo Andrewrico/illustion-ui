@@ -17,7 +17,7 @@ export const styles = create({
 
   toggle: {
     display: 'grid', placeItems: 'center',
-    width: 'clamp(48px, 3.5rem, 72px)', height: 'clamp(48px, 3.5rem, 72px)',
+    width: 'clamp(44px, 3.25rem, 64px)', height: 'clamp(44px, 3.25rem, 64px)',
     borderWidth: '2px', borderStyle: 'solid', borderColor: color['on-primary'], borderRadius: radius.full,
     backgroundColor: {default: color.primary, ':hover': color['primary-hover']},
     color: color['on-primary'], boxShadow: shadow.lg, cursor: 'pointer',
