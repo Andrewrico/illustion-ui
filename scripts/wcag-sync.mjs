@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Keeps a11y-atomic tied to the W3C WAI rules.
+// Keeps Illustion UI tied to the W3C WAI rules.
 //
 //   npm run wcag:sync            → fetch W3C's official WCAG JSON, report what changed (exit 1 if anything did)
 //   npm run wcag:sync -- --write → also update wcag/snapshot.json (then run npm test: new criteria must be mapped)

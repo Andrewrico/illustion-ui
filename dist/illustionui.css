@@ -1,4 +1,4 @@
-/*! a11y-atomic v0.1.0 | MIT | Tailwind-compatible atomic CSS on accessibility tokens */
+/*! Illustion UI v0.1.0 | MIT | Atomic CSS on accessibility tokens */
 
 @layer theme, base, components, atomic, utilities, a11y;
 
@@ -437,62 +437,62 @@
 :root {
   color-scheme: light;
   --ax-color-bg: #ffffff;
-  --ax-color-surface: #f3f5f8;
-  --ax-color-surface-2: #e6eaf0;
-  --ax-color-text: #16191d;
-  --ax-color-muted: #4a5360;
-  --ax-color-primary: #0b57d0;
-  --ax-color-primary-hover: #0842a0;
+  --ax-color-surface: #f5f5f5;
+  --ax-color-surface-2: #e8e8e8;
+  --ax-color-text: #111111;
+  --ax-color-muted: #525252;
+  --ax-color-primary: #000000;
+  --ax-color-primary-hover: #333333;
   --ax-color-on-primary: #ffffff;
-  --ax-color-link: #0b57d0;
-  --ax-color-border: #6b7480;
-  --ax-color-focus: #9a3412;
+  --ax-color-link: #000000;
+  --ax-color-border: #737373;
+  --ax-color-focus: #000000;
   --ax-color-danger: #b3261e;
   --ax-color-success: #1e6b33;
   --ax-color-warning: #7a4a00;
-  --ax-color-highlight: #fff1a8;
-  --ax-color-on-highlight: #16191d;
+  --ax-color-highlight: #e0e0e0;
+  --ax-color-on-highlight: #000000;
 }
 
 :root[data-ax-theme="dark"] {
   color-scheme: dark;
-  --ax-color-bg: #111316;
-  --ax-color-surface: #1b1e23;
-  --ax-color-surface-2: #262a31;
-  --ax-color-text: #eef1f4;
-  --ax-color-muted: #b6bfcc;
-  --ax-color-primary: #8ab4f8;
-  --ax-color-primary-hover: #aecbfa;
-  --ax-color-on-primary: #0a1a33;
-  --ax-color-link: #8ab4f8;
-  --ax-color-border: #8b94a1;
-  --ax-color-focus: #ffb454;
+  --ax-color-bg: #0a0a0a;
+  --ax-color-surface: #171717;
+  --ax-color-surface-2: #262626;
+  --ax-color-text: #f5f5f5;
+  --ax-color-muted: #b3b3b3;
+  --ax-color-primary: #ffffff;
+  --ax-color-primary-hover: #d4d4d4;
+  --ax-color-on-primary: #000000;
+  --ax-color-link: #ffffff;
+  --ax-color-border: #8a8a8a;
+  --ax-color-focus: #ffffff;
   --ax-color-danger: #ff8b80;
   --ax-color-success: #7fdc9c;
   --ax-color-warning: #ffcf70;
-  --ax-color-highlight: #5c4b00;
-  --ax-color-on-highlight: #fff8d6;
+  --ax-color-highlight: #3a3a3a;
+  --ax-color-on-highlight: #ffffff;
 }
 
 @media (prefers-color-scheme: dark) {
 :root:not([data-ax-theme="light"]) {
   color-scheme: dark;
-  --ax-color-bg: #111316;
-  --ax-color-surface: #1b1e23;
-  --ax-color-surface-2: #262a31;
-  --ax-color-text: #eef1f4;
-  --ax-color-muted: #b6bfcc;
-  --ax-color-primary: #8ab4f8;
-  --ax-color-primary-hover: #aecbfa;
-  --ax-color-on-primary: #0a1a33;
-  --ax-color-link: #8ab4f8;
-  --ax-color-border: #8b94a1;
-  --ax-color-focus: #ffb454;
+  --ax-color-bg: #0a0a0a;
+  --ax-color-surface: #171717;
+  --ax-color-surface-2: #262626;
+  --ax-color-text: #f5f5f5;
+  --ax-color-muted: #b3b3b3;
+  --ax-color-primary: #ffffff;
+  --ax-color-primary-hover: #d4d4d4;
+  --ax-color-on-primary: #000000;
+  --ax-color-link: #ffffff;
+  --ax-color-border: #8a8a8a;
+  --ax-color-focus: #ffffff;
   --ax-color-danger: #ff8b80;
   --ax-color-success: #7fdc9c;
   --ax-color-warning: #ffcf70;
-  --ax-color-highlight: #5c4b00;
-  --ax-color-on-highlight: #fff8d6;
+  --ax-color-highlight: #3a3a3a;
+  --ax-color-on-highlight: #ffffff;
 }
 }
 
@@ -667,6 +667,138 @@ a:hover { text-decoration-thickness: 0.15em; }
 
 ::selection { background: var(--ax-color-highlight); color: var(--ax-color-on-highlight); }
 
+/* ==========================================================================
+   Illustion UI: the classless look. Plain HTML, no classes, already styled.
+   Everything here reads tokens, so text size, spacing, contrast, themes,
+   fonts and motion from the widget change it too. It lives in the base layer
+   at zero specificity (:where), so any utility or component class wins.
+
+   Signature: a short primary bar marks a new thought (h2 and hr), numbers and
+   bullets take the primary colour, keys look like keys, and one display serif
+   carries every heading. Reader font modes still override the serif.
+   ========================================================================== */
+
+:root { --ax-font-display: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif; }
+
+/* ---------- Headings ---------- */
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--ax-font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin-block: var(--ax-space-8) var(--ax-space-3);
+}
+:where(h1) { font-size: var(--ax-text-4xl); }
+:where(h2) { font-size: var(--ax-text-3xl); }
+:where(h3) { font-size: var(--ax-text-2xl); }
+:where(h4) { font-size: var(--ax-text-xl); }
+:where(h5) { font-size: var(--ax-text-lg); }
+:where(h6) { font-size: var(--ax-text-base); }
+:where(h1, h2, h3, h4, h5, h6):first-child { margin-block-start: 0; }
+:where(h2)::before {
+  content: "";
+  display: block;
+  inline-size: var(--ax-space-10);
+  block-size: var(--ax-space-1);
+  margin-block-end: var(--ax-space-3);
+  border-radius: var(--ax-radius-full);
+  background: var(--ax-color-primary);
+}
+
+/* ---------- Text ---------- */
+:where(p, ul, ol, dl, pre, blockquote, figure, table, form, fieldset, details) { margin-block: 0 var(--ax-space-4); }
+:where(p) { text-wrap: pretty; }
+:where(small) { font-size: var(--ax-text-sm); }
+:where(abbr[title]) { text-decoration: underline dotted; text-underline-offset: 0.15em; cursor: help; }
+:where(strong, b, th) { font-weight: 700; }
+:where(mark) { background: var(--ax-color-highlight); color: var(--ax-color-on-highlight); padding-inline: 0.2em; border-radius: var(--ax-radius-sm); }
+:where(hr) {
+  inline-size: var(--ax-space-10);
+  block-size: var(--ax-space-1);
+  margin-block: var(--ax-space-8);
+  margin-inline: 0;
+  border-radius: var(--ax-radius-full);
+  background: var(--ax-color-primary);
+}
+
+/* ---------- Lists ---------- */
+:where(ul, ol) { padding-inline-start: 1.5em; }
+:where(li)::marker { color: var(--ax-color-primary); font-weight: 700; }
+:where(li + li) { margin-block-start: var(--ax-space-1); }
+:where(dt) { font-weight: 700; }
+:where(dd) { margin-inline-start: 0; margin-block-end: var(--ax-space-2); color: var(--ax-color-muted); }
+
+/* ---------- Quotes and figures ---------- */
+:where(blockquote) {
+  padding-inline: var(--ax-space-5);
+  border-inline-start: var(--ax-space-1) solid var(--ax-color-primary);
+  font-family: var(--ax-font-display);
+  font-size: var(--ax-text-lg);
+}
+:where(blockquote) :where(footer, cite) { font-family: var(--ax-a11y-font-body); font-size: var(--ax-text-sm); color: var(--ax-color-muted); font-style: normal; }
+:where(figcaption, caption) { font-size: var(--ax-text-sm); color: var(--ax-color-muted); }
+:where(caption) { text-align: start; caption-side: top; padding-block-end: var(--ax-space-2); }
+
+/* ---------- Code and keys ---------- */
+:where(:not(pre) > code, kbd, samp) { background: var(--ax-color-surface-2); color: var(--ax-color-text); padding: 0.1em 0.4em; border-radius: var(--ax-radius-sm); }
+:where(kbd) { border: 1px solid var(--ax-color-border); border-block-end-width: 3px; background: var(--ax-color-surface); }
+:where(pre) {
+  padding: var(--ax-space-4);
+  background: var(--ax-color-surface-2);
+  color: var(--ax-color-text);
+  border-radius: var(--ax-radius-lg);
+  overflow-x: auto;
+}
+:where(pre) code { background: none; padding: 0; }
+
+/* ---------- Tables ---------- */
+:where(table) { inline-size: 100%; border-collapse: collapse; }
+:where(th, td) { padding: var(--ax-space-2) var(--ax-space-3); text-align: start; border-block-end: 1px solid var(--ax-color-border); }
+:where(thead th) { border-block-end: 2px solid var(--ax-color-text); }
+
+/* ---------- Forms ---------- */
+:where(input, select, textarea, progress, meter) { accent-color: var(--ax-color-primary); }
+:where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="button"], [type="submit"], [type="reset"], [type="file"]), select, textarea) {
+  min-block-size: var(--ax-a11y-target-min);
+  padding: var(--ax-space-2) var(--ax-space-3);
+  border: 2px solid var(--ax-color-border);
+  border-radius: var(--ax-radius-md);
+  background: var(--ax-color-bg);
+  max-inline-size: 100%;
+}
+:where(input, select, textarea):focus-visible { border-color: var(--ax-color-primary); }
+:where(input[type="checkbox"], input[type="radio"]) { inline-size: 1.25em; block-size: 1.25em; vertical-align: middle; }
+:where(textarea) { min-block-size: calc(var(--ax-space-8) * 3); }
+:where(fieldset) { padding: var(--ax-space-3) var(--ax-space-4); border: 2px solid var(--ax-color-border); border-radius: var(--ax-radius-lg); }
+:where(legend) { font-weight: 700; padding-inline: var(--ax-space-2); }
+:where(:disabled) { opacity: 0.6; cursor: not-allowed; }
+
+/* ---------- Buttons ---------- */
+/* :is(), not :where(): base.css sets color on button, and this must win inside the base layer. Classes still win by layer. */
+:is(button, input[type="button"], input[type="submit"], input[type="reset"]) {
+  min-block-size: var(--ax-a11y-target-min);
+  padding: var(--ax-space-2) var(--ax-space-5);
+  border-radius: var(--ax-radius-md);
+  background: var(--ax-color-primary);
+  color: var(--ax-color-on-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--ax-duration-fast) var(--ax-ease-out);
+}
+:is(button, input[type="button"], input[type="submit"], input[type="reset"]):hover:not(:disabled) { background: var(--ax-color-primary-hover); }
+
+/* ---------- Disclosure and dialogs ---------- */
+:where(details) { padding: var(--ax-space-1) var(--ax-space-4); border: 1px solid var(--ax-color-border); border-radius: var(--ax-radius-md); }
+:where(summary) { min-block-size: var(--ax-a11y-target-min); padding-block: var(--ax-space-2); font-weight: 600; cursor: pointer; }
+:where(summary)::marker { color: var(--ax-color-primary); }
+:where(dialog) { padding: var(--ax-space-6); border: 2px solid var(--ax-color-border); border-radius: var(--ax-radius-xl); background: var(--ax-color-bg); color: var(--ax-color-text); }
+dialog::backdrop { background: rgb(0 0 0 / 0.6); }
+
+@media (forced-colors: active) {
+  :where(button, input[type="button"], input[type="submit"], input[type="reset"]) { border: 2px solid ButtonText; }
+}
+
 }
 
 @layer components {
@@ -818,8 +950,8 @@ a:hover { text-decoration-thickness: 0.15em; }
 .ax_1svf2um { right: auto; }
 .ax_1m858vb { left: var(--ax-space-4); }
 .ax_ttmg7t { display: grid; }
-.ax_68na2e { width: clamp(48px, 3.5rem, 72px); }
-.ax_1t58b9f { height: clamp(48px, 3.5rem, 72px); }
+.ax_brj9cb { width: clamp(44px, 3.25rem, 64px); }
+.ax_19wu9ic { height: clamp(44px, 3.25rem, 64px); }
 .ax_c84652 { border-style: solid; }
 .ax_148ts71 { background-color: var(--ax-color-primary); }
 .ax_1ran1vs { color: var(--ax-color-on-primary); }

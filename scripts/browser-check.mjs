@@ -11,6 +11,7 @@ import {build, minify, buildCore, buildPage, inlinePage} from './build.mjs';
 const root = fileURLToPath(new URL('../', import.meta.url));
 const port = Number(process.env.PORT || 8095);
 const base = `http://127.0.0.1:${port}/`;
+const demo = base + 'examples.html'; // the long component demo; index.html is the landing page
 const axeSource = await readFile(createRequire(import.meta.url).resolve('axe-core/axe.min.js'), 'utf8');
 const errors = [];
 const fail = (where, message) => errors.push(`${where}: ${message}`);
@@ -28,11 +29,11 @@ try {
 
   async function open(contextOptions, where, state) {
     const context = await browser.newContext(contextOptions);
-    if (state) await context.addInitScript(s => localStorage.setItem('a11y-atomic', s), JSON.stringify(state));
+    if (state) await context.addInitScript(s => localStorage.setItem('illustion-ui', s), JSON.stringify(state));
     const page = await context.newPage();
     page.on('pageerror', error => fail(where, error.message));
     page.on('console', message => { if (message.type() === 'error') fail(where, message.text()); });
-    await page.goto(base);
+    await page.goto(demo);
     await page.waitForFunction(() => globalThis.a11yWidget);
     return {context, page};
   }
@@ -48,13 +49,48 @@ try {
   // 1. axe in every theme/contrast combination, panel open (so widget is audited too).
   const desktop = {viewport: {width: 1440, height: 900}};
   const combos = [
-    ['light', {}, {}], ['dark-os', {colorScheme: 'dark'}, {}], ['dark-attr', {}, {theme: 'dark'}],
+    ['light', {}, {}], ['dark-os', {colorScheme: 'dark'}, {theme: 'auto'}], ['dark-attr', {}, {theme: 'dark'}],
     ['high', {}, {contrast: 'high'}], ['high-dark', {}, {contrast: 'high', theme: 'dark'}],
     ['all-modes', {}, {text: '150', spacing: 'on', font: 'dyslexic', links: 'underline', focus: 'strong', target: 'large', align: 'left'}],
   ];
   for (const [name, ctx, state] of combos) {
     const {context, page} = await open({...desktop, ...ctx}, `axe/${name}`, state);
     await axe(page, `axe/${name}`, true);
+    await context.close();
+  }
+
+  // 1b. Landing page and docs: axe in each theme, no horizontal scroll at 320px / 200% text,
+  //     and the docs sidebar marks the current page.
+  for (const url of ['index.html', 'docs/', 'docs/connect/', 'docs/widget-api/']) {
+    const visit = async (contextOptions, where, state) => {
+      const context = await browser.newContext(contextOptions);
+      if (state) await context.addInitScript(v => localStorage.setItem('illustion-ui', v), JSON.stringify(state));
+      const page = await context.newPage();
+      page.on('pageerror', error => fail(where, error.message));
+      page.on('console', message => { if (message.type() === 'error') fail(where, message.text()); });
+      await page.goto(base + url);
+      await page.waitForFunction(() => globalThis.a11yWidget);
+      return {context, page};
+    };
+    for (const [name, ctx, state] of [['light', {}, {}], ['dark', {colorScheme: 'dark'}, {theme: 'auto'}], ['high', {}, {contrast: 'high'}], ['text-200', {}, {text: '200', spacing: 'on'}]]) {
+      const where = `site/${url}/${name}`;
+      const {context, page} = await visit({...desktop, ...ctx}, where, state);
+      await axe(page, where, true);
+      await context.close();
+    }
+    const where = `site/${url}/reflow`;
+    const {context, page} = await visit({viewport: {width: 320, height: 640}}, where, {text: '200', spacing: 'on'});
+    expect(where, !(await page.evaluate(() => document.documentElement.scrollWidth > innerWidth)), 'horizontal scroll at 320px');
+    await context.close();
+  }
+  {
+    const where = 'site/docs-current';
+    const {context, page} = await open(desktop, where);
+    await page.goto(base + 'docs/quick-start/');
+    const current = await page.evaluate(() => [...document.querySelectorAll('.docs-side [aria-current="page"]')].map(a => a.textContent));
+    expect(where, current.length === 1 && current[0] === 'Quick start', `sidebar should mark one current page, got ${JSON.stringify(current)}`);
+    const copied = await page.evaluate(() => document.querySelectorAll('.code button.copy').length);
+    expect(where, copied >= 2, `code blocks should get copy buttons, got ${copied}`);
     await context.close();
   }
 
@@ -99,10 +135,10 @@ try {
   {
     const where = 'init';
     const context = await browser.newContext(desktop);
-    await context.addInitScript(() => localStorage.setItem('a11y-atomic', JSON.stringify({contrast: 'high', text: 'x<script>'})));
+    await context.addInitScript(() => localStorage.setItem('illustion-ui', JSON.stringify({contrast: 'high', text: 'x<script>'})));
     const page = await context.newPage();
     await page.route('**/src/auto.js', route => route.abort());
-    await page.goto(base);
+    await page.goto(demo);
     expect(where, await page.getAttribute('html', 'data-ax-contrast') === 'high', 'init script should apply contrast before the widget loads');
     expect(where, await page.getAttribute('html', 'data-ax-text') === null, 'init script should ignore invalid values');
     const bg = await page.evaluate(() => getComputedStyle(document.body).color);
@@ -140,7 +176,7 @@ try {
   }
 
   // 7. OS "more contrast" applies the high-contrast palette unless the user picks Standard.
-  for (const [name, state, expected] of [['os-more', {}, 'rgb(0, 0, 0)'], ['os-more-normal', {contrast: 'normal'}, 'rgb(22, 25, 29)']]) {
+  for (const [name, state, expected] of [['os-more', {}, 'rgb(0, 0, 0)'], ['os-more-normal', {contrast: 'normal'}, 'rgb(17, 17, 17)']]) {
     const where = `contrast/${name}`;
     const {context, page} = await open({...desktop, contrast: 'more'}, where, state);
     const color = await page.evaluate(() => getComputedStyle(document.body).color);
@@ -151,7 +187,7 @@ try {
   {
     const where = 'variants';
     const {context, page} = await open(desktop, where, {text: '200'});
-    const nav = await page.evaluate(() => getComputedStyle(document.querySelector('nav')).flexDirection);
+    const nav = await page.evaluate(() => getComputedStyle(document.querySelector('nav[aria-label="On this page"] ul')).flexDirection);
     expect(where, nav === 'column', `large-text:flex-col should stack the nav, got ${nav}`);
     const tops = await page.evaluate(() => [...document.querySelectorAll('.ax-basis-switch')].map(el => Math.round(el.getBoundingClientRect().top)));
     expect(where, new Set(tops).size === tops.length, `switcher should stack at 200% text, tops ${tops}`);
@@ -170,9 +206,9 @@ try {
   {
     const where = 'content-scan';
     const t = performance.now();
-    const small = minify(await build({content: ['index.html', 'src/widget.js'], cwd: root}));
+    const small = minify(await build({content: ['examples.html', 'src/widget.js'], cwd: root}));
     const ms = Math.round(performance.now() - t);
-    const full = await readFile(new URL('../dist/a11y-atomic.css', import.meta.url), 'utf8');
+    const full = await readFile(new URL('../dist/illustionui.css', import.meta.url), 'utf8');
     expect(where, small.length < full.length / 8, `scanned CSS ${small.length} B vs full ${full.length} B`);
     const signature = async page => page.evaluate(() => [...document.querySelectorAll('body *')].map(el => {
       const c = getComputedStyle(el);
@@ -183,9 +219,9 @@ try {
       const fullSig = await signature(a.page);
       await a.context.close();
       const context = await browser.newContext(vp);
-      await context.route('**/dist/a11y-atomic.css', route => route.fulfill({contentType: 'text/css', body: small}));
+      await context.route('**/dist/illustionui.css', route => route.fulfill({contentType: 'text/css', body: small}));
       const page = await context.newPage();
-      await page.goto(base);
+      await page.goto(demo);
       await page.waitForFunction(() => globalThis.a11yWidget);
       expect(`${where}/${label}`, (await signature(page)) === fullSig, 'computed styles differ between scanned and full CSS');
       await context.close();
@@ -237,12 +273,12 @@ try {
   //     just the rules it renders. Must look identical to the full bundle.
   {
     const where = 'per-page';
-    const html = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+    const html = await readFile(new URL('../examples.html', import.meta.url), 'utf8');
     const pageCss = await buildPage(html);
     const core = await buildCore();
-    const full = await readFile(new URL('../dist/a11y-atomic.css', import.meta.url), 'utf8');
-    const rewritten = inlinePage(html, pageCss, '/dist/a11y-core.css');
-    expect(where, !rewritten.includes('dist/a11y-atomic.css'), 'full bundle link should be removed');
+    const full = await readFile(new URL('../dist/illustionui.css', import.meta.url), 'utf8');
+    const rewritten = inlinePage(html, pageCss, '/dist/illustionui-core.css');
+    expect(where, !rewritten.includes('dist/illustionui.css'), 'full bundle link should be removed');
     console.log(`  per page: core ${(core.length / 1024).toFixed(1)} KB (cached) + page ${(pageCss.length / 1024).toFixed(1)} KB inline, vs full ${(full.length / 1024).toFixed(0)} KB`);
     const signature = async page => page.evaluate(() => [...document.querySelectorAll('body *')].map(el => {
       const c = getComputedStyle(el);
@@ -256,12 +292,12 @@ try {
       const fullSig = await signature(a.page);
       await a.context.close();
       const context = await browser.newContext(vp);
-      if (state) await context.addInitScript(s => localStorage.setItem('a11y-atomic', s), JSON.stringify(state));
-      await context.route(base, route => route.fulfill({contentType: 'text/html', body: rewritten}));
-      await context.route('**/dist/a11y-core.css', route => route.fulfill({contentType: 'text/css', body: core}));
+      if (state) await context.addInitScript(s => localStorage.setItem('illustion-ui', s), JSON.stringify(state));
+      await context.route(demo, route => route.fulfill({contentType: 'text/html', body: rewritten}));
+      await context.route('**/dist/illustionui-core.css', route => route.fulfill({contentType: 'text/css', body: core}));
       const page = await context.newPage();
       page.on('pageerror', error => fail(`${where}/${label}`, error.message));
-      await page.goto(base);
+      await page.goto(demo);
       await page.waitForFunction(() => globalThis.a11yWidget);
       await page.evaluate(() => globalThis.a11yWidget.open());
       await page.waitForTimeout(400);
@@ -291,14 +327,14 @@ try {
     const set = async (name, value) => { await page.evaluate(([n, v]) => v === null ? document.documentElement.removeAttribute(n) : document.documentElement.setAttribute(n, v), [name, value]); await page.waitForTimeout(60); };
     let c = await card();
     expect(where, c.display === 'flex' && c.padding === '24px' && c.dir === 'row', `atomic classes should style shadow content: ${JSON.stringify(c)}`);
-    expect(where, c.bg === 'rgb(243, 245, 248)', `tokens should inherit into shadow: ${c.bg}`);
+    expect(where, c.bg === 'rgb(245, 245, 245)', `tokens should inherit into shadow: ${c.bg}`);
     await set('data-ax-text', '200');
     c = await card();
     expect(where, c.dir === 'column' && c.padding === '48px', `@large-text and text size should apply inside shadow: ${c.dir} ${c.padding}`);
     await set('data-ax-spacing', 'on');
     expect(where, (await card()).letter !== 'normal', 'text spacing mode should reach shadow text');
     await set('data-ax-theme', 'dark');
-    expect(where, (await card()).color === 'rgb(238, 241, 244)', 'dark theme should reach shadow content');
+    expect(where, (await card()).color === 'rgb(245, 245, 245)', 'dark theme should reach shadow content');
     await set('data-ax-links', 'underline');
     expect(where, (await card()).linkBg !== 'rgba(0, 0, 0, 0)', 'highlight links should reach shadow links');
     for (const n of ['data-ax-text', 'data-ax-spacing', 'data-ax-theme', 'data-ax-links']) await set(n, null);
@@ -360,7 +396,7 @@ try {
     const where = 'compiled';
     const compiledHtml = await readFile(new URL('../compiled.html', import.meta.url), 'utf8');
     const markup = compiledHtml.replace(/<script[\s\S]*?<\/script>/g, '');
-    const tokens = [...markup.matchAll(/class="([^"]*)"/g)].flatMap(m => m[1].split(/\s+/)).filter(Boolean);
+    const tokens = [...markup.matchAll(/class="([^"]*)"/g)].flatMap(m => m[1].split(/\s+/)).filter(t => t && !t.startsWith('site-')); // site-* is the shared top bar (docs/assets/site.css), not compiled
     expect(where, tokens.length > 500 && tokens.every(t => t.startsWith('ax_')), `non-atomic classes in markup: ${[...new Set(tokens.filter(t => !t.startsWith('ax_')))].slice(0, 8)}`);
     const sig = async page => page.evaluate(() => [...document.querySelectorAll('body *')].map(el => {
       const c = getComputedStyle(el);
@@ -369,7 +405,7 @@ try {
     for (const [vp, label, state] of [[desktop, 'desktop'], [{viewport: {width: 390, height: 844}}, 'mobile'], [desktop, 'dark-high-200', {theme: 'dark', contrast: 'high', text: '200'}], [{viewport: {width: 1100, height: 800}}, 'tablet-spacing', {spacing: 'on', text: '150'}]]) {
       const read = async path => {
         const context = await browser.newContext(vp);
-        if (state) await context.addInitScript(s => localStorage.setItem('a11y-atomic', s), JSON.stringify(state));
+        if (state) await context.addInitScript(s => localStorage.setItem('illustion-ui', s), JSON.stringify(state));
         const page = await context.newPage();
         page.on('pageerror', error => fail(`${where}/${label}`, error.message));
         await page.goto(base + path);
@@ -379,7 +415,7 @@ try {
         await context.close();
         return out;
       };
-      const a = await read('');
+      const a = await read('examples.html');
       for (const file of ['compiled.html', 'compiled-site.html']) {
         const b = await read(file);
         const i = a.findIndex((line, k) => line !== b[k]);
@@ -387,7 +423,7 @@ try {
       }
     }
     const siteHtml = (await readFile(new URL('../compiled-site.html', import.meta.url), 'utf8')).replace(/<script[\s\S]*?<\/script>/g, '');
-    const siteTokens = [...siteHtml.matchAll(/class="([^"]*)"/g)].flatMap(m => m[1].split(/\s+/)).filter(Boolean);
+    const siteTokens = [...siteHtml.matchAll(/class="([^"]*)"/g)].flatMap(m => m[1].split(/\s+/)).filter(t => t && !t.startsWith('site-'));
     expect(where, siteTokens.every(t => /^ax_[0-9a-z]+$/.test(t)) && siteTokens.filter(t => t.length <= 6).length > siteTokens.length / 2, 'site mode should use short ax_N names');
     const context = await browser.newContext(desktop);
     const page = await context.newPage();

@@ -1,4 +1,4 @@
-// How a11y-atomic relates to every WCAG success criterion at Level A and AA
+// How Illustion UI relates to every WCAG success criterion at Level A and AA
 // (plus the AAA criteria it helps with). Checked against wcag/snapshot.json,
 // which scripts/wcag-sync.mjs refreshes from W3C — when W3C adds or changes a
 // criterion, test/wcag.test.js fails until it is classified here.

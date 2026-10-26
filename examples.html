@@ -3,64 +3,274 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>a11y-atomic — Tailwind-compatible, accessibility-first</title>
-  <meta name="description" content="Tailwind-compatible atomic CSS on accessibility tokens. An accessibility widget changes the tokens, so every class adapts.">
-  <script src="dist/a11y-init.js"></script>
-  <link rel="stylesheet" href="dist/a11y-atomic.css">
+  <title>Illustion UI examples · Components and demos</title>
+  <meta name="description" content="Atomic CSS on accessibility tokens. An accessibility widget changes the tokens, so every class adapts.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="dist/illustionui.css">
+  <link rel="stylesheet" href="docs/assets/site.css">
   <script type="module" src="src/auto.js"></script>
 </head>
 <body>
   <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#main">Skip to content</a>
 
-  <header class="ax-grid-section ax-bg-surface ax-border-b ax-border-border">
-    <div class="ax-grid-wrapper">
-      <nav class="ax-grid-row ax-flex ax-flex-col md:ax-flex-row ax-items-start md:ax-items-center ax-justify-between ax-gap-3 large-text:ax-flex-col large-text:ax-items-start" aria-label="Primary">
-        <a href="#" class="ax-text-xl ax-font-bold ax-no-underline ax-text-text">a11y-atomic</a>
-        <ul class="ax-flex ax-flex-wrap ax-gap-4 ax-list-none ax-m-0 ax-p-0">
-          <li><a href="#modes">Modes</a></li>
-          <li><a href="#grid">Grid</a></li>
-          <li><a href="#lineage">Lineage</a></li>
-          <li><a href="#variables">Variables</a></li>
-          <li><a href="#atomic">Atomic</a></li>
-          <li><a href="#utilities">Utilities</a></li>
-        </ul>
-      </nav>
-    </div>
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="docs/">Docs</a></li>
+        <li><a href="examples.html" aria-current="page">Examples</a></li>
+        <li><a href="docs/wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
   </header>
 
+  <nav class="ax-grid-section ax-bg-bg ax-border-b ax-border-border" aria-label="On this page">
+    <div class="ax-grid-wrapper">
+      <ul class="ax-grid-row ax-flex ax-flex-wrap ax-gap-x-5 ax-gap-y-2 ax-list-none ax-m-0 ax-p-0 large-text:ax-flex-col">
+        <li><a href="#console">Try it</a></li>
+        <li><a href="#cost">Cost</a></li>
+        <li><a href="#plain">Plain HTML</a></li>
+        <li><a href="#demos">Components</a></li>
+        <li><a href="#contrast">Contrast</a></li>
+        <li><a href="#modes">Modes</a></li>
+        <li><a href="#grid">Grid</a></li>
+        <li><a href="#lineage">Lineage</a></li>
+        <li><a href="#variables">Variables</a></li>
+        <li><a href="#atomic">Atomic</a></li>
+        <li><a href="#utilities">Utilities</a></li>
+      </ul>
+    </div>
+  </nav>
+
   <main id="main">
-    <section class="ax-grid-section" aria-labelledby="hero-title">
+    <section data-hero class="ax-grid-section" aria-labelledby="hero-title">
       <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-8">
-        <div class="ax-grid-column ax-justify-center ax-gap-4">
-          <p class="ax-text-sm ax-font-semibold ax-uppercase ax-tracking-wide ax-text-primary ax-m-0">Tailwind syntax · accessibility tokens · WCAG 2.2</p>
-          <h1 id="hero-title" class="ax-text-4xl lg:ax-text-6xl ax-font-bold ax-leading-tight ax-m-0 ax-text-balance">Every class bends to the reader.</h1>
-          <p class="ax-text-lg ax-text-muted ax-m-0 ax-max-w-prose">Write <code>p-4 lg:grid-cols-3 hover:bg-primary</code> like you already do. Underneath, every value is an accessibility variable the widget can change — text size, spacing, contrast, fonts and motion adapt everywhere.</p>
+        <div class="ax-grid-column ax-justify-center ax-gap-5">
+          <h1 id="hero-title" class="ax-text-4xl lg:ax-text-6xl ax-font-bold ax-leading-tight ax-tracking-tight ax-m-0 ax-text-balance">A reader picks 200% text. Every class follows.</h1>
+          <p class="ax-text-lg ax-text-muted ax-m-0 ax-max-w-prose">Write utility classes, like <code>p-4 lg:grid-cols-3 hover:bg-primary</code>. Each value reads an accessibility variable, so text size, spacing, contrast, fonts and motion change everywhere at once. Every feature maps to a WCAG 2.2 criterion.</p>
           <div class="ax-flex ax-flex-wrap ax-gap-3">
-            <button type="button" class="ax-min-h-target ax-px-5 ax-py-3 ax-rounded-md ax-border-0 ax-bg-primary ax-text-on-primary ax-font-semibold ax-cursor-pointer ax-transition hover:ax-bg-primary-hover active:ax-scale-95" data-open-widget>Open the accessibility widget</button>
-            <a class="ax-min-h-target ax-inline-flex ax-items-center ax-px-5 ax-py-3 ax-rounded-md ax-border-2 ax-border-primary ax-font-semibold ax-no-underline hover:ax-wash-8" href="#utilities">Browse utilities</a>
+            <a class="ax-min-h-target ax-inline-flex ax-items-center ax-px-5 ax-py-3 ax-rounded-md ax-bg-primary ax-text-on-primary ax-font-semibold ax-no-underline ax-transition hover:ax-bg-primary-hover active:ax-scale-95" href="#console">Try the reader controls</a>
+            <button type="button" class="ax-min-h-target ax-px-5 ax-py-3 ax-rounded-md ax-border-2 ax-border-primary ax-bg-transparent ax-text-text ax-font-semibold ax-cursor-pointer hover:ax-wash-8" data-open-widget>Open the widget</button>
           </div>
-          <p class="ax-text-sm ax-text-muted ax-m-0">Shortcut: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd></p>
+          <p class="ax-text-sm ax-text-muted ax-m-0">Keyboard shortcut for the widget: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd></p>
         </div>
-        <div class="ax-grid-column">
-          <div class="ax-p-6 ax-rounded-xl ax-bg-surface ax-border ax-border-border ax-shadow-md ax-flex ax-flex-col ax-gap-4">
-            <h2 class="ax-text-xl ax-m-0">Try a mode</h2>
-            <p class="ax-m-0 ax-text-muted">These buttons call the widget's API.</p>
-            <div class="ax-flex ax-flex-wrap ax-gap-2">
-              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="text=150">Text 150%</button>
-              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="contrast=high">High contrast</button>
-              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="theme=dark">Dark</button>
-              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="spacing=on">Text spacing</button>
-              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="font=dyslexic">Dyslexia font</button>
-              <button type="button" class="ax-min-h-target ax-px-3 ax-py-2 ax-border-2 ax-border-border ax-rounded-full ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" data-set="reset">Reset</button>
-            </div>
-            <p class="ax-m-0 ax-text-sm" aria-live="polite" id="demo-status"></p>
+
+        <form id="console" class="ax-grid-column ax-p-6 ax-rounded-xl ax-bg-surface ax-border ax-border-border ax-gap-5" aria-labelledby="console-title">
+          <div>
+            <h2 id="console-title" class="ax-text-2xl ax-m-0">Reader controls</h2>
+            <p class="ax-m-0 ax-text-sm ax-text-muted">These change the whole page, the same way the widget does.</p>
           </div>
+
+          <div class="ax-flex ax-flex-col ax-gap-2">
+            <label for="ctl-text" class="ax-font-semibold">Text size: <output id="ctl-text-out" class="ax-px-2 ax-rounded-sm ax-bg-highlight ax-text-on-highlight">100%</output></label>
+            <input id="ctl-text" type="range" min="0" max="5" step="1" value="0" class="ax-w-full ax-min-h-target ax-accent-primary" aria-valuetext="100%">
+          </div>
+
+          <fieldset class="ax-border-0 ax-p-0 ax-m-0 ax-flex ax-flex-wrap ax-gap-x-4 ax-gap-y-1">
+            <legend class="ax-font-semibold ax-mb-1">Theme</legend>
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-theme" value="auto" checked class="ax-accent-primary"> System</label>
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-theme" value="light" class="ax-accent-primary"> Light</label>
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-theme" value="dark" class="ax-accent-primary"> Dark</label>
+          </fieldset>
+
+          <fieldset class="ax-border-0 ax-p-0 ax-m-0 ax-flex ax-flex-wrap ax-gap-x-4 ax-gap-y-1">
+            <legend class="ax-font-semibold ax-mb-1">Contrast</legend>
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-contrast" value="auto" checked class="ax-accent-primary"> System</label>
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-contrast" value="normal" class="ax-accent-primary"> Standard</label>
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-contrast" value="high" class="ax-accent-primary"> High</label>
+          </fieldset>
+
+          <fieldset class="ax-border-0 ax-p-0 ax-m-0 ax-flex ax-flex-wrap ax-gap-x-4 ax-gap-y-1">
+            <legend class="ax-font-semibold ax-mb-1">Font</legend>
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-font" value="default" checked class="ax-accent-primary"> Default</label>
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-font" value="readable" class="ax-accent-primary"> Readable</label>
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-font" value="dyslexic" class="ax-accent-primary"> Dyslexia-friendly</label>
+          </fieldset>
+
+          <div class="ax-flex ax-flex-wrap ax-items-center ax-justify-between ax-gap-3">
+            <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="checkbox" id="ctl-spacing" class="ax-accent-primary ax-size-6"> Wider text spacing</label>
+            <button type="button" id="ctl-reset" class="ax-min-h-target ax-px-4 ax-rounded-md ax-border-2 ax-border-border ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2">Reset all</button>
+          </div>
+
+          <p class="ax-m-0 ax-text-sm" aria-live="polite" id="demo-status"></p>
+        </form>
+      </div>
+    </section>
+
+    <section id="cost" class="ax-grid-section ax-bg-surface" aria-labelledby="cost-title">
+      <h2 id="cost-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">What it costs</h2>
+      <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-6">
+        <p class="ax-grid-column ax-m-0 ax-text-muted ax-max-w-prose">Measured gzipped on the demo page, as browsers download it. Compiling to atomic classes only pays off when the stylesheet is shared across pages, so that is the recommended build.</p>
+        <div class="ax-grid-column ax-overflow-x-auto" tabindex="0" role="region" aria-label="Measured page weight">
+          <table class="ax-w-full ax-text-sm ax-border-collapse">
+            <caption class="ax-sr-only">Measured page weight by build type</caption>
+            <thead><tr><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Build</th><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">First page</th><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Each further page</th></tr></thead>
+            <tbody>
+              <tr><th scope="row" class="ax-text-left ax-p-2 ax-border-b ax-border-border ax-font-normal">Readable classes, CSS inline</th><td class="ax-p-2 ax-border-b ax-border-border">10.5 KB</td><td class="ax-p-2 ax-border-b ax-border-border">7.2 KB</td></tr>
+              <tr><th scope="row" class="ax-text-left ax-p-2 ax-border-b ax-border-border ax-font-normal">Atomic classes, CSS inline</th><td class="ax-p-2 ax-border-b ax-border-border">12.0 KB</td><td class="ax-p-2 ax-border-b ax-border-border">8.8 KB</td></tr>
+              <tr><th scope="row" class="ax-text-left ax-p-2 ax-border-b ax-border-border ax-font-bold">Atomic classes, one shared stylesheet</th><td class="ax-p-2 ax-border-b ax-border-border ax-font-bold">10.4 KB</td><td class="ax-p-2 ax-border-b ax-border-border ax-font-bold">4.6 KB</td></tr>
+            </tbody>
+          </table>
+          <p class="ax-text-sm ax-text-muted ax-mt-2 ax-mb-0">The widget is one file, 27 KB minified and 9.9 KB gzipped, with the atomic engine included.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="ax-grid-section" aria-labelledby="how-title">
+      <h2 id="how-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">How it works</h2>
+      <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-6">
+        <ol class="ax-grid-column ax-list-none ax-p-0 ax-m-0 ax-flex ax-flex-col ax-gap-5">
+          <li class="ax-flex ax-gap-4"><span data-step class="ax-size-10 ax-shrink-0 ax-rounded-full ax-bg-primary ax-text-on-primary ax-font-bold" aria-hidden="true">1</span><div><h3 class="ax-text-lg ax-m-0">You write utility classes</h3><p class="ax-m-0 ax-text-muted">Utility names and variants such as <code>md:grid-cols-2</code> and <code>hover:bg-surface</code>.</p></div></li>
+          <li class="ax-flex ax-gap-4"><span data-step class="ax-size-10 ax-shrink-0 ax-rounded-full ax-bg-primary ax-text-on-primary ax-font-bold" aria-hidden="true">2</span><div><h3 class="ax-text-lg ax-m-0">Readers set their needs</h3><p class="ax-m-0 ax-text-muted">The widget changes CSS variables and <code>data-ax-*</code> attributes on <code>&lt;html&gt;</code>. Settings left on automatic follow the operating system.</p></div></li>
+          <li class="ax-flex ax-gap-4"><span data-step class="ax-size-10 ax-shrink-0 ax-rounded-full ax-bg-primary ax-text-on-primary ax-font-bold" aria-hidden="true">3</span><div><h3 class="ax-text-lg ax-m-0">Pages ship atomic</h3><p class="ax-m-0 ax-text-muted">The build compiles each class to a one-declaration <code>ax_</code> class in one shared stylesheet. A browser test proves the cascade is unchanged.</p></div></li>
+        </ol>
+        <pre class="ax-grid-column ax-m-0 ax-p-4 ax-rounded-lg ax-bg-surface-2 ax-overflow-x-auto ax-text-sm ax-self-start" tabindex="0" aria-label="Build commands"><code>npm run build
+# tokens + widget bundle
+
+npx illustion-ui --site "_site/**/*.html"
+# compiled, one shared stylesheet</code></pre>
+      </div>
+    </section>
+
+    <section id="plain" class="ax-grid-section" aria-labelledby="plain-title">
+      <h2 id="plain-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">Plain HTML, already styled</h2>
+      <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-6">
+        <p class="ax-grid-row ax-m-0 ax-text-muted ax-max-w-prose">Everything in the left box has no classes at all. The right box is its source. Change a setting and the left box follows.</p>
+        <div class="ax-grid-column ax-p-6 ax-rounded-xl ax-border ax-border-border ax-bg-surface" id="plain-demo">
+          <h3>Field notes on reading</h3>
+          <p>Good type is quiet. Readers notice <mark>comfort</mark>, not the font, and press <kbd>Ctrl</kbd> + <kbd>+</kbd> when it fails them.</p>
+          <blockquote>
+            <p>Make the default good, and make every default changeable.</p>
+            <footer>Design note</footer>
+          </blockquote>
+          <ol>
+            <li>Start with real HTML.</li>
+            <li>Let readers set their needs.</li>
+            <li>Test with <code>text=200</code>.</li>
+          </ol>
+          <details>
+            <summary>Why classless?</summary>
+            <p>Content you cannot style by hand, such as markdown or a CMS, still looks right.</p>
+          </details>
+          <form onsubmit="return false">
+            <fieldset>
+              <legend>Stay in touch</legend>
+              <p><label for="plain-email">Email</label><br><input id="plain-email" type="email" autocomplete="email" placeholder="name@example.com"></p>
+              <p><label for="plain-topic">Topic</label><br><select id="plain-topic"><option>Releases</option><option>Accessibility tips</option></select></p>
+              <p><label><input type="checkbox"> Send me updates</label></p>
+              <button>Subscribe</button>
+            </fieldset>
+          </form>
+          <table>
+            <caption>Plain table</caption>
+            <thead><tr><th scope="col">Mode</th><th scope="col">Setting</th></tr></thead>
+            <tbody><tr><th scope="row">Text</th><td>100% to 200%</td></tr><tr><th scope="row">Contrast</th><td>Standard or high</td></tr></tbody>
+          </table>
+          <hr>
+        </div>
+        <pre class="ax-grid-column ax-m-0 ax-self-start ax-text-sm" tabindex="0" aria-label="Source of the plain HTML example"><code>&lt;h3&gt;Field notes on reading&lt;/h3&gt;
+&lt;p&gt;Good type is quiet. Readers notice
+  &lt;mark&gt;comfort&lt;/mark&gt;, and press
+  &lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;+&lt;/kbd&gt;.&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;Make the default good...&lt;/p&gt;
+  &lt;footer&gt;Design note&lt;/footer&gt;
+&lt;/blockquote&gt;
+&lt;ol&gt;&lt;li&gt;Start with real HTML.&lt;/li&gt;...&lt;/ol&gt;
+&lt;details&gt;
+  &lt;summary&gt;Why classless?&lt;/summary&gt;...
+&lt;/details&gt;
+&lt;form&gt;
+  &lt;fieldset&gt;
+    &lt;legend&gt;Stay in touch&lt;/legend&gt;
+    &lt;label for="e"&gt;Email&lt;/label&gt;
+    &lt;input id="e" type="email"&gt;
+    &lt;button&gt;Subscribe&lt;/button&gt;
+  &lt;/fieldset&gt;
+&lt;/form&gt;
+&lt;table&gt;...&lt;/table&gt;
+&lt;hr&gt;</code></pre>
+      </div>
+    </section>
+
+    <section id="demos" class="ax-grid-section ax-bg-surface" aria-labelledby="demos-title">
+      <h2 id="demos-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">Components, built from framework classes only</h2>
+      <div class="ax-grid-wrapper md:ax-grid-cols-2 xl:ax-grid-cols-3 ax-gap-6">
+        <p class="ax-grid-row ax-m-0 ax-text-muted ax-max-w-prose">Sample content. Use the reader controls above, or the widget, and watch each one adapt.</p>
+
+        <article class="ax-grid-column ax-p-6 ax-rounded-xl ax-bg-bg ax-border-2 ax-border-primary ax-gap-4" aria-labelledby="demo-plan">
+          <h3 id="demo-plan" class="ax-text-xl ax-m-0">Studio plan</h3>
+          <p class="ax-m-0 ax-text-4xl ax-font-bold">$12<span class="ax-text-base ax-font-normal ax-text-muted"> per month</span></p>
+          <ul class="ax-list-disc ax-pl-5 ax-m-0 ax-flex ax-flex-col ax-gap-1">
+            <li>Unlimited projects</li>
+            <li>Dark and high-contrast themes</li>
+            <li>Keyboard-first controls</li>
+          </ul>
+          <button type="button" class="ax-min-h-target ax-px-5 ax-py-2 ax-rounded-md ax-border-0 ax-bg-primary ax-text-on-primary ax-font-semibold ax-cursor-pointer ax-transition hover:ax-bg-primary-hover active:ax-scale-95">Choose Studio</button>
+        </article>
+
+        <div class="ax-grid-column ax-gap-3" role="group" aria-labelledby="demo-alerts">
+          <h3 id="demo-alerts" class="ax-text-xl ax-m-0">Status messages</h3>
+          <div class="ax-p-3 ax-border-l-4 ax-border-success ax-bg-bg" role="status"><strong class="ax-text-success">Saved.</strong> Your changes are live.</div>
+          <div class="ax-p-3 ax-border-l-4 ax-border-warning ax-bg-bg"><strong class="ax-text-warning">Trial ending.</strong> You have 3 days left. Add a payment method to keep your projects.</div>
+          <div class="ax-p-3 ax-border-l-4 ax-border-danger ax-bg-bg"><strong class="ax-text-danger">Email not accepted.</strong> Enter an address like name@example.com.</div>
+          <p class="ax-m-0 ax-text-sm ax-text-muted">Colour never works alone: each message also has a bold label and a border.</p>
+        </div>
+
+        <article class="ax-grid-column ax-gap-3" aria-labelledby="demo-article">
+          <div class="ax-aspect-video ax-rounded-lg ax-bg-surface-2 ax-border ax-border-border ax-flex ax-items-center ax-justify-center ax-text-muted" role="img" aria-label="Placeholder image">Image</div>
+          <p class="ax-m-0 ax-text-sm ax-text-muted">Guide, 4 minute read</p>
+          <h3 id="demo-article" class="ax-m-0 ax-text-xl ax-leading-snug">Designing for people who zoom to 200%</h3>
+          <p class="ax-m-0 ax-text-muted ax-max-w-measure">Measure, line height and spacing come from tokens, so long text stays readable.</p>
+        </article>
+
+        <div class="ax-grid-column ax-gap-3 md:ax-col-span-2" role="group" aria-labelledby="demo-table">
+          <h3 id="demo-table" class="ax-text-xl ax-m-0">Data table</h3>
+          <div class="ax-overflow-x-auto" tabindex="0" role="region" aria-labelledby="demo-table">
+            <table class="ax-w-full ax-text-sm ax-border-collapse">
+              <caption class="ax-sr-only">Sample orders</caption>
+              <thead><tr><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Order</th><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Customer</th><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Status</th></tr></thead>
+              <tbody>
+                <tr><th scope="row" class="ax-text-left ax-p-2 ax-border-b ax-border-border">#1042</th><td class="ax-p-2 ax-border-b ax-border-border">Maya</td><td class="ax-p-2 ax-border-b ax-border-border ax-text-success ax-font-semibold">Shipped</td></tr>
+                <tr><th scope="row" class="ax-text-left ax-p-2 ax-border-b ax-border-border">#1043</th><td class="ax-p-2 ax-border-b ax-border-border">Jon</td><td class="ax-p-2 ax-border-b ax-border-border ax-text-warning ax-font-semibold">Pending</td></tr>
+                <tr><th scope="row" class="ax-text-left ax-p-2 ax-border-b ax-border-border">#1044</th><td class="ax-p-2 ax-border-b ax-border-border">Ana</td><td class="ax-p-2 ax-border-b ax-border-border ax-text-danger ax-font-semibold">Refunded</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="ax-grid-column ax-gap-3" role="group" aria-labelledby="demo-controls">
+          <h3 id="demo-controls" class="ax-text-xl ax-m-0">Touch targets and focus</h3>
+          <p class="ax-m-0 ax-text-muted ax-text-sm">Every control is at least <code>min-h-target</code> tall. Press Tab to see the focus ring.</p>
+          <div class="ax-flex ax-flex-wrap ax-gap-2">
+            <button type="button" class="ax-min-h-target ax-min-w-target ax-px-3 ax-rounded-md ax-border-2 ax-border-border ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" aria-label="Previous">&larr;</button>
+            <button type="button" class="ax-min-h-target ax-min-w-target ax-px-3 ax-rounded-md ax-border-2 ax-border-border ax-bg-bg ax-text-text ax-cursor-pointer hover:ax-bg-surface-2" aria-label="Next">&rarr;</button>
+            <button type="button" class="ax-min-h-target ax-px-4 ax-rounded-md ax-border-0 ax-bg-primary ax-text-on-primary ax-font-semibold ax-cursor-pointer hover:ax-bg-primary-hover">Confirm</button>
+          </div>
+          <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="checkbox" class="ax-accent-primary ax-size-6"> Remember me</label>
+        </div>
+      </div>
+    </section>
+
+    <section id="contrast" class="ax-grid-section" aria-labelledby="contrast-title">
+      <h2 id="contrast-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">Contrast, measured live</h2>
+      <div class="ax-grid-wrapper">
+        <p class="ax-grid-row ax-m-0 ax-text-muted ax-max-w-prose">Your browser computes these ratios from the colours in use right now. Change the theme or contrast and they update. The targets are 4.5:1 for text and 3:1 for borders and focus (WCAG 1.4.3 and 1.4.11).</p>
+        <div class="ax-grid-row ax-overflow-x-auto" tabindex="0" role="region" aria-label="Contrast ratios for the current theme">
+          <table class="ax-w-full ax-text-sm ax-border-collapse">
+            <caption class="ax-sr-only">Contrast ratios for the current theme</caption>
+            <thead><tr><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Pair</th><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Sample</th><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Ratio</th><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Needs</th><th scope="col" class="ax-text-left ax-p-2 ax-border-b-2 ax-border-border">Result</th></tr></thead>
+            <tbody id="contrast-rows"></tbody>
+          </table>
         </div>
       </div>
     </section>
 
     <section id="modes" class="ax-grid-section ax-bg-surface" aria-labelledby="modes-title">
-      <h2 id="modes-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Variants for our own field</h2>
+      <h2 id="modes-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">Variants for our own field</h2>
       <div class="ax-grid-wrapper md:ax-grid-cols-2 xl:ax-grid-cols-3 ax-gap-6">
         <article class="ax-grid-column ax-p-5 ax-rounded-lg ax-bg-bg ax-border ax-border-border ax-gap-2">
           <h3 class="ax-text-lg ax-m-0"><code>large-text:</code></h3>
@@ -78,7 +288,7 @@
     </section>
 
     <section id="grid" class="ax-grid-section" aria-labelledby="grid-title">
-      <h2 id="grid-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Your grid, plus Tailwind classes</h2>
+      <h2 id="grid-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">Your grid, plus utility classes</h2>
       <div class="ax-grid-wrapper lg:ax-grid-cols-2 xl:ax-grid-cols-3 2xl:ax-grid-cols-4 ax-gap-4" data-grid-demo>
         <div class="ax-grid-row"><p class="ax-m-0 ax-text-muted ax-max-w-prose"><code>grid.css</code> drives the layout; <code>lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4</code> sit on top at its own breakpoints (1024 / 1268 / 1440).</p></div>
         <div class="ax-grid-column ax-p-4 ax-rounded-md ax-bg-surface-2">1</div>
@@ -91,7 +301,7 @@
     </section>
 
     <section id="lineage" class="ax-grid-section ax-bg-surface" aria-labelledby="lineage-title">
-      <h2 id="lineage-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">The best idea from each framework</h2>
+      <h2 id="lineage-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">The best idea from each framework</h2>
       <div class="ax-grid-wrapper ax-gap-6">
         <div class="ax-grid-row ax-flex ax-flex-wrap ax-gap-4" style="--ax-switch-at: 48rem">
           <article class="ax-grow ax-basis-switch ax-relative ax-p-5 ax-rounded-lg ax-bg-bg ax-border ax-border-border hover:ax-shadow-lg ax-transition">
@@ -116,7 +326,7 @@
     </section>
 
     <section id="variables" class="ax-grid-section" aria-labelledby="variables-title">
-      <h2 id="variables-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Variable utilities — your grid's pattern, everywhere</h2>
+      <h2 id="variables-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">Variable utilities — your grid's pattern, everywhere</h2>
       <div class="ax-grid-wrapper ax-gap-4">
         <p class="ax-grid-row ax-m-0 ax-text-muted ax-max-w-prose">One class per property reads a chain of variables, one per breakpoint, each falling back to the one below — how <code>grid.css</code> picks its columns. Any value, any breakpoint, and a <code>-large</code> value for readers who choose large text. Below: 1 column on phones, 2 from 768px, 4 from 1268px, and back to 1 at 150%+ text.</p>
         <ul class="ax-grid-row ax--cols ax--gap ax-grid ax-list-none ax-p-0 ax-m-0" style="--ax--cols: 1fr; --ax--cols-md: repeat(2, 1fr); --ax--cols-xl: repeat(4, 1fr); --ax--cols-large: 1fr; --ax--gap: var(--ax-space-3)">
@@ -128,8 +338,8 @@
       </div>
     </section>
 
-    <section id="atomic" class="ax-grid-section" aria-labelledby="atomic-title">
-      <h2 id="atomic-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Atomic engine — one declaration per class</h2>
+    <section id="atomic" class="ax-grid-section ax-bg-surface" aria-labelledby="atomic-title">
+      <h2 id="atomic-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">Atomic engine — one declaration per class</h2>
       <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-6">
         <div class="ax-grid-column ax-gap-4">
           <p class="ax-m-0 ax-text-muted ax-max-w-prose">This card is styled with <code>create()</code>, Facebook/StyleX style. Every property becomes one generated class holding one declaration. Hover it, or change text size or contrast in the widget: the classes stay the same, the variables they read change.</p>
@@ -159,7 +369,7 @@ card.className = classes(s.card);</code></pre>
     </section>
 
     <section id="utilities" class="ax-grid-section" aria-labelledby="util-title">
-      <h2 id="util-title" class="ax-grid-title ax-text-3xl ax-m-0 ax-mb-6">Utilities</h2>
+      <h2 id="util-title" class="ax-grid-title ax-text-left ax-text-3xl ax-m-0 ax-mb-6">Utilities</h2>
       <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-6">
         <div class="ax-grid-column ax-gap-3">
           <h3 class="ax-text-xl ax-m-0">Typography &amp; colour</h3>
@@ -181,29 +391,97 @@ card.className = classes(s.card);</code></pre>
         </form>
       </div>
     </section>
+
+    <section class="ax-grid-section ax-bg-surface ax-border-t ax-border-border" aria-labelledby="cta-title">
+      <div class="ax-grid-wrapper lg:ax-grid-cols-2 ax-gap-4">
+        <h2 id="cta-title" class="ax-grid-column ax-text-3xl ax-font-bold ax-m-0 ax-text-balance">Give every reader the page they need.</h2>
+        <div class="ax-grid-column ax-gap-3 ax-items-start">
+          <p class="ax-m-0 ax-text-muted ax-max-w-prose">Open the widget, change one setting, and watch the whole page follow.</p>
+          <button type="button" class="ax-min-h-target ax-px-6 ax-py-3 ax-rounded-md ax-border-0 ax-bg-primary ax-text-on-primary ax-font-semibold ax-cursor-pointer ax-transition hover:ax-bg-primary-hover active:ax-scale-95" data-open-widget>Open the widget</button>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="ax-grid-section ax-bg-surface ax-border-t ax-border-border">
-    <div class="ax-grid-wrapper"><p class="ax-grid-row ax-m-0 ax-text-sm ax-text-muted">a11y-atomic · MIT · The widget helps readers; it does not make a site conformant on its own.</p></div>
+  <footer class="ax-grid-section ax-bg-bg ax-border-t ax-border-border">
+    <div class="ax-grid-wrapper md:ax-grid-cols-2 ax-gap-4">
+      <p class="ax-grid-column ax-m-0 ax-text-sm ax-text-muted">Illustion UI · MIT · The widget helps readers; it does not make a site conformant on its own.</p>
+      <ul class="ax-grid-column ax-flex ax-flex-wrap ax-gap-x-5 ax-gap-y-2 ax-list-none ax-p-0 ax-m-0 ax-text-sm md:ax-justify-end">
+        <li><a href="#demos">Components</a></li>
+        <li><a href="#contrast">Contrast</a></li>
+        <li><a href="#atomic">Atomic engine</a></li>
+        <li><a href="#main">Back to top</a></li>
+      </ul>
+    </div>
   </footer>
 
   <style>
-    kbd { padding: 0 var(--ax-space-1); border: 1px solid var(--ax-color-border); border-radius: var(--ax-radius-sm); }
+    [data-hero] { background: radial-gradient(60rem 28rem at 90% -10%, color-mix(in srgb, var(--ax-color-primary) 10%, transparent), transparent 70%); }
+    [data-step] { display: inline-flex; align-items: center; justify-content: center; }
+    #contrast-rows .pass { color: var(--ax-color-success); font-weight: 600; }
+    #contrast-rows .fail { color: var(--ax-color-danger); font-weight: 600; }
+    #contrast-rows .sample { display: inline-block; padding: var(--ax-space-1) var(--ax-space-3); border-radius: var(--ax-radius-sm); border: 1px solid var(--ax-color-border); }
   </style>
   <script type="module">
     const tokens = ['bg', 'surface', 'text', 'muted', 'primary', 'link', 'border', 'focus'];
     document.getElementById('swatches').innerHTML = tokens.map(t => `<li class="ax-flex ax-flex-col ax-gap-1"><span class="ax-block ax-h-10 ax-rounded-md ax-border ax-border-border" style="background:var(--ax-color-${t})"></span><code class="ax-text-xs">${t}</code></li>`).join('');
     document.querySelector('form').addEventListener('submit', event => event.preventDefault());
     const status = document.getElementById('demo-status');
+    const widget = () => globalThis.a11yWidget;
+    const steps = ['100', '115', '130', '150', '175', '200'];
+    const say = text => { status.textContent = text; };
     document.addEventListener('click', event => {
-      const btn = event.target.closest('[data-set], [data-open-widget]');
-      const widget = globalThis.a11yWidget;
-      if (!btn || !widget) return;
-      if (btn.hasAttribute('data-open-widget')) return widget.open();
-      const [key, value] = btn.dataset.set.split('=');
-      if (key === 'reset') widget.reset(); else widget.set(key, value);
-      status.textContent = key === 'reset' ? 'Settings reset.' : `Applied ${key}: ${value}.`;
+      if (event.target.closest('[data-open-widget]')) widget()?.open();
     });
+    const slider = document.getElementById('ctl-text'), out = document.getElementById('ctl-text-out');
+    slider.addEventListener('input', () => {
+      const value = steps[slider.value];
+      out.textContent = `${value}%`;
+      slider.setAttribute('aria-valuetext', `${value}%`);
+      widget()?.set('text', value);
+      say(`Text size: ${value}%.`);
+    });
+    for (const name of ['theme', 'contrast', 'font']) {
+      document.querySelectorAll(`input[name="ctl-${name}"]`).forEach(input => input.addEventListener('change', () => {
+        widget()?.set(name, input.value);
+        say(`${name[0].toUpperCase() + name.slice(1)}: ${input.parentElement.textContent.trim()}.`);
+      }));
+    }
+    document.getElementById('ctl-spacing').addEventListener('change', event => {
+      widget()?.set('spacing', event.target.checked ? 'on' : 'off');
+      say(`Wider text spacing: ${event.target.checked ? 'on' : 'off'}.`);
+    });
+    document.getElementById('ctl-reset').addEventListener('click', () => {
+      widget()?.reset();
+      document.getElementById('console').reset();
+      slider.value = 0; out.textContent = '100%'; slider.setAttribute('aria-valuetext', '100%');
+      say('All settings reset.');
+    });
+  </script>
+  <script type="module">
+    // Live contrast table: resolves the colours in use now, so it follows every theme and mode.
+    const pairs = [['text', 'bg', 4.5], ['muted', 'bg', 4.5], ['link', 'bg', 4.5], ['on-primary', 'primary', 4.5], ['danger', 'bg', 4.5], ['success', 'bg', 4.5], ['border', 'bg', 3], ['focus', 'bg', 3]];
+    const probe = document.createElement('span');
+    probe.hidden = true;
+    document.body.append(probe);
+    const rgb = token => { probe.style.color = `var(--ax-color-${token})`; return getComputedStyle(probe).color.match(/[\d.]+/g).slice(0, 3).map(Number); };
+    const lum = ([r, g, b]) => [r, g, b].map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; }).reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+    const ratio = (a, b) => { const [hi, lo] = [lum(rgb(a)), lum(rgb(b))].sort((x, y) => y - x); return (hi + 0.05) / (lo + 0.05); };
+    const body = document.getElementById('contrast-rows');
+    function render() {
+      body.innerHTML = pairs.map(([fg, bg, need]) => {
+        const r = ratio(fg, bg), ok = r >= need;
+        return `<tr><th scope="row" class="ax-text-left ax-p-2 ax-border-b ax-border-border"><code>${fg}</code> on <code>${bg}</code></th>`
+          + `<td class="ax-p-2 ax-border-b ax-border-border"><span class="sample" style="color:var(--ax-color-${fg});background:var(--ax-color-${bg})">Aa</span></td>`
+          + `<td class="ax-p-2 ax-border-b ax-border-border">${r.toFixed(2)}:1</td>`
+          + `<td class="ax-p-2 ax-border-b ax-border-border">${need}:1</td>`
+          + `<td class="ax-p-2 ax-border-b ax-border-border ${ok ? 'pass' : 'fail'}">${ok ? '✓ Pass' : '✗ Fail'}</td></tr>`;
+      }).join('');
+    }
+    render();
+    new MutationObserver(render).observe(document.documentElement, {attributes: true});
+    matchMedia('(prefers-color-scheme: dark)').addEventListener('change', render);
+    matchMedia('(prefers-contrast: more)').addEventListener('change', render);
   </script>
   <script type="module">
     import {create, classes, rules, inject} from './src/atomic.js';

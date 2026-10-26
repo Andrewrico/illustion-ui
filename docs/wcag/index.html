@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tied to W3C WAI · Illustion UI docs</title>
+  <meta name="description" content="Tied to W3C WAI: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="./">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="./" aria-current="page">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>About</li>
+          <li aria-current="page">Tied to W3C WAI</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Tied to W3C WAI</h1>
+<p>WCAG changes over time (2.1 added 17 criteria, 2.2 added 9 and made 4.1.1 Parsing obsolete). The framework is checked against W3C&#39;s published data, not a hand-copied list.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>What it does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>wcag/snapshot.json</code></td>
+<td>Every success criterion from W3C&#39;s official <a href="https://www.w3.org/WAI/WCAG22/wcag.json">wcag.json</a>: number, name, level, versions, obsolete flag, fetch date and checksum.</td>
+</tr>
+<tr>
+<td><code>src/wcag-map.mjs</code></td>
+<td>Classifies every Level A and AA criterion (and the AAA ones the framework helps with) as <code>framework</code> (met by the framework itself), <code>supports</code> (the framework gives the tool, the author applies it) or <code>author</code> (outside CSS). Each <code>framework</code> claim names the test that proves it.</td>
+</tr>
+<tr>
+<td>Widget settings</td>
+<td>Each setting in <code>SETTINGS</code> lists the criteria it serves (<code>wcag: [&#39;1.4.4&#39;]</code>).</td>
+</tr>
+<tr>
+<td><code>npm run wcag:sync</code></td>
+<td>Downloads W3C&#39;s current data, lists added, changed and removed criteria, and exits with an error if anything changed. <code>-- --write</code> updates the snapshot. It also reports when axe-core, the rule engine used in the browser check, has a newer release.</td>
+</tr>
+<tr>
+<td><code>test/wcag.test.js</code></td>
+<td>Fails when a current A/AA criterion is unclassified, when the map or a setting points at an unknown or obsolete criterion, or when <code>WCAG.md</code> is stale.</td>
+</tr>
+<tr>
+<td><code>npm run wcag:report</code></td>
+<td>Regenerates <a href="../../WCAG.md">WCAG.md</a> with links to W3C&#39;s Understanding documents.</td>
+</tr>
+<tr>
+<td><code>.github/workflows/wcag-sync.yml</code></td>
+<td>Runs the sync and the tests every Monday, so a W3C change fails the build until it is handled.</td>
+</tr>
+</tbody></table></div>
+<p>Current coverage of Level A and AA: 7 met by the framework, 12 supported, 36 author responsibility. Most criteria are about content and behaviour, which no CSS framework can meet on its own.</p>
+<p>When W3C publishes a change:</p>
+<ol>
+<li><code>npm run wcag:sync -- --write</code></li>
+<li><code>npm test</code> shows which criteria need attention.</li>
+<li>Classify them in <code>src/wcag-map.mjs</code>, update the framework if needed, then <code>npm run wcag:report</code>.</li>
+</ol>
+<p>WCAG 3 is still a W3C draft. Point <code>WCAG_SOURCE</code> at a newer W3C data file when one is published as a Recommendation.</p>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../widget-api/"><span>Previous</span>Widget JavaScript API</a>
+          <a rel="next" href="../efficiency/"><span>Next</span>Efficiency: what it costs, measured</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

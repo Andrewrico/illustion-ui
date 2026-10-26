@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Grid · Illustion UI docs</title>
+  <meta name="description" content="Grid: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="./" aria-current="page">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>Layout and content</li>
+          <li aria-current="page">Grid</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Grid</h1>
+<p><code>src/grid.css</code> is the andrewrico Eleventy file, byte for byte. The build renames its classes and variables to the naming standard (<code>grid__wrapper</code> → <code>ax-grid-wrapper</code>, <code>--column-desktop</code> → <code>--ax-grid-column-desktop</code>); values and structure are untouched, and a test checks that.</p>
+<p>It provides:</p>
+<ul>
+<li><code>ax-grid-section</code></li>
+<li><code>ax-grid-wrapper</code></li>
+<li><code>ax-grid-column</code></li>
+<li><code>ax-grid-row</code></li>
+<li><code>ax-grid-title</code></li>
+<li><code>--ax-grid-column-mobile</code></li>
+<li><code>--ax-grid-column-table</code></li>
+<li><code>--ax-grid-column-laptop</code></li>
+<li><code>--ax-grid-column-desktop</code></li>
+</ul>
+<p>The grid is already efficient. It has one rule per breakpoint. Each rule reads a variable and uses earlier breakpoint values as fallbacks.</p>
+<p>Utilities override the grid on the same element because utilities are in a later layer.</p>
+<h2 id="atomic-grid">Atomic grid<a class="anchor" href="#atomic-grid" aria-label="Link to this section: Atomic grid">#</a></h2>
+<p><code>src/grid.styles.js</code> is the same grid as strict atomic styles: same variables (<code>--ax-grid-column-mobile</code>, <code>--ax-grid-column-table</code>, <code>--ax-grid-column-laptop</code>, <code>--ax-grid-column-desktop</code>, <code>--ax-grid-gap</code>, <code>--ax-grid-padding</code>...), same values, same breakpoints. A browser test renders both side by side and compares computed styles at 390, 1024, 1100, 1300 and 1500px.</p>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">import {grid} from 'illustion-ui/grid';
+import {classes} from 'illustion-ui/atomic';
+wrapper.className = classes(grid.wrapper);       // = ax-grid-wrapper
+next.className = classes(grid.wrapper, grid.wrapperNext); // = .ax-grid-wrapper + .ax-grid-wrapper</code></pre></div>
+<p>Two things the conversion found in <code>grid.css</code> (kept as-is so behaviour is identical): sections set <code>padding-top</code>/<code>padding-bottom</code> and then <code>padding</code> overrides both, so <code>--ax-grid-padding-top</code>/<code>--ax-grid-padding-bottom</code> never apply; and <code>.ax-grid-row</code> computes <code>padding-bottom: calc(var(--ax-grid-gap) * 2px)</code>, which is invalid (length × length), so rows get no bottom padding.</p>
+<div class="code"><pre tabindex="0" aria-label="HTML code"><code class="language-html">&lt;section class=&quot;ax-grid-section&quot;&gt;
+  &lt;h2 class=&quot;ax-grid-title&quot;&gt;Title&lt;/h2&gt;
+
+  &lt;div class=&quot;ax-grid-wrapper lg:ax-grid-cols-2 xl:ax-grid-cols-3 2xl:ax-grid-cols-4 ax-gap-4&quot;&gt;
+    &lt;div class=&quot;ax-grid-row&quot;&gt;Introduction&lt;/div&gt;
+    &lt;div class=&quot;ax-grid-column&quot;&gt;One&lt;/div&gt;
+    &lt;div class=&quot;ax-grid-column&quot;&gt;Two&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre></div>
+<p>Order utilities work with the grid.</p>
+<div class="code"><pre tabindex="0" aria-label="HTML code"><code class="language-html">&lt;div class=&quot;ax-grid-column ax-order-first lg:ax-order-none&quot;&gt;
+  Content
+&lt;/div&gt;</code></pre></div>
+<p>Use span utilities for grid placement.</p>
+<div class="code"><pre tabindex="0" aria-label="HTML code"><code class="language-html">&lt;div class=&quot;ax-grid-column ax-col-span-full lg:ax-col-span-2&quot;&gt;
+  Content
+&lt;/div&gt;</code></pre></div>
+<p>The mobile grid has one column. A span above 1 on that grid creates extra tracks. Use breakpoint spans when the span should apply only at wider sizes.</p>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../naming/"><span>Previous</span>Naming standard</a>
+          <a rel="next" href="../plain-html/"><span>Next</span>Plain HTML, already styled</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

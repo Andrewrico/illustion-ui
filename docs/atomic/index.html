@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Atomic, Facebook style · Illustion UI docs</title>
+  <meta name="description" content="Atomic, Facebook style: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="./" aria-current="page">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>Engine</li>
+          <li aria-current="page">Atomic, Facebook style</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Atomic, Facebook style</h1>
+<p>The core is an atomic engine in the style of Meta&#39;s StyleX. You write styles as objects; every property/value/condition compiles to <strong>one class with one declaration</strong>, named by a stable hash. The same declaration anywhere reuses the same class, so the stylesheet stops growing as the site grows. Merging is done in JavaScript, not by specificity: the last style wins per property.</p>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">import {create, classes} from 'illustion-ui/atomic';
+import {vars} from 'illustion-ui/vars';
+
+const s = create({
+  card: {
+    padding: vars.space[6],
+    borderRadius: vars.radius.lg,
+    backgroundColor: {default: vars.color.surface, ':hover': vars.color['surface-2']},
+    flexDirection: {default: 'row', '@large-text': 'column'},   // our own field
+    outline: {':focus-within': `${vars.a11y.focusWidth} solid ${vars.color.focus}`},
+  },
+  active: {backgroundColor: vars.color.primary, color: vars.color['on-primary']},
+});
+
+el.className = classes(s.card, isActive &amp;&amp; s.active);  // active's background wins</code></pre></div>
+<p>Compiles to rules like:</p>
+<div class="code"><pre tabindex="0" aria-label="CSS code"><code class="language-css">.ax_1k2j3 { padding: var(--ax-space-6); }
+.ax_9a8b7:hover { background-color: var(--ax-color-surface-2); }
+:root:is([data-ax-text=&quot;150&quot;], [data-ax-text=&quot;175&quot;], [data-ax-text=&quot;200&quot;]) .ax_4d5e6 { flex-direction: column; }</code></pre></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Rule</th>
+<th>Behaviour</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>One declaration per class</td>
+<td>Enforced by a test over every generated rule.</td>
+</tr>
+<tr>
+<td>Conditions</td>
+<td><code>default</code>, any pseudo-class (<code>:hover</code>, <code>:focus-visible</code>, <code>:has(:checked)</code>), <code>@media</code> / <code>@supports</code> / <code>@container</code>, and our own: <code>@sm</code> <code>@md</code> <code>@lg</code> <code>@xl</code> <code>@2xl</code> <code>@dark</code> <code>@contrast-more</code> <code>@motion-safe</code> <code>@motion-reduce</code> <code>@large-text</code> <code>@text-spacing</code> <code>@forced-colors</code> <code>@print</code>. Conditions nest.</td>
+</tr>
+<tr>
+<td>Pseudo-elements</td>
+<td><code>&#39;::after&#39;: {content: &#39;&quot;&quot;&#39;, left: {default: &#39;0&#39;, &#39;:checked&#39;: &#39;1rem&#39;}}</code>.</td>
+</tr>
+<tr>
+<td>Merging</td>
+<td><code>classes(a, b, cond &amp;&amp; c)</code>: last wins per property; a later shorthand (<code>padding</code>) removes earlier longhands (<code>paddingTop</code>); falsy values are skipped.</td>
+</tr>
+<tr>
+<td>Order</td>
+<td>Shorthands before longhands, base before pseudo-classes before at-rules, smaller breakpoints before larger.</td>
+</tr>
+<tr>
+<td>Values</td>
+<td>Strings; use <code>vars.*</code> so every widget mode still applies.</td>
+</tr>
+<tr>
+<td>Development</td>
+<td><code>inject()</code> writes every registered rule into a <code>&lt;style&gt;</code> in <code>@layer atomic</code>, so styles created in the page work without a rebuild (the demo&#39;s &quot;Atomic engine&quot; section uses it and lists each class with its rule). Use the built CSS in production.</td>
+</tr>
+<tr>
+<td>Build</td>
+<td><code>npx illustion-ui --content &quot;_site/**/*.html&quot; --styles &quot;src/**/*.styles.js&quot;</code> imports your style modules and emits their rules in the <code>atomic</code> layer. Style modules must be importable in Node (no DOM at import time).</td>
+</tr>
+</tbody></table></div>
+<p>The widget is built with this engine (<code>src/widget.styles.js</code>), and so is an atomic version of the grid (<code>src/grid.styles.js</code>).</p>
+<h2 id="is-it-atomic">Is it atomic?<a class="anchor" href="#is-it-atomic" aria-label="Link to this section: Is it atomic?">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Part</th>
+<th>Atomic?</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>What pages ship (compiled build)</td>
+<td>Yes: every framework class becomes <code>ax_</code> classes with one declaration each, tested on the demo.</td>
+</tr>
+<tr>
+<td>Atomic engine, the widget and the atomic grid</td>
+<td>Yes: one declaration per class, every rule tested.</td>
+</tr>
+<tr>
+<td>Readable utilities while authoring (1,359)</td>
+<td>1,287 set one property; compiled, all of them ship as one-declaration classes. 72 set two or more, as most utility classes do (<code>ax-text-lg</code> = size + line height, <code>ax-rounded-t-lg</code>, <code>ax-size-6</code>, <code>ax-transition</code>, <code>ax-sr-only</code>, <code>ax-truncate</code>, <code>ax-stretched-link</code>). Use the engine when you need strict atomic.</td>
+</tr>
+<tr>
+<td>Grid (<code>ax-grid-*</code>)</td>
+<td>No: component classes from <code>grid.css</code>, with standard names. <code>grid.styles.js</code> is its strict atomic twin.</td>
+</tr>
+<tr>
+<td>Variable utilities (<code>ax--KEY</code>)</td>
+<td>Yes: one declaration per rule.</td>
+</tr>
+</tbody></table></div>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../variable-utilities/"><span>Previous</span>Variable utilities</a>
+          <a rel="next" href="../shipping/"><span>Next</span>What ships is atomic</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

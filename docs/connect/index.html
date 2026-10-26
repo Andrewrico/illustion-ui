@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ways to connect · Illustion UI docs</title>
+  <meta name="description" content="Ways to connect: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="./" aria-current="page">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+      <nav class="docs-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title" class="docs-group-title">On this page</h2>
+        <ul>
+          <li><a href="#css">CSS</a></li>
+          <li><a href="#npm-exports">npm exports</a></li>
+          <li><a href="#command-line">Command line</a></li>
+          <li><a href="#node-api">Node API</a></li>
+          <li><a href="#eleventy-plugin">Eleventy plugin</a></li>
+          <li><a href="#widget">Widget</a></li>
+          <li><a href="#manual-attributes">Manual attributes</a></li>
+          <li><a href="#css-variable-overrides">CSS variable overrides</a></li>
+        </ul>
+      </nav>
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>Getting started</li>
+          <li aria-current="page">Ways to connect</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Ways to connect</h1>
+<h2 id="css">CSS<a class="anchor" href="#css" aria-label="Link to this section: CSS">#</a></h2>
+<p>Load the full or minified stylesheet.</p>
+<div class="code"><pre tabindex="0" aria-label="HTML code"><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;./dist/illustionui.css&quot;&gt;</code></pre></div>
+<div class="code"><pre tabindex="0" aria-label="HTML code"><code class="language-html">&lt;link rel=&quot;stylesheet&quot; href=&quot;./dist/illustionui.min.css&quot;&gt;</code></pre></div>
+<p>Load the init script in <code>&lt;head&gt;</code> if saved widget settings should apply before the first paint.</p>
+<div class="code"><pre tabindex="0" aria-label="HTML code"><code class="language-html">&lt;script src=&quot;./dist/illustionui-init.js&quot;&gt;&lt;/script&gt;</code></pre></div>
+<p>The init script can be inlined. It must not use <code>defer</code> or <code>async</code>.</p>
+<h2 id="npm-exports">npm exports<a class="anchor" href="#npm-exports" aria-label="Link to this section: npm exports">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Export</th>
+<th>Contents</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>illustion-ui</code></td>
+<td>Full CSS.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/min</code></td>
+<td>Minified CSS.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/init</code></td>
+<td>The init script.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/widget</code></td>
+<td>The widget and its state helpers.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/widget.min</code></td>
+<td>The widget bundled and minified (9.9 KB gzipped).</td>
+</tr>
+<tr>
+<td><code>illustion-ui/atomic</code></td>
+<td>The atomic engine: <code>create</code>, <code>props</code>, <code>classes</code>, <code>inject</code>.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/shadow</code></td>
+<td><code>adopt</code>, <code>AtomicElement</code> for web components.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/core</code></td>
+<td>The shared core CSS for per-page builds.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/vars</code></td>
+<td>Token references for style objects.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/grid</code></td>
+<td>The atomic grid styles.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/auto</code></td>
+<td>The automatic widget entry point.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/tokens</code></td>
+<td>Token definitions.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/build</code></td>
+<td>The build API, including <code>build</code> and <code>minify</code>.</td>
+</tr>
+<tr>
+<td><code>illustion-ui/eleventy</code></td>
+<td>The Eleventy plugin.</td>
+</tr>
+</tbody></table></div>
+<p>CSS imports from JavaScript need a bundler that handles CSS (Vite, esbuild, webpack).</p>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">import &quot;illustion-ui&quot;;
+import &quot;illustion-ui/min&quot;;
+import { mount } from &quot;illustion-ui/widget&quot;;
+import &quot;illustion-ui/auto&quot;;
+import { build, minify } from &quot;illustion-ui/build&quot;;
+import a11yAtomic from &quot;illustion-ui/eleventy&quot;;</code></pre></div>
+<h2 id="command-line">Command line<a class="anchor" href="#command-line" aria-label="Link to this section: Command line">#</a></h2>
+<p>Build CSS from scanned content.</p>
+<div class="code"><pre tabindex="0" aria-label="SH code"><code class="language-sh">npx illustion-ui --content &quot;_site/**/*.html,src/**/*.js&quot; --out css/site.css</code></pre></div>
+<p>The content option accepts comma-separated file patterns. The content build writes minified CSS.</p>
+<p>The package also provides the <code>npm run build:site</code> script.</p>
+<p>Scan JavaScript files that build class strings. This includes <code>src/widget.js</code>.</p>
+<h2 id="node-api">Node API<a class="anchor" href="#node-api" aria-label="Link to this section: Node API">#</a></h2>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">import { build, minify } from &quot;illustion-ui/build&quot;;
+
+const css = await build({
+  content: [
+    &quot;_site/**/*.html&quot;,
+    &quot;src/**/*.js&quot;,
+  ],
+});
+
+const minifiedCss = minify(css);</code></pre></div>
+<h2 id="eleventy-plugin">Eleventy plugin<a class="anchor" href="#eleventy-plugin" aria-label="Link to this section: Eleventy plugin">#</a></h2>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">import a11yAtomic from &quot;illustion-ui/eleventy&quot;;
+
+eleventyConfig.addPlugin(a11yAtomic, {
+  out: &quot;css/illustionui.css&quot;,
+});</code></pre></div>
+<p>The plugin scans the built HTML after each build.</p>
+<h2 id="widget">Widget<a class="anchor" href="#widget" aria-label="Link to this section: Widget">#</a></h2>
+<p>Load the automatic entry point.</p>
+<div class="code"><pre tabindex="0" aria-label="HTML code"><code class="language-html">&lt;script type=&quot;module&quot; src=&quot;./src/auto.js&quot;&gt;&lt;/script&gt;</code></pre></div>
+<p>Or mount the widget manually.</p>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">import { mount } from &quot;./src/widget.js&quot;;
+
+const widget = mount();</code></pre></div>
+<p>Use one method, not both.</p>
+<h2 id="manual-attributes">Manual attributes<a class="anchor" href="#manual-attributes" aria-label="Link to this section: Manual attributes">#</a></h2>
+<p>Set <code>data-ax-*</code> attributes directly on <code>&lt;html&gt;</code>.</p>
+<div class="code"><pre tabindex="0" aria-label="HTML code"><code class="language-html">&lt;html lang=&quot;en&quot; data-ax-text=&quot;150&quot; data-ax-theme=&quot;dark&quot;&gt;</code></pre></div>
+<h2 id="css-variable-overrides">CSS variable overrides<a class="anchor" href="#css-variable-overrides" aria-label="Link to this section: CSS variable overrides">#</a></h2>
+<p>Override framework variables in CSS.</p>
+<div class="code"><pre tabindex="0" aria-label="CSS code"><code class="language-css">:root {
+  --ax-spacing: 0.3rem;
+  --ax-a11y-target-min: 44px;
+}</code></pre></div>
+<p>A variable can also be scoped to one element.</p>
+<div class="code"><pre tabindex="0" aria-label="CSS code"><code class="language-css">.card {
+  --ax-spacing: 0.2rem;
+}</code></pre></div>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../how-it-works/"><span>Previous</span>How it works</a>
+          <a rel="next" href="../tokens/"><span>Next</span>Tokens</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

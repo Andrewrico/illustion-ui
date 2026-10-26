@@ -1,5 +1,5 @@
 {
-  "name": "a11y-atomic",
+  "name": "illustion-ui",
   "version": "0.1.0",
   "description": "Atomic CSS framework driven by an accessibility widget: every utility reads CSS variables that the widget's modes change.",
   "keywords": [
@@ -18,10 +18,10 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./dist/a11y-atomic.css",
-    "./min": "./dist/a11y-atomic.min.css",
-    "./core": "./dist/a11y-core.css",
-    "./init": "./dist/a11y-init.js",
+    ".": "./dist/illustionui.css",
+    "./min": "./dist/illustionui.min.css",
+    "./core": "./dist/illustionui-core.css",
+    "./init": "./dist/illustionui-init.js",
     "./widget": "./src/widget.js",
     "./atomic": "./src/atomic.js",
     "./vars": "./src/vars.js",
@@ -31,7 +31,7 @@
     "./tokens": "./src/tokens.mjs",
     "./build": "./scripts/build.mjs",
     "./eleventy": "./src/eleventy.js",
-    "./widget.min": "./dist/a11y-widget.min.js"
+    "./widget.min": "./dist/illustionui-widget.min.js"
   },
   "files": [
     "dist/",
@@ -43,13 +43,14 @@
     "wcag/"
   ],
   "bin": {
-    "a11y-atomic": "scripts/build.mjs"
+    "illustion-ui": "scripts/build.mjs"
   },
   "engines": {
     "node": ">=22"
   },
   "scripts": {
     "build": "node scripts/build.mjs && node scripts/bundle.mjs",
+    "docs": "node scripts/docs.mjs",
     "build:site": "node scripts/build.mjs --content",
     "dev": "node scripts/build.mjs && node scripts/serve.mjs",
     "test": "node scripts/build.mjs && node --test",
@@ -62,6 +63,7 @@
   "devDependencies": {
     "axe-core": "^4.14.0",
     "esbuild": "^0.28.2",
+    "marked": "^18.1.1",
     "playwright": "^1.64.1"
   }
 }

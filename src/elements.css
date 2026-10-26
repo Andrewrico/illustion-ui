@@ -1,0 +1,131 @@
+/* ==========================================================================
+   Illustion UI: the classless look. Plain HTML, no classes, already styled.
+   Everything here reads tokens, so text size, spacing, contrast, themes,
+   fonts and motion from the widget change it too. It lives in the base layer
+   at zero specificity (:where), so any utility or component class wins.
+
+   Signature: a short primary bar marks a new thought (h2 and hr), numbers and
+   bullets take the primary colour, keys look like keys, and one display serif
+   carries every heading. Reader font modes still override the serif.
+   ========================================================================== */
+
+:root { --ax-font-display: Charter, "Iowan Old Style", "Palatino Linotype", Georgia, serif; }
+
+/* ---------- Headings ---------- */
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--ax-font-display);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+  margin-block: var(--ax-space-8) var(--ax-space-3);
+}
+:where(h1) { font-size: var(--ax-text-4xl); }
+:where(h2) { font-size: var(--ax-text-3xl); }
+:where(h3) { font-size: var(--ax-text-2xl); }
+:where(h4) { font-size: var(--ax-text-xl); }
+:where(h5) { font-size: var(--ax-text-lg); }
+:where(h6) { font-size: var(--ax-text-base); }
+:where(h1, h2, h3, h4, h5, h6):first-child { margin-block-start: 0; }
+:where(h2)::before {
+  content: "";
+  display: block;
+  inline-size: var(--ax-space-10);
+  block-size: var(--ax-space-1);
+  margin-block-end: var(--ax-space-3);
+  border-radius: var(--ax-radius-full);
+  background: var(--ax-color-primary);
+}
+
+/* ---------- Text ---------- */
+:where(p, ul, ol, dl, pre, blockquote, figure, table, form, fieldset, details) { margin-block: 0 var(--ax-space-4); }
+:where(p) { text-wrap: pretty; }
+:where(small) { font-size: var(--ax-text-sm); }
+:where(abbr[title]) { text-decoration: underline dotted; text-underline-offset: 0.15em; cursor: help; }
+:where(strong, b, th) { font-weight: 700; }
+:where(mark) { background: var(--ax-color-highlight); color: var(--ax-color-on-highlight); padding-inline: 0.2em; border-radius: var(--ax-radius-sm); }
+:where(hr) {
+  inline-size: var(--ax-space-10);
+  block-size: var(--ax-space-1);
+  margin-block: var(--ax-space-8);
+  margin-inline: 0;
+  border-radius: var(--ax-radius-full);
+  background: var(--ax-color-primary);
+}
+
+/* ---------- Lists ---------- */
+:where(ul, ol) { padding-inline-start: 1.5em; }
+:where(li)::marker { color: var(--ax-color-primary); font-weight: 700; }
+:where(li + li) { margin-block-start: var(--ax-space-1); }
+:where(dt) { font-weight: 700; }
+:where(dd) { margin-inline-start: 0; margin-block-end: var(--ax-space-2); color: var(--ax-color-muted); }
+
+/* ---------- Quotes and figures ---------- */
+:where(blockquote) {
+  padding-inline: var(--ax-space-5);
+  border-inline-start: var(--ax-space-1) solid var(--ax-color-primary);
+  font-family: var(--ax-font-display);
+  font-size: var(--ax-text-lg);
+}
+:where(blockquote) :where(footer, cite) { font-family: var(--ax-a11y-font-body); font-size: var(--ax-text-sm); color: var(--ax-color-muted); font-style: normal; }
+:where(figcaption, caption) { font-size: var(--ax-text-sm); color: var(--ax-color-muted); }
+:where(caption) { text-align: start; caption-side: top; padding-block-end: var(--ax-space-2); }
+
+/* ---------- Code and keys ---------- */
+:where(:not(pre) > code, kbd, samp) { background: var(--ax-color-surface-2); color: var(--ax-color-text); padding: 0.1em 0.4em; border-radius: var(--ax-radius-sm); }
+:where(kbd) { border: 1px solid var(--ax-color-border); border-block-end-width: 3px; background: var(--ax-color-surface); }
+:where(pre) {
+  padding: var(--ax-space-4);
+  background: var(--ax-color-surface-2);
+  color: var(--ax-color-text);
+  border-radius: var(--ax-radius-lg);
+  overflow-x: auto;
+}
+:where(pre) code { background: none; padding: 0; }
+
+/* ---------- Tables ---------- */
+:where(table) { inline-size: 100%; border-collapse: collapse; }
+:where(th, td) { padding: var(--ax-space-2) var(--ax-space-3); text-align: start; border-block-end: 1px solid var(--ax-color-border); }
+:where(thead th) { border-block-end: 2px solid var(--ax-color-text); }
+
+/* ---------- Forms ---------- */
+:where(input, select, textarea, progress, meter) { accent-color: var(--ax-color-primary); }
+:where(input:not([type="checkbox"], [type="radio"], [type="range"], [type="button"], [type="submit"], [type="reset"], [type="file"]), select, textarea) {
+  min-block-size: var(--ax-a11y-target-min);
+  padding: var(--ax-space-2) var(--ax-space-3);
+  border: 2px solid var(--ax-color-border);
+  border-radius: var(--ax-radius-md);
+  background: var(--ax-color-bg);
+  max-inline-size: 100%;
+}
+:where(input, select, textarea):focus-visible { border-color: var(--ax-color-primary); }
+:where(input[type="checkbox"], input[type="radio"]) { inline-size: 1.25em; block-size: 1.25em; vertical-align: middle; }
+:where(textarea) { min-block-size: calc(var(--ax-space-8) * 3); }
+:where(fieldset) { padding: var(--ax-space-3) var(--ax-space-4); border: 2px solid var(--ax-color-border); border-radius: var(--ax-radius-lg); }
+:where(legend) { font-weight: 700; padding-inline: var(--ax-space-2); }
+:where(:disabled) { opacity: 0.6; cursor: not-allowed; }
+
+/* ---------- Buttons ---------- */
+/* :is(), not :where(): base.css sets color on button, and this must win inside the base layer. Classes still win by layer. */
+:is(button, input[type="button"], input[type="submit"], input[type="reset"]) {
+  min-block-size: var(--ax-a11y-target-min);
+  padding: var(--ax-space-2) var(--ax-space-5);
+  border-radius: var(--ax-radius-md);
+  background: var(--ax-color-primary);
+  color: var(--ax-color-on-primary);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--ax-duration-fast) var(--ax-ease-out);
+}
+:is(button, input[type="button"], input[type="submit"], input[type="reset"]):hover:not(:disabled) { background: var(--ax-color-primary-hover); }
+
+/* ---------- Disclosure and dialogs ---------- */
+:where(details) { padding: var(--ax-space-1) var(--ax-space-4); border: 1px solid var(--ax-color-border); border-radius: var(--ax-radius-md); }
+:where(summary) { min-block-size: var(--ax-a11y-target-min); padding-block: var(--ax-space-2); font-weight: 600; cursor: pointer; }
+:where(summary)::marker { color: var(--ax-color-primary); }
+:where(dialog) { padding: var(--ax-space-6); border: 2px solid var(--ax-color-border); border-radius: var(--ax-radius-xl); background: var(--ax-color-bg); color: var(--ax-color-text); }
+dialog::backdrop { background: rgb(0 0 0 / 0.6); }
+
+@media (forced-colors: active) {
+  :where(button, input[type="button"], input[type="submit"], input[type="reset"]) { border: 2px solid ButtonText; }
+}

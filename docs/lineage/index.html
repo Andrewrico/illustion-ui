@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The best idea from each framework · Illustion UI docs</title>
+  <meta name="description" content="The best idea from each framework: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="./" aria-current="page">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>About</li>
+          <li aria-current="page">The best idea from each framework</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">The best idea from each framework</h1>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Framework</th>
+<th>Idea used in Illustion UI</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Bootstrap</td>
+<td><code>ax-stretched-link</code> makes the whole card clickable. The focus ring is drawn around the card. The parent needs <code>ax-relative</code>.</td>
+</tr>
+<tr>
+<td>Every Layout</td>
+<td>The switcher uses two class sets. The parent uses <code>ax-flex ax-flex-wrap</code>. Children use <code>ax-grow ax-basis-switch</code>. The threshold is <code>--ax-switch-at</code>, with a default of <code>30rem</code>. It uses rem, so larger text stacks sooner.</td>
+</tr>
+<tr>
+<td>Utopia</td>
+<td>Fluid space tokens run from <code>--ax-space-fluid-2xs</code> to <code>--ax-space-fluid-3xl</code>. Classes include <code>ax-p-fluid-m</code>, <code>ax-px-fluid-*</code>, <code>ax-py-fluid-*</code>, <code>ax-pt-fluid-*</code>, <code>ax-pb-fluid-*</code>, <code>ax-m-fluid-*</code>, <code>ax-my-fluid-*</code>, <code>ax-mt-fluid-*</code>, <code>ax-mb-fluid-*</code>, and <code>ax-gap-fluid-*</code>. Fluid spacing grows from 320px to 1440px.</td>
+</tr>
+<tr>
+<td>Open Props</td>
+<td><code>ax-ease-spring</code> uses a <code>linear()</code> easing curve. The framework also provides <code>ax-ease-linear</code>, <code>ax-ease-in</code>, <code>ax-ease-out</code>, and <code>ax-ease-in-out</code>.</td>
+</tr>
+<tr>
+<td>Material Design</td>
+<td>State layers use <code>hover:ax-wash-8</code>, <code>focus-visible:ax-wash-12</code>, and <code>active:ax-wash-16</code>. Each layer uses a <code>currentColor</code> overlay, so it works on any background.</td>
+</tr>
+<tr>
+<td>Pico CSS</td>
+<td>Native controls are themed. <code>ax-accent-primary</code> applies the primary accent color. Each theme sets <code>color-scheme</code>. The framework provides a styled base instead of a stripped reset.</td>
+</tr>
+</tbody></table></div>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../performance/"><span>Previous</span>Performance</a>
+          <a rel="next" href="../development/"><span>Next</span>Development</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

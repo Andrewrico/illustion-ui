@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Only what the page loads · Illustion UI docs</title>
+  <meta name="description" content="Only what the page loads: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="./" aria-current="page">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>Layout and content</li>
+          <li aria-current="page">Only what the page loads</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Only what the page loads</h1>
+<p>Each page gets a shared core plus only its own classes:</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Part</th>
+<th>What</th>
+<th>Size (demo page)</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>illustionui-core.css</code></td>
+<td>Layer order, tokens and themes, base, widget modes. Same on every page, so the browser caches it once.</td>
+<td>14 KB</td>
+</tr>
+<tr>
+<td>Inline <code>&lt;style data-ax-page&gt;</code> in <code>&lt;head&gt;</code></td>
+<td>Only the utility classes, atomic classes and grid rules found in <strong>this page&#39;s</strong> HTML. <code>grid.css</code> is left out when the page does not use the grid.</td>
+<td>15 KB (incl. four variable utilities)</td>
+</tr>
+<tr>
+<td>Widget / JS-rendered atomic styles</td>
+<td>Injected at runtime, only for classes actually rendered, and only if the page CSS does not already have them (checked before the widget paints, so no flash).</td>
+<td>—</td>
+</tr>
+</tbody></table></div>
+<p>Compared with the 555 KB full bundle. A browser test serves the demo this way and checks every element&#39;s computed styles match the full bundle (desktop, mobile, and high contrast at 200% text).</p>
+<div class="code"><pre tabindex="0" aria-label="SH code"><code class="language-sh">npx illustion-ui --pages &quot;_site/**/*.html&quot; --core css/illustionui-core.css --styles &quot;src/**/*.styles.js&quot;</code></pre></div>
+<p>Rewrites each built page in place (removes any full-bundle <code>&lt;link&gt;</code>, adds the core link and the page&#39;s <code>&lt;style&gt;</code>; safe to run twice). Eleventy does it per page as it writes:</p>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">eleventyConfig.addPlugin(a11yAtomic, {perPage: true, core: 'css/illustionui-core.css', styles: ['src/**/*.styles.js']});</code></pre></div>
+<p>Node API: <code>buildCore()</code>, <code>buildPage(html)</code>, <code>inlinePage(html, css, coreHref)</code>, <code>buildPages(globs, options)</code>. In the browser, <code>inject()</code> keeps one <code>&lt;style&gt;</code> in step with the atomic classes the page has used (<code>inject(document, {all: true})</code> for every registered rule).</p>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../plain-html/"><span>Previous</span>Plain HTML, already styled</a>
+          <a rel="next" href="../utilities/"><span>Next</span>Utilities</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

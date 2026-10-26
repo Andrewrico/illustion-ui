@@ -172,7 +172,7 @@ function write() {
  * Runtime injection (like StyleX's dev runtime): writes atomic rules into one
  * <style> in @layer atomic and keeps it updated as new classes are used.
  * Default: only classes this page has actually rendered. {all: true}: every registered rule.
- * Production pages should prefer built CSS (npx a11y-atomic --pages).
+ * Production pages should prefer built CSS (npx illustion-ui --pages).
  */
 export function inject(doc = globalThis.document, {all = false} = {}) {
   let el = doc.querySelector('style[data-ax-runtime]');

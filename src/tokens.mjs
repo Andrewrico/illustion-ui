@@ -74,23 +74,23 @@ export const maxWidth = {
 // Tailwind names; lg/xl/2xl are the andrewrico grid.css breakpoints (1024/1268/1440).
 export const breakpoints = { sm: '640px', md: '768px', lg: '1024px', xl: '1268px', '2xl': '1440px' };
 
-// Colour themes. Pairs that must meet contrast are listed in `pairs` below.
+// Colour themes: black and white, with colour kept for status (danger, success, warning). Pairs that must meet contrast are listed in `pairs` below.
 export const themes = {
   light: {
-    bg: '#ffffff', surface: '#f3f5f8', 'surface-2': '#e6eaf0',
-    text: '#16191d', muted: '#4a5360',
-    primary: '#0b57d0', 'primary-hover': '#0842a0', 'on-primary': '#ffffff',
-    link: '#0b57d0', border: '#6b7480', focus: '#9a3412',
+    bg: '#ffffff', surface: '#f5f5f5', 'surface-2': '#e8e8e8',
+    text: '#111111', muted: '#525252',
+    primary: '#000000', 'primary-hover': '#333333', 'on-primary': '#ffffff',
+    link: '#000000', border: '#737373', focus: '#000000',
     danger: '#b3261e', success: '#1e6b33', warning: '#7a4a00',
-    highlight: '#fff1a8', 'on-highlight': '#16191d',
+    highlight: '#e0e0e0', 'on-highlight': '#000000',
   },
   dark: {
-    bg: '#111316', surface: '#1b1e23', 'surface-2': '#262a31',
-    text: '#eef1f4', muted: '#b6bfcc',
-    primary: '#8ab4f8', 'primary-hover': '#aecbfa', 'on-primary': '#0a1a33',
-    link: '#8ab4f8', border: '#8b94a1', focus: '#ffb454',
+    bg: '#0a0a0a', surface: '#171717', 'surface-2': '#262626',
+    text: '#f5f5f5', muted: '#b3b3b3',
+    primary: '#ffffff', 'primary-hover': '#d4d4d4', 'on-primary': '#000000',
+    link: '#ffffff', border: '#8a8a8a', focus: '#ffffff',
     danger: '#ff8b80', success: '#7fdc9c', warning: '#ffcf70',
-    highlight: '#5c4b00', 'on-highlight': '#fff8d6',
+    highlight: '#3a3a3a', 'on-highlight': '#ffffff',
   },
   'high-light': {
     bg: '#ffffff', surface: '#ffffff', 'surface-2': '#f0f0f0',

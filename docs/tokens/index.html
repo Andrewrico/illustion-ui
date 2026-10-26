@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tokens · Illustion UI docs</title>
+  <meta name="description" content="Tokens: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="./" aria-current="page">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>Customize</li>
+          <li aria-current="page">Tokens</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Tokens</h1>
+<p>The token definitions are in <code>src/tokens.mjs</code>.</p>
+<ul>
+<li><code>--ax-a11y-*</code> contains the text scale, line height, letter spacing, word spacing, paragraph spacing, body and monospace fonts, focus width and offset, minimum target size, and motion multiplier.</li>
+<li><code>--ax-spacing</code> is the base spacing unit. It is <code>0.25rem</code>.</li>
+<li><code>--ax-space-*</code> follows the spacing scale (a dot becomes an underscore, so <code>0.5</code> is <code>--ax-space-0_5</code>): <code>0</code>, <code>px</code>, <code>0.5</code>, <code>1</code>, <code>1.5</code>, <code>2</code>, <code>2.5</code>, <code>3</code>, <code>3.5</code>, <code>4</code>, <code>5</code>, <code>6</code>, <code>7</code>, <code>8</code>, <code>9</code>, <code>10</code>, <code>11</code>, <code>12</code>, <code>14</code>, <code>16</code>, <code>20</code>, <code>24</code>, <code>28</code>, <code>32</code>, <code>36</code>, <code>40</code>, <code>44</code>, <code>48</code>, <code>52</code>, <code>56</code>, <code>60</code>, <code>64</code>, <code>72</code>, <code>80</code>, and <code>96</code>.</li>
+<li><code>--ax-text-*</code> contains type sizes and line heights from <code>xs</code> through <code>9xl</code>.</li>
+<li><code>--ax-radius-*</code> contains border radii from <code>none</code> through <code>full</code>.</li>
+<li><code>--ax-shadow-*</code> contains shadows from <code>2xs</code> through <code>2xl</code>, plus <code>inner</code> and <code>none</code>.</li>
+<li><code>--ax-duration-fast</code>, <code>--ax-duration-base</code>, and <code>--ax-duration-slow</code> are named component durations. Each one already includes <code>--ax-a11y-motion</code>.</li>
+<li><code>--ax-ease-*</code> contains <code>linear</code>, <code>in</code>, <code>out</code>, <code>in-out</code>, and <code>spring</code>.</li>
+<li><code>--ax-space-fluid-*</code> contains fluid spacing from <code>2xs</code> through <code>3xl</code>.</li>
+<li><code>--ax-color-*</code> contains semantic colors used by the four themes: <code>light</code>, <code>dark</code>, <code>high-light</code>, and <code>high-dark</code>.</li>
+</ul>
+<p>The color tokens are <code>bg</code>, <code>surface</code>, <code>surface-2</code>, <code>text</code>, <code>muted</code>, <code>primary</code>, <code>primary-hover</code>, <code>on-primary</code>, <code>link</code>, <code>ax-border</code>, <code>focus</code>, <code>danger</code>, <code>success</code>, <code>warning</code>, <code>highlight</code>, and <code>on-highlight</code>.</p>
+<p>Tested text pairs meet 4.5:1 contrast. High-contrast text pairs meet 7:1. Tested border, focus, and primary colors meet 3:1.</p>
+<p>All token families can be overridden with CSS.</p>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../connect/"><span>Previous</span>Ways to connect</a>
+          <a rel="next" href="../layers/"><span>Next</span>Cascade layers</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

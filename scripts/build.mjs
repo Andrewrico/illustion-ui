@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// a11y-atomic build: Tailwind-compatible class names on our own accessibility tokens.
+// Illustion UI build: utility class names on our own accessibility tokens.
 //
 //   node scripts/build.mjs                          → full dist/ bundle
 //   node scripts/build.mjs --content "_site/**/*.html" --out site.css
@@ -388,12 +388,15 @@ export async function loadStyles(patterns, cwd = process.cwd()) {
 // Pre-paint script: applies saved settings before first render so pages do not flash.
 function initScript() {
   const allowed = Object.fromEntries(SETTINGS.map(s => [s.key, s.options.map(([v]) => v).filter(v => v !== s.default)]));
-  return `/*! a11y-atomic init v${pkg.version} — load in <head> before CSS paints */
-(function(){try{var a=${JSON.stringify(allowed)},s=JSON.parse(localStorage.getItem("a11y-atomic")||"{}"),r=document.documentElement;for(var k in a)if(a[k].indexOf(s[k])>-1)r.setAttribute("data-ax-"+k,s[k])}catch(e){}})();
+  return `/*! Illustion UI init v${pkg.version} — load in <head> before CSS paints */
+(function(){try{var a=${JSON.stringify(allowed)},s=JSON.parse(localStorage.getItem("illustion-ui")||"{}"),r=document.documentElement;for(var k in a)if(a[k].indexOf(s[k])>-1)r.setAttribute("data-ax-"+k,s[k])}catch(e){}})();
 `;
 }
 
 export const minify = css => css.replace(/\/\*(?!!)[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').replace(/\s*([{};,>])\s*/g, '$1').replace(/:\s+/g, ':').replace(/;}/g, '}').trim();
+
+/** Base layer: element resets plus the classless Illustion UI look (zero specificity, so classes win). */
+const baseCss = async () => `${await read('base.css')}\n${await read('elements.css')}`;
 
 const layer = (name, css) => `@layer ${name} {\n${css}\n}`;
 
@@ -402,11 +405,11 @@ export async function build({content, styles, cwd} = {}) {
   await loadStyles(styles, cwd);
   const used = content ? await scan(content, cwd) : null;
   return [
-    `/*! a11y-atomic v${pkg.version} | MIT | Tailwind-compatible atomic CSS on accessibility tokens */`,
+    `/*! Illustion UI v${pkg.version} | MIT | Atomic CSS on accessibility tokens */`,
     '@layer theme, base, components, atomic, utilities, a11y;',
     varUtilitiesCss(used).properties,
     layer('theme', themeCss()),
-    layer('base', await read('base.css')),
+    layer('base', await baseCss()),
     layer('components', `/* src/grid.css (andrewrico eleventy grid) with standard names */\n${standardizeGrid(await read('grid.css'))}`),
     layer('atomic', atomicRules().filter(r => r.layer === 'atomic').map(r => r.css).join('\n')),
     layer('utilities', `${utilitiesCss(used)}\n/* variable utilities */\n${varUtilitiesCss(used).css}`),
@@ -420,8 +423,8 @@ const LAYERS = '@layer theme, base, components, atomic, utilities, a11y;';
 /** Same on every page (cache it): layer order, tokens/themes, base, widget modes. */
 export async function buildCore() {
   return minify([
-    `/*! a11y-atomic core v${pkg.version} | MIT */`, LAYERS,
-    layer('theme', themeCss()), layer('base', await read('base.css')), layer('a11y', await read('modes.css')),
+    `/*! Illustion UI core v${pkg.version} | MIT */`, LAYERS,
+    layer('theme', themeCss()), layer('base', await baseCss()), layer('a11y', await read('modes.css')),
   ].join('\n')) + '\n';
 }
 
@@ -489,13 +492,13 @@ export async function compileSite(pages, {styles, cwd} = {}) {
 /** Link the shared site stylesheet, replacing full-bundle / core / page-style tags. Idempotent. */
 export function linkSite(html, href) {
   const cleaned = html
-    .replace(/<link[^>]+href="[^"]*a11y-atomic(\.min)?\.css"[^>]*>\s*/g, '')
+    .replace(/<link[^>]+href="[^"]*illustionui(\.min)?\.css"[^>]*>\s*/g, '')
     .replace(/<link[^>]+data-ax-(core|site)[^>]*>(<style data-ax-page>[\s\S]*?<\/style>)?\s*/g, '');
   return cleaned.replace(/<\/head>/i, `<link rel="stylesheet" href="${href}" data-ax-site>\n</head>`);
 }
 
 /** Rewrite every built page in place and write one shared stylesheet. */
-export async function buildSite(patterns, {cwd = process.cwd(), styles, out = 'css/a11y-site.css', hrefRoot = ''} = {}) {
+export async function buildSite(patterns, {cwd = process.cwd(), styles, out = 'css/illustionui-site.css', hrefRoot = ''} = {}) {
   const files = [];
   for (const pattern of [].concat(patterns)) for await (const file of glob(pattern, {cwd})) files.push(file);
   const pages = Object.fromEntries(await Promise.all(files.map(async f => [f, await readFile(path.resolve(cwd, f), 'utf8')])));
@@ -593,13 +596,13 @@ export function compileHtml(html) {
 export function inlinePage(html, pageCss, coreHref) {
   const head = `<link rel="stylesheet" href="${coreHref}" data-ax-core><style data-ax-page>${pageCss}</style>`;
   const cleaned = html
-    .replace(/<link[^>]+href="[^"]*a11y-atomic(\.min)?\.css"[^>]*>\s*/g, '')
+    .replace(/<link[^>]+href="[^"]*illustionui(\.min)?\.css"[^>]*>\s*/g, '')
     .replace(/<link[^>]+data-ax-core[^>]*>(<style data-ax-page>[\s\S]*?<\/style>)?/g, '');
   return cleaned.replace(/<\/head>/i, `${head}\n</head>`);
 }
 
 /** Rewrite every built HTML page in place and write the shared core file. */
-export async function buildPages(patterns, {cwd = process.cwd(), styles, core = 'css/a11y-core.css', compile = false} = {}) {
+export async function buildPages(patterns, {cwd = process.cwd(), styles, core = 'css/illustionui-core.css', compile = false} = {}) {
   await loadStyles(styles, cwd);
   const corePath = path.resolve(cwd, core);
   await mkdir(path.dirname(corePath), {recursive: true});
@@ -626,13 +629,13 @@ export async function writeDist() {
   const css = await build();
   const dist = new URL('../dist/', import.meta.url);
   await mkdir(dist, {recursive: true});
-  await writeFile(new URL('a11y-atomic.css', dist), css);
-  await writeFile(new URL('a11y-atomic.min.css', dist), minify(css) + '\n');
-  await writeFile(new URL('a11y-init.js', dist), initScript());
-  await writeFile(new URL('a11y-core.css', dist), await buildCore());
+  await writeFile(new URL('illustionui.css', dist), css);
+  await writeFile(new URL('illustionui.min.css', dist), minify(css) + '\n');
+  await writeFile(new URL('illustionui-init.js', dist), initScript());
+  await writeFile(new URL('illustionui-core.css', dist), await buildCore());
   // Base + widget modes rewritten for shadow roots (imported by src/shadow.js).
   const shadow = minify(`@layer base {\n${await read('shadow-base.css')}\n}\n@layer a11y {\n${toShadow(withoutSaturation(await read('modes.css')))}\n}`);
-  await writeFile(new URL('a11y-shadow.js', dist), `// Generated by scripts/build.mjs from src/shadow-base.css + src/modes.css. Do not edit.\nexport default ${JSON.stringify(shadow)};\n`);
+  await writeFile(new URL('illustionui-shadow.js', dist), `// Generated by scripts/build.mjs from src/shadow-base.css + src/modes.css. Do not edit.\nexport default ${JSON.stringify(shadow)};\n`);
   return css;
 }
 
@@ -641,7 +644,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
   const opt = flag => { const i = args.indexOf(flag); return i > -1 ? args[i + 1] : undefined; };
   const t = performance.now();
   if (opt('--site')) {
-    const out = opt('--out') || 'css/a11y-site.css';
+    const out = opt('--out') || 'css/illustionui-site.css';
     const r = await buildSite(opt('--site').split(','), {styles: opt('--styles')?.split(','), out});
     console.log(`${r.pages} pages compiled; one shared stylesheet ${out} ${(r.css / 1024).toFixed(1)} KB, in ${Math.round(performance.now() - t)} ms`);
   } else if (opt('--pages')) {
@@ -650,11 +653,11 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     console.log(`${pages.length} pages: shared core ${(core / 1024).toFixed(1)} KB + ${(avg / 1024).toFixed(1)} KB average inline per page, in ${Math.round(performance.now() - t)} ms`);
   } else if (opt('--content')) {
     const css = minify(await build({content: opt('--content').split(','), styles: opt('--styles')?.split(',')}));
-    const out = opt('--out') || 'a11y-atomic.site.css';
+    const out = opt('--out') || 'illustionui.site.css';
     await writeFile(out, css + '\n');
     console.log(`${out} ${(css.length / 1024).toFixed(1)} KB in ${Math.round(performance.now() - t)} ms`);
   } else {
     const css = await writeDist();
-    console.log(`dist/a11y-atomic.css ${(css.length / 1024).toFixed(1)} KB, ${utilities().length} utilities, in ${Math.round(performance.now() - t)} ms`);
+    console.log(`dist/illustionui.css ${(css.length / 1024).toFixed(1)} KB, ${utilities().length} utilities, in ${Math.round(performance.now() - t)} ms`);
   }
 }

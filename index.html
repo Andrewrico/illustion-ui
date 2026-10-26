@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Illustion UI · Accessibility-first atomic CSS</title>
+  <meta name="description" content="Atomic CSS on accessibility tokens. A widget changes the tokens, so every class adapts to the reader.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="dist/illustionui.css">
+  <link rel="stylesheet" href="docs/assets/site.css">
+  <script type="module" src="src/auto.js"></script>
+  <script type="module" src="docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="index.html" aria-current="page">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="docs/">Docs</a></li>
+        <li><a href="examples.html">Examples</a></li>
+        <li><a href="docs/wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <main id="content" class="home">
+    <section class="hero" aria-labelledby="hero-title">
+      <span class="hero-mark" aria-hidden="true">I</span>
+      <h1 id="hero-title">Build sites every reader can use</h1>
+      <p class="lead">Illustion UI is an atomic CSS framework with familiar utility classes, powered by an accessibility widget. A reader picks 200% text, and every class follows. Each feature maps to a WCAG 2.2 criterion.</p>
+      <div class="code snippet"><pre tabindex="0" aria-label="Install snippet"><code>&lt;link rel="stylesheet" href="./dist/illustionui.css"&gt;</code></pre></div>
+      <div class="hero-actions">
+        <a class="btn" href="docs/quick-start/">Get started</a>
+        <a class="btn btn-outline" href="examples.html">See the examples</a>
+      </div>
+      <p class="hero-meta">Currently v0.1.0 · MIT · <a href="docs/">Read the docs</a> · Shortcut for the widget: <kbd>Alt</kbd> + <kbd>Shift</kbd> + <kbd>A</kbd></p>
+    </section>
+
+    <section aria-labelledby="start-title">
+      <h2 id="start-title">Get started any way you want</h2>
+      <p class="ax-text-lg ax-text-muted ax-max-w-prose">Link the stylesheet, import the pieces you need, or compile a whole site. Pick the one that fits, then keep the rest for later.</p>
+      <ul class="cards">
+        <li class="card">
+          <h3>Include the CSS</h3>
+          <p>One stylesheet and a tiny init script that applies saved settings before the first paint.</p>
+          <div class="code"><pre tabindex="0" aria-label="HTML code"><code>&lt;link rel="stylesheet"
+  href="./dist/illustionui.css"&gt;
+&lt;script src="./dist/illustionui-init.js"&gt;&lt;/script&gt;</code></pre></div>
+          <p><a class="more" href="docs/connect/">All the ways to connect</a></p>
+        </li>
+        <li class="card">
+          <h3>Add the widget</h3>
+          <p>One module mounts the settings panel. Readers choose text size, contrast, fonts, spacing and motion.</p>
+          <div class="code"><pre tabindex="0" aria-label="HTML code"><code>&lt;script type="module"
+  src="./src/auto.js"&gt;&lt;/script&gt;</code></pre></div>
+          <p><a class="more" href="docs/widget-api/">Widget JavaScript API</a></p>
+        </li>
+        <li class="card">
+          <h3>Compile for production</h3>
+          <p>Turn every class into a one-declaration atomic class in one shared, cacheable stylesheet.</p>
+          <div class="code"><pre tabindex="0" aria-label="Shell command"><code>npx illustion-ui --site "_site/**/*.html"</code></pre></div>
+          <p><a class="more" href="docs/shipping/">What ships is atomic</a></p>
+        </li>
+      </ul>
+    </section>
+
+    <section class="split" aria-labelledby="utilities-title">
+      <div>
+        <h2 id="utilities-title">Write plain utility classes</h2>
+        <p>Utility names and variants, like <code>p-4</code>, <code>lg:grid-cols-3</code> and <code>hover:bg-primary</code>. Every value reads an accessibility variable, so text size, spacing, contrast and motion change everywhere at once.</p>
+        <p><a class="more" href="docs/class-names/">Class names</a> · <a class="more" href="docs/utilities/">Utilities</a></p>
+      </div>
+      <div class="panel">
+        <div class="code"><pre tabindex="0" aria-label="HTML code"><code>&lt;article class="ax-p-6 ax-rounded-xl
+  ax-border ax-border-border
+  hover:ax-bg-surface-2
+  large-text:ax-p-4"&gt;
+  &lt;h3 class="ax-text-xl"&gt;Studio plan&lt;/h3&gt;
+  &lt;button class="ax-bg-primary
+    ax-text-on-primary ax-min-h-target"&gt;
+    Start
+  &lt;/button&gt;
+&lt;/article&gt;</code></pre></div>
+      </div>
+    </section>
+
+    <section class="split flip" aria-labelledby="widget-title">
+      <div>
+        <h2 id="widget-title">An accessibility widget that rewrites the tokens</h2>
+        <p>The widget changes CSS variables and <code>data-ax-*</code> attributes on <code>&lt;html&gt;</code>. Settings left on automatic follow the operating system. Try it on this page.</p>
+        <p><button type="button" class="btn" data-open-widget>Open the widget</button></p>
+      </div>
+      <form class="panel" id="console" aria-labelledby="console-title">
+        <h3 id="console-title" class="ax-m-0 ax-text-xl">Reader controls</h3>
+        <p class="ax-text-sm ax-text-muted">These change the whole page, the same way the widget does.</p>
+        <div class="ax-flex ax-flex-col ax-gap-2 ax-mb-4">
+          <label for="ctl-text" class="ax-font-semibold">Text size: <output id="ctl-text-out" class="ax-px-2 ax-rounded-sm ax-bg-highlight ax-text-on-highlight">100%</output></label>
+          <input id="ctl-text" type="range" min="0" max="5" step="1" value="0" class="ax-w-full ax-min-h-target ax-accent-primary" aria-valuetext="100%">
+        </div>
+        <fieldset class="ax-border-0 ax-p-0 ax-m-0 ax-mb-2 ax-flex ax-flex-wrap ax-gap-x-4 ax-gap-y-1">
+          <legend class="ax-font-semibold ax-mb-1 ax-p-0">Theme</legend>
+          <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-theme" value="auto" checked> System</label>
+          <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-theme" value="light"> Light</label>
+          <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-theme" value="dark"> Dark</label>
+        </fieldset>
+        <fieldset class="ax-border-0 ax-p-0 ax-m-0 ax-mb-4 ax-flex ax-flex-wrap ax-gap-x-4 ax-gap-y-1">
+          <legend class="ax-font-semibold ax-mb-1 ax-p-0">Contrast</legend>
+          <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-contrast" value="auto" checked> System</label>
+          <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-contrast" value="normal"> Standard</label>
+          <label class="ax-inline-flex ax-items-center ax-gap-2 ax-min-h-target"><input type="radio" name="ctl-contrast" value="high"> High</label>
+        </fieldset>
+        <button type="button" id="ctl-reset" class="ax-min-h-target">Reset all</button>
+        <p class="ax-m-0 ax-mt-3 ax-text-sm" aria-live="polite" id="demo-status"></p>
+      </form>
+    </section>
+
+    <section class="split" aria-labelledby="theme-title">
+      <div>
+        <h2 id="theme-title">Black and white, with room for every reader</h2>
+        <p>The default theme is plain black and white, with colour kept for status messages. Dark mode inverts it, and a high-contrast mode goes further. Every colour pair is tested against WCAG 2.2 in all four themes.</p>
+        <p><a class="more" href="docs/tokens/">Tokens</a> · <a class="more" href="docs/modes/">Accessibility modes</a></p>
+      </div>
+      <div class="themes" role="group" aria-label="The four themes">
+        <div class="swatch" data-tone="white">Light<small>Black on white</small></div>
+        <div class="swatch" data-tone="black">Dark<small>White on black</small></div>
+        <div class="swatch" data-tone="high">High contrast<small>Yellow on black</small></div>
+        <div class="swatch" data-tone="gray">Surface<small>Neutral grays</small></div>
+      </div>
+    </section>
+
+    <section class="split flip" aria-labelledby="plain-title">
+      <div>
+        <h2 id="plain-title">Plain HTML, already styled</h2>
+        <p>Write semantic HTML with no classes and it already looks finished: headings, lists, quotes, code, tables, forms, buttons. Content you cannot style by hand, such as markdown or a CMS, still looks right and still follows the widget.</p>
+        <p><a class="more" href="docs/plain-html/">Plain HTML</a></p>
+      </div>
+      <div class="panel">
+        <h3>Field notes on reading</h3>
+        <p>Good type is quiet. Readers notice <mark>comfort</mark>, and press <kbd>Ctrl</kbd> + <kbd>+</kbd> when it fails them.</p>
+        <blockquote><p>Make the default good, and make every default changeable.</p></blockquote>
+        <ol><li>Start with real HTML.</li><li>Let readers set their needs.</li></ol>
+      </div>
+    </section>
+
+    <section aria-labelledby="features-title">
+      <h2 id="features-title">Everything you need, nothing in the way</h2>
+      <p class="ax-text-lg ax-text-muted ax-max-w-prose">Six parts that work together. Use all of them, or only the ones you want.</p>
+      <ul class="cards">
+        <li class="card"><h3>Accessibility tokens</h3><p>Spacing, type, colour, focus, target size and motion are CSS variables. The widget changes them and the whole page follows.</p><a class="more" href="docs/tokens/">Tokens</a></li>
+        <li class="card"><h3>Atomic engine</h3><p><code>create()</code> turns each style into one class holding one declaration, in the style of Facebook's StyleX.</p><a class="more" href="docs/atomic/">Atomic engine</a></li>
+        <li class="card"><h3>Your grid, unchanged</h3><p>The andrewrico <code>grid.css</code> drives layout, with a compiled atomic twin and utility classes on top.</p><a class="more" href="docs/grid/">Grid</a></li>
+        <li class="card"><h3>Variable utilities</h3><p>One class per property reads a chain of variables, one per breakpoint, each falling back to the one below.</p><a class="more" href="docs/variable-utilities/">Variable utilities</a></li>
+        <li class="card"><h3>Only what the page loads</h3><p>A content scan keeps just the classes a page uses. The scanned page renders identically to the full bundle.</p><a class="more" href="docs/page-loads/">Only what the page loads</a></li>
+        <li class="card"><h3>Tied to W3C WAI</h3><p>Every feature maps to WCAG 2.2 success criteria, and a sync script reports when W3C changes them.</p><a class="more" href="docs/wcag/">Tied to W3C WAI</a></li>
+      </ul>
+    </section>
+
+    <section aria-labelledby="modes-title">
+      <h2 id="modes-title">Twelve accessibility modes, one attribute each</h2>
+      <p class="ax-text-lg ax-text-muted ax-max-w-prose">The widget stores only non-default settings and sets a <code>data-ax-*</code> attribute on <code>&lt;html&gt;</code>. Automatic settings follow the operating system.</p>
+      <ul class="cards">
+        <li class="card"><h3>Text size</h3><p>100% to 200%. Type, spacing and the grid scale together.</p><p><small>WCAG 1.4.4</small></p></li>
+        <li class="card"><h3>Theme</h3><p>System, light or dark.</p><p><small>WCAG 1.4.3, 1.4.11</small></p></li>
+        <li class="card"><h3>Contrast</h3><p>System, standard or high.</p><p><small>WCAG 1.4.6</small></p></li>
+        <li class="card"><h3>Font</h3><p>Default, readable or dyslexia-friendly.</p><p><small>WCAG 1.4.8, related</small></p></li>
+        <li class="card"><h3>Text spacing</h3><p>1.8 line height, wider letters, words and paragraphs.</p><p><small>WCAG 1.4.12</small></p></li>
+        <li class="card"><h3>Motion</h3><p>Stop animation and transitions, or follow the system.</p><p><small>WCAG 2.2.2, 2.3.3</small></p></li>
+        <li class="card"><h3>Focus</h3><p>A 5px focus outline with a 3px offset.</p><p><small>WCAG 2.4.7, 2.4.13</small></p></li>
+        <li class="card"><h3>Target size</h3><p>Interactive targets at least 44 by 44 pixels.</p><p><small>WCAG 2.5.8, 2.5.5</small></p></li>
+        <li class="card"><h3>Links</h3><p>Underlined and highlighted, never colour alone.</p><p><small>WCAG 1.4.1, related</small></p></li>
+        <li class="card"><h3>Saturation</h3><p>Full, low or grayscale.</p><p><small>WCAG 1.4.1, related</small></p></li>
+        <li class="card"><h3>Alignment</h3><p>Left-align headings and text blocks.</p><p><small>WCAG 1.4.8, related</small></p></li>
+        <li class="card"><h3>Cursor</h3><p>A large 48 by 48 pixel cursor.</p><p><small>Motor accessibility, related</small></p></li>
+      </ul>
+      <p class="ax-mt-6"><a class="more" href="docs/modes/">Accessibility modes in the docs</a></p>
+    </section>
+
+    <section class="split flip" aria-labelledby="vars-title">
+      <div>
+        <h2 id="vars-title">Customize with CSS variables</h2>
+        <p>Utility classes read framework variables. A widget mode changes the variable, and the class stays the same. Override any variable in your own CSS to make Illustion UI yours.</p>
+        <p><a class="more" href="docs/how-it-works/">How it works</a> · <a class="more" href="docs/layers/">Cascade layers</a></p>
+      </div>
+      <div class="panel">
+        <div class="code"><pre tabindex="0" aria-label="CSS code"><code>.p-4 {
+  padding: calc(var(--ax-spacing) * 4);
+}
+
+html {
+  font-size: calc(100% * var(--ax-a11y-text-scale));
+}
+
+[data-ax-text="150"] {
+  --ax-a11y-text-scale: 1.5;
+}</code></pre></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="examples-title">
+      <h2 id="examples-title">Components, built from framework classes only</h2>
+      <p class="ax-text-lg ax-text-muted ax-max-w-prose">Pricing cards, status messages, tables, forms and touch targets, all made from utility classes. Change a setting and watch each one adapt.</p>
+      <ul class="cards">
+        <li class="card"><h3>Studio plan</h3><p>$12 per month. Unlimited projects, dark and high-contrast themes.</p><p><button type="button" class="btn" data-open-widget>Try a setting</button></p></li>
+        <li class="card"><h3>Status messages</h3><p><strong class="ax-text-success">Saved.</strong> <strong class="ax-text-warning">Trial ending.</strong> <strong class="ax-text-danger">Email not accepted.</strong> Colour never works alone: each has a bold label.</p></li>
+        <li class="card"><h3>Contrast, measured live</h3><p>Your browser computes every colour pair in use right now, and the table follows each theme you pick.</p><a class="more" href="examples.html#contrast">See the table</a></li>
+      </ul>
+      <p class="ax-mt-6"><a class="btn btn-outline" href="examples.html">Browse all the examples</a></p>
+    </section>
+
+    <section aria-labelledby="lineage-title">
+      <h2 id="lineage-title">The best idea from each framework</h2>
+      <p class="ax-text-lg ax-text-muted ax-max-w-prose">Illustion UI borrows one proven idea from each of these, and says where it came from.</p>
+      <ul class="cards">
+        <li class="card"><h3>Bootstrap</h3><p>The stretched link: the whole card is clickable, and the focus ring wraps the card.</p></li>
+        <li class="card"><h3>Every Layout</h3><p>The switcher stacks at a threshold in rem, so larger text stacks sooner.</p></li>
+        <li class="card"><h3>Utopia</h3><p>Fluid space tokens that grow smoothly from 320px to 1440px.</p></li>
+        <li class="card"><h3>Open Props</h3><p>A spring easing built from a <code>linear()</code> curve.</p></li>
+        <li class="card"><h3>Material Design</h3><p>State layers for hover, focus and press on any background.</p></li>
+        <li class="card"><h3>Pico CSS</h3><p>Native controls that are themed, on a styled base instead of a stripped reset.</p></li>
+      </ul>
+      <p class="ax-mt-6"><a class="more" href="docs/lineage/">Lineage in the docs</a></p>
+    </section>
+
+    <section class="split" aria-labelledby="stack-title">
+      <div>
+        <h2 id="stack-title">Works with your stack</h2>
+        <p>An Eleventy plugin scans the built HTML after each build. A command-line compiler handles any static site. Web components get the same tokens, modes and atomic classes inside their shadow roots.</p>
+        <p><a class="more" href="docs/connect/">Ways to connect</a> · <a class="more" href="docs/web-components/">Web components</a></p>
+      </div>
+      <div class="panel">
+        <div class="code"><pre tabindex="0" aria-label="JavaScript code"><code>import a11yAtomic from "illustion-ui/eleventy";
+
+eleventyConfig.addPlugin(a11yAtomic, {
+  out: "css/illustionui.css",
+});</code></pre></div>
+      </div>
+    </section>
+
+    <section aria-labelledby="small-title">
+      <h2 id="small-title">Small, measured and cached</h2>
+      <p class="ax-text-lg ax-text-muted ax-max-w-prose">Gzipped, as browsers download it, on the demo page. Compiling to atomic classes in one shared stylesheet makes every further page cheaper.</p>
+      <ul class="stats">
+        <li><strong>9.9 KB</strong><span>widget JavaScript, gzipped</span></li>
+        <li><strong>10.4 KB</strong><span>first page, shared stylesheet</span></li>
+        <li><strong>4.6 KB</strong><span>each further page</span></li>
+        <li><strong>WCAG 2.2</strong><span>every feature mapped to a criterion</span></li>
+      </ul>
+      <p class="ax-mt-6"><a class="more" href="docs/efficiency/">How these were measured</a></p>
+    </section>
+
+    <section class="cta" aria-labelledby="cta-title">
+      <h2 id="cta-title">Give every reader the page they need</h2>
+      <p class="ax-text-lg ax-text-muted">Link the stylesheet, mount the widget, and watch the whole page follow.</p>
+      <div class="code snippet"><pre tabindex="0" aria-label="Install snippet"><code>&lt;link rel="stylesheet" href="./dist/illustionui.css"&gt;</code></pre></div>
+      <div class="hero-actions">
+        <a class="btn" href="docs/quick-start/">Read the quick start</a>
+        <a class="btn btn-outline" href="examples.html">Browse the examples</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="docs/">Docs</a> · <a href="examples.html">Examples</a> · <a href="docs/wcag/">WCAG</a> · <a href="#content">Back to top</a></p>
+  </footer>
+
+  <script type="module">
+    // Reader controls drive the real widget, like its own panel does.
+    const widget = () => globalThis.a11yWidget;
+    const steps = ['100', '115', '130', '150', '175', '200'];
+    const status = document.getElementById('demo-status');
+    const say = text => { status.textContent = text; };
+    const form = document.getElementById('console');
+    const slider = document.getElementById('ctl-text'), out = document.getElementById('ctl-text-out');
+    form.addEventListener('submit', event => event.preventDefault());
+    slider.addEventListener('input', () => {
+      const value = steps[slider.value];
+      out.textContent = `${value}%`;
+      slider.setAttribute('aria-valuetext', `${value}%`);
+      widget()?.set('text', value);
+      say(`Text size: ${value}%.`);
+    });
+    for (const name of ['theme', 'contrast']) {
+      form.querySelectorAll(`input[name="ctl-${name}"]`).forEach(input => input.addEventListener('change', () => {
+        widget()?.set(name, input.value);
+        say(`${name[0].toUpperCase() + name.slice(1)}: ${input.parentElement.textContent.trim()}.`);
+      }));
+    }
+    document.getElementById('ctl-reset').addEventListener('click', () => {
+      widget()?.reset();
+      form.reset();
+      slider.value = 0; out.textContent = '100%'; slider.setAttribute('aria-valuetext', '100%');
+      say('All settings reset.');
+    });
+  </script>
+</body>
+</html>

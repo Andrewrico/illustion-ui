@@ -1,0 +1,228 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Widget JavaScript API · Illustion UI docs</title>
+  <meta name="description" content="Widget JavaScript API: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="./" aria-current="page">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+      <nav class="docs-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title" class="docs-group-title">On this page</h2>
+        <ul>
+          <li><a href="#mount-options">mount(options)</a></li>
+          <li><a href="#returned-object">Returned object</a></li>
+          <li><a href="#change-event">Change event</a></li>
+          <li><a href="#state-exports">State exports</a></li>
+        </ul>
+      </nav>
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>Widget</li>
+          <li aria-current="page">Widget JavaScript API</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Widget JavaScript API</h1>
+<h2 id="mount-options"><code>mount(options)</code><a class="anchor" href="#mount-options" aria-label="Link to this section: mount(options)">#</a></h2>
+<p>Mounts the widget and returns its control object.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>position</code></td>
+<td><code>&quot;bottom-right&quot; | &quot;bottom-left&quot;</code></td>
+<td><code>&quot;bottom-right&quot;</code></td>
+<td>Places the widget at the bottom of the page.</td>
+</tr>
+<tr>
+<td><code>shortcut</code></td>
+<td><code>boolean</code></td>
+<td><code>true</code></td>
+<td>Enables <code>Alt+Shift+A</code> to open or close the widget. Set it to <code>false</code> to disable the shortcut.</td>
+</tr>
+<tr>
+<td><code>storage</code></td>
+<td>Storage-like object</td>
+<td><code>localStorage</code></td>
+<td>Stores non-default settings.</td>
+</tr>
+<tr>
+<td><code>root</code></td>
+<td>Element</td>
+<td><code>document.documentElement</code></td>
+<td>Receives the <code>data-ax-*</code> attributes.</td>
+</tr>
+<tr>
+<td><code>ax-container</code></td>
+<td>Element</td>
+<td><code>document.body</code></td>
+<td>Receives the widget element.</td>
+</tr>
+<tr>
+<td><code>title</code></td>
+<td><code>string</code></td>
+<td><code>&quot;Accessibility&quot;</code></td>
+<td>Sets the visible and accessible widget title.</td>
+</tr>
+<tr>
+<td><code>document</code></td>
+<td>Document</td>
+<td>Current document</td>
+<td>Selects the document used by the widget.</td>
+</tr>
+</tbody></table></div>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">import { mount } from &quot;illustion-ui/widget&quot;;
+
+const widget = mount({
+  position: &quot;bottom-left&quot;,
+  shortcut: true,
+  title: &quot;Site accessibility&quot;,
+});
+
+console.log(widget.state);</code></pre></div>
+<h2 id="returned-object">Returned object<a class="anchor" href="#returned-object" aria-label="Link to this section: Returned object">#</a></h2>
+<ul>
+<li><code>element</code>: The widget root element.</li>
+<li><code>open()</code>: Opens the panel and moves focus to its heading.</li>
+<li><code>close(returnFocus = true)</code>: Closes the panel. It returns focus to the toggle by default.</li>
+<li><code>reset()</code>: Restores every setting to its default.</li>
+<li><code>set(key, value)</code>: Changes one setting and applies it.</li>
+<li><code>state</code>: A copy of the current settings.</li>
+<li><code>destroy()</code>: Removes the widget and its document-level event listeners.</li>
+</ul>
+<h2 id="change-event">Change event<a class="anchor" href="#change-event" aria-label="Link to this section: Change event">#</a></h2>
+<p>The widget dispatches an <code>ax:change</code> event after a setting changes. It also dispatches the event when a setting is set through the API or all settings are reset.</p>
+<p>The event bubbles. Its <code>detail</code> property contains the current state.</p>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">const widget = mount();
+
+widget.element.addEventListener(&quot;ax:change&quot;, event =&gt; {
+  console.log(event.detail);
+});</code></pre></div>
+<h2 id="state-exports">State exports<a class="anchor" href="#state-exports" aria-label="Link to this section: State exports">#</a></h2>
+<p>The module also exports helpers that do not mount the widget:</p>
+<ul>
+<li><code>sanitize(input)</code>: Keeps known keys and allowed values. It fills missing or invalid values with defaults.</li>
+<li><code>applySettings(root, input)</code>: Sanitizes a state, updates the <code>data-ax-*</code> attributes on <code>root</code>, and returns the state.</li>
+<li><code>loadState(storage)</code>: Loads and sanitizes the saved state.</li>
+<li><code>saveState(storage, state)</code>: Stores only non-default values. It returns <code>false</code> when storage is unavailable.</li>
+<li><code>SETTINGS</code>: The setting definitions and allowed options.</li>
+<li><code>STORAGE_KEY</code>: The storage key, <code>&quot;illustion-ui&quot;</code>.</li>
+</ul>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">import {
+  SETTINGS,
+  STORAGE_KEY,
+  applySettings,
+  loadState,
+  sanitize,
+  saveState,
+} from &quot;illustion-ui/widget&quot;;</code></pre></div>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../web-components/"><span>Previous</span>Web components and shadow DOM</a>
+          <a rel="next" href="../wcag/"><span>Next</span>Tied to W3C WAI</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

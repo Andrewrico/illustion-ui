@@ -1,0 +1,164 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Web components and shadow DOM · Illustion UI docs</title>
+  <meta name="description" content="Web components and shadow DOM: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="./" aria-current="page">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>Engine</li>
+          <li aria-current="page">Web components and shadow DOM</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Web components and shadow DOM</h1>
+<p>Shadow DOM blocks document stylesheets; CSS variables still inherit through it. <code>illustion-ui/shadow</code> closes the gap:</p>
+<div class="code"><pre tabindex="0" aria-label="JS code"><code class="language-js">import {AtomicElement, adopt} from 'illustion-ui/shadow';
+import {create, classes} from 'illustion-ui/atomic';
+import {vars} from 'illustion-ui/vars';
+
+const s = create({card: {padding: vars.space[6], flexDirection: {default: 'row', '@large-text': 'column'}}});
+
+customElements.define('my-card', class extends AtomicElement {
+  connectedCallback() {
+    super.connectedCallback();
+    this.shadowRoot.innerHTML = `&lt;div class=&quot;${classes(s.card)}&quot;&gt;&lt;slot&gt;&lt;/slot&gt;&lt;/div&gt;`;
+  }
+});
+
+// An existing component: adopt(this.shadowRoot)  ·  extra CSS: adopt(root, {css: await buildPage(template)})</code></pre></div>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Piece</th>
+<th>How</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>One shared sheet</td>
+<td><code>adopt()</code> attaches a single constructable stylesheet to every shadow root: base essentials, the widget modes, and the atomic rules in use (updated as new classes are used).</td>
+</tr>
+<tr>
+<td>Modes inside shadows</td>
+<td>Document selectors are rewritten for the host (<code>:root[data-ax-theme=&quot;dark&quot;] .x</code> → <code>:host([data-ax-theme=&quot;dark&quot;]) .x</code>), and each host mirrors <code>&lt;html&gt;</code>&#39;s <code>data-ax-*</code> attributes, so it works in every browser without <code>:host-context()</code>.</td>
+</tr>
+<tr>
+<td>Tokens and text size</td>
+<td>Inherit through the boundary on their own (variables and <code>rem</code>).</td>
+</tr>
+<tr>
+<td>Saturation</td>
+<td>Not repeated inside shadows: the page-level filter already covers them.</td>
+</tr>
+<tr>
+<td>The widget</td>
+<td><code>mount({shadow: true})</code> renders the widget in its own shadow root, isolated from site CSS. Outside-click detection uses <code>composedPath()</code>.</td>
+</tr>
+</tbody></table></div>
+<p>The browser check styles a real custom element and verifies atomic classes, tokens, <code>@large-text</code>, text spacing, dark theme, highlighted links and attribute removal inside the shadow root, plus the shadow-mounted widget (open, set a mode, outside click, Escape, axe).</p>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../shipping/"><span>Previous</span>What ships is atomic</a>
+          <a rel="next" href="../widget-api/"><span>Next</span>Widget JavaScript API</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

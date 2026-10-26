@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Accessibility modes · Illustion UI docs</title>
+  <meta name="description" content="Accessibility modes: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="./" aria-current="page">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="../class-names/">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>Customize</li>
+          <li aria-current="page">Accessibility modes</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Accessibility modes</h1>
+<p>The widget stores only non-default settings. It removes an attribute when its value is the default.</p>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Values</th>
+<th>Effect</th>
+<th>Related WCAG criterion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>data-ax-text</code></td>
+<td><code>100</code> (default), <code>115</code>, <code>130</code>, <code>150</code>, <code>175</code>, <code>200</code></td>
+<td>Scales the root font size. Rem-based type, spacing, and the grid scale with it.</td>
+<td>1.4.4 Resize Text</td>
+</tr>
+<tr>
+<td><code>data-ax-theme</code></td>
+<td><code>auto</code> (default), <code>light</code>, <code>dark</code></td>
+<td>Selects the system, light, or dark theme. <code>auto</code> follows <code>prefers-color-scheme</code>.</td>
+<td>1.4.3 Contrast (Minimum); 1.4.11 Non-text Contrast</td>
+</tr>
+<tr>
+<td><code>data-ax-contrast</code></td>
+<td><code>auto</code> (default), <code>normal</code>, <code>high</code></td>
+<td>Selects the standard or high-contrast palette. <code>auto</code> follows the operating system contrast preference.</td>
+<td>1.4.3 Contrast (Minimum); 1.4.6 Contrast (Enhanced); 1.4.11 Non-text Contrast</td>
+</tr>
+<tr>
+<td><code>data-ax-font</code></td>
+<td><code>default</code> (default), <code>readable</code>, <code>dyslexic</code></td>
+<td>Changes the body font. Readable and dyslexic stacks include local fallbacks.</td>
+<td>1.4.8 Visual Presentation (related)</td>
+</tr>
+<tr>
+<td><code>data-ax-saturation</code></td>
+<td><code>normal</code> (default), <code>low</code>, <code>gray</code></td>
+<td>Applies full, low, or grayscale saturation to site content. The widget is excluded.</td>
+<td>1.4.1 Use of Color (related)</td>
+</tr>
+<tr>
+<td><code>data-ax-motion</code></td>
+<td><code>auto</code> (default), <code>reduce</code>, <code>allow</code></td>
+<td><code>reduce</code> stops animation and transitions. <code>auto</code> follows <code>prefers-reduced-motion</code>. <code>allow</code> overrides that operating system preference.</td>
+<td>2.2.2 Pause, Stop, Hide; 2.3.3 Animation from Interactions</td>
+</tr>
+<tr>
+<td><code>data-ax-spacing</code></td>
+<td><code>off</code> (default), <code>on</code></td>
+<td>Sets a 1.8 line height, 0.12em letter spacing, 0.16em word spacing, and 2em paragraph spacing.</td>
+<td>1.4.12 Text Spacing</td>
+</tr>
+<tr>
+<td><code>data-ax-align</code></td>
+<td><code>off</code> (default), <code>left</code></td>
+<td>Aligns headings and common text blocks to the left.</td>
+<td>1.4.8 Visual Presentation (related)</td>
+</tr>
+<tr>
+<td><code>data-ax-links</code></td>
+<td><code>off</code> (default), <code>ax-underline</code></td>
+<td>Underlines links and gives them a contrasting highlight. Widget links are excluded.</td>
+<td>1.4.1 Use of Color (related)</td>
+</tr>
+<tr>
+<td><code>data-ax-focus</code></td>
+<td><code>off</code> (default), <code>strong</code></td>
+<td>Increases the focus outline to 5px with a 3px offset.</td>
+<td>2.4.7 Focus Visible; 2.4.13 Focus Appearance</td>
+</tr>
+<tr>
+<td><code>data-ax-target</code></td>
+<td><code>off</code> (default), <code>large</code></td>
+<td>Sets most interactive targets to at least 44 by 44 pixels. Checkboxes and radio buttons become 1.5rem square.</td>
+<td>2.5.8 Target Size (Minimum); 2.5.5 Target Size (Enhanced)</td>
+</tr>
+<tr>
+<td><code>data-ax-cursor</code></td>
+<td><code>off</code> (default), <code>large</code></td>
+<td>Uses a custom 48 by 48 pixel cursor.</td>
+<td>No direct success criterion; related motor-accessibility support</td>
+</tr>
+</tbody></table></div>
+<p>Forced-colors mode is handled separately through the <code>forced-colors: active</code> media query.</p>
+<p>The full criterion-by-criterion table is in <a href="../../WCAG.md">WCAG.md</a>.</p>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../layers/"><span>Previous</span>Cascade layers</a>
+          <a rel="next" href="../naming/"><span>Next</span>Naming standard</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

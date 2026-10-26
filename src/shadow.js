@@ -1,4 +1,4 @@
-// Web components: bring a11y-atomic into shadow roots.
+// Web components: bring Illustion UI into shadow roots.
 //
 //   class MyCard extends AtomicElement {
 //     connectedCallback() { this.shadowRoot.innerHTML = `<div class="${classes(s.card)}">…</div>`; }
@@ -12,7 +12,7 @@
 // <html>'s data-ax-* attributes so mode and @condition selectors match inside.
 import {rules, used, onUse} from './atomic.js';
 import {toShadow} from './shadow-css.js';
-import shadowBase from '../dist/a11y-shadow.js';
+import shadowBase from '../dist/illustionui-shadow.js';
 
 const LAYERS = '@layer theme, base, components, atomic, utilities, a11y;';
 const hosts = new Set();
@@ -28,7 +28,7 @@ function mirror(host) {
 }
 
 /**
- * Style a shadow root with a11y-atomic. Options: css (extra stylesheet text,
+ * Style a shadow root with Illustion UI. Options: css (extra stylesheet text,
  * e.g. Tailwind classes from buildPage(template)). Returns the shared sheet.
  */
 export function adopt(root, {css} = {}) {
@@ -58,7 +58,7 @@ export function adopt(root, {css} = {}) {
   return sheet;
 }
 
-/** Base class: an open shadow root with a11y-atomic adopted. */
+/** Base class: an open shadow root with Illustion UI adopted. */
 // (Falls back to a plain class outside browsers so the module can be imported by the build.)
 export class AtomicElement extends (globalThis.HTMLElement ?? class {}) {
   constructor() {

@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Class names · Illustion UI docs</title>
+  <meta name="description" content="Class names: Illustion UI documentation, the accessibility-first atomic CSS framework.">
+  <script>try{var k="illustion-ui",s=JSON.parse(localStorage.getItem(k)||"{}");if(!s.theme){s.theme="light";localStorage.setItem(k,JSON.stringify(s))}}catch(e){}</script>
+  <script src="../../dist/illustionui-init.js"></script>
+  <link rel="stylesheet" href="../../dist/illustionui.css">
+  <link rel="stylesheet" href="../../docs/assets/site.css">
+  <script type="module" src="../../src/auto.js"></script>
+  <script type="module" src="../../docs/assets/site.js"></script>
+</head>
+<body>
+  <a class="ax-sr-only focus:ax-not-sr-only focus:ax-absolute focus:ax-top-2 focus:ax-left-2 focus:ax-z-50 focus:ax-px-4 focus:ax-py-2 focus:ax-bg-primary focus:ax-text-on-primary focus:ax-rounded-md" href="#content">Skip to main content</a>
+
+  <header class="site-header">
+    <nav class="site-bar" aria-label="Primary">
+      <a class="site-brand" href="../../index.html">Illustion UI</a>
+      <ul class="site-links">
+        <li><a href="../../docs/" aria-current="page">Docs</a></li>
+        <li><a href="../../examples.html">Examples</a></li>
+        <li><a href="../wcag/">WCAG</a></li>
+      </ul>
+      <span class="site-version">v0.1.0</span>
+      <button type="button" class="site-button" data-open-widget>Accessibility settings</button>
+    </nav>
+  </header>
+
+  <div class="docs">
+    <details class="docs-side" open>
+      <summary>Browse docs</summary>
+      <nav aria-label="Docs">
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-getting-started">Getting started</h2>
+          <ul aria-labelledby="g-getting-started">
+            <li><a href="../">Introduction</a></li>
+            <li><a href="../quick-start/">Quick start</a></li>
+            <li><a href="../how-it-works/">How it works</a></li>
+            <li><a href="../connect/">Ways to connect</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-customize">Customize</h2>
+          <ul aria-labelledby="g-customize">
+            <li><a href="../tokens/">Tokens</a></li>
+            <li><a href="../layers/">Cascade layers</a></li>
+            <li><a href="../modes/">Accessibility modes</a></li>
+            <li><a href="../naming/">Naming standard</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-layout-and-content">Layout and content</h2>
+          <ul aria-labelledby="g-layout-and-content">
+            <li><a href="../grid/">Grid</a></li>
+            <li><a href="../plain-html/">Plain HTML, already styled</a></li>
+            <li><a href="../page-loads/">Only what the page loads</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-utilities">Utilities</h2>
+          <ul aria-labelledby="g-utilities">
+            <li><a href="../utilities/">Utilities</a></li>
+            <li><a href="./" aria-current="page">Class names</a></li>
+            <li><a href="../variable-utilities/">Variable utilities</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-engine">Engine</h2>
+          <ul aria-labelledby="g-engine">
+            <li><a href="../atomic/">Atomic, Facebook style</a></li>
+            <li><a href="../shipping/">What ships is atomic</a></li>
+            <li><a href="../web-components/">Web components and shadow DOM</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-widget">Widget</h2>
+          <ul aria-labelledby="g-widget">
+            <li><a href="../widget-api/">Widget JavaScript API</a></li>
+          </ul>
+        </div>
+        <div class="docs-group">
+          <h2 class="docs-group-title" id="g-about">About</h2>
+          <ul aria-labelledby="g-about">
+            <li><a href="../wcag/">Tied to W3C WAI</a></li>
+            <li><a href="../efficiency/">Efficiency: what it costs, measured</a></li>
+            <li><a href="../performance/">Performance</a></li>
+            <li><a href="../lineage/">The best idea from each framework</a></li>
+            <li><a href="../development/">Development</a></li>
+            <li><a href="../limits/">Limits</a></li>
+            <li><a href="../license/">License</a></li>
+          </ul>
+        </div>
+      </nav>
+    </details>
+
+      <nav class="docs-toc" aria-labelledby="toc-title">
+        <h2 id="toc-title" class="docs-group-title">On this page</h2>
+        <ul>
+          <li><a href="#defaults-and-limits">Defaults and limits</a></li>
+          <li><a href="#breakpoints">Breakpoints</a></li>
+        </ul>
+      </nav>
+    <main id="content" class="docs-main">
+      <nav class="docs-crumbs" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../../docs/">Docs</a></li>
+          <li>Utilities</li>
+          <li aria-current="page">Class names</li>
+        </ol>
+      </nav>
+      <h1 class="docs-title">Class names</h1>
+<p>Class names and variants follow a familiar utility syntax.</p>
+<div class="code"><pre tabindex="0" aria-label="HTML code"><code class="language-html">&lt;div class=&quot;ax-grid ax-grid-cols-3 ax-gap-4 ax-p-4 lg:ax-col-span-2 hover:ax-bg-primary dark:ax-bg-primary motion-reduce:ax-transition-none&quot;&gt;
+  &lt;a class=&quot;ax-sr-only focus:ax-not-sr-only&quot;&gt;Skip to content&lt;/a&gt;
+&lt;/div&gt;</code></pre></div>
+<p>The tokens, breakpoints, and accessibility behavior are specific to Illustion UI.</p>
+<h2 id="defaults-and-limits">Defaults and limits<a class="anchor" href="#defaults-and-limits" aria-label="Link to this section: Defaults and limits">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Illustion UI behavior</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Spacing</td>
+<td>Uses a 4-pixel spacing step. <code>--ax-spacing</code> is <code>0.25rem</code>. <code>ax-p-4</code> equals <code>calc(var(--ax-spacing) * 4)</code>.</td>
+</tr>
+<tr>
+<td>Colors</td>
+<td>Uses semantic tokens only. Examples are <code>ax-text-muted</code>, <code>ax-bg-surface</code>, <code>ax-border-border</code>, and <code>ax-text-on-primary</code>. Color pairs are contrast-tested in four themes. There is no fixed color palette.</td>
+</tr>
+<tr>
+<td>Breakpoints</td>
+<td>Uses <code>sm</code> at 640px, <code>md</code> at 768px, <code>lg</code> at 1024px, <code>xl</code> at 1268px, and <code>2xl</code> at 1440px. The <code>lg</code>, <code>xl</code>, and <code>2xl</code> values match the andrewrico <code>grid.css</code> breakpoints.</td>
+</tr>
+<tr>
+<td>Reader variants</td>
+<td>Adds <code>large-text:</code> for text scales of 150% or more and <code>text-spacing:</code> for the text spacing mode.</td>
+</tr>
+<tr>
+<td>Preference variants</td>
+<td><code>dark:</code>, <code>contrast-more:</code>, <code>motion-safe:</code>, and <code>motion-reduce:</code> follow an explicit widget choice first. If the widget leaves the choice automatic, they follow the operating system.</td>
+</tr>
+<tr>
+<td>Durations</td>
+<td>Multiply their duration by <code>--ax-a11y-motion</code>. The widget can set that variable to zero.</td>
+</tr>
+<tr>
+<td>Letter spacing</td>
+<td><code>ax-tracking-*</code> never reduces the letter spacing set by the widget.</td>
+</tr>
+<tr>
+<td>Target sizes</td>
+<td><code>ax-min-h-target</code>, <code>ax-min-w-target</code>, and <code>ax-size-target</code> use the widget target size. It ranges from 24px to 44px.</td>
+</tr>
+<tr>
+<td>Focus ring</td>
+<td><code>ax-outline-focus-ring</code> uses the widget focus width, offset, and focus color.</td>
+</tr>
+<tr>
+<td>Arbitrary values</td>
+<td>Does not support values such as <code>p-[13px]</code>. Override a token or use a CSS variable instead.</td>
+</tr>
+<tr>
+<td>Build model</td>
+<td>Does not use a JIT compiler. It scans content for class names.</td>
+</tr>
+</tbody></table></div>
+<h2 id="breakpoints">Breakpoints<a class="anchor" href="#breakpoints" aria-label="Link to this section: Breakpoints">#</a></h2>
+<div class="table-wrap" tabindex="0" role="region" aria-label="Table, scrolls sideways on small screens"><table>
+<thead>
+<tr>
+<th>Variant</th>
+<th align="right">Minimum width</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sm:</code></td>
+<td align="right">640px</td>
+</tr>
+<tr>
+<td><code>md:</code></td>
+<td align="right">768px</td>
+</tr>
+<tr>
+<td><code>lg:</code></td>
+<td align="right">1024px</td>
+</tr>
+<tr>
+<td><code>xl:</code></td>
+<td align="right">1268px</td>
+</tr>
+<tr>
+<td><code>2xl:</code></td>
+<td align="right">1440px</td>
+</tr>
+</tbody></table></div>
+
+        <nav class="docs-pager" aria-label="Previous and next page">
+          <a rel="prev" href="../utilities/"><span>Previous</span>Utilities</a>
+          <a rel="next" href="../variable-utilities/"><span>Next</span>Variable utilities</a>
+        </nav>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>Illustion UI v0.1.0 · MIT · Code and docs by Andrew Rico. The widget helps readers; it does not make a site conformant on its own.</p>
+    <p><a href="../../index.html">Home</a> · <a href="../../docs/">Docs</a> · <a href="../../examples.html">Examples</a> · <a href="#content">Back to top</a></p>
+  </footer>
+</body>
+</html>

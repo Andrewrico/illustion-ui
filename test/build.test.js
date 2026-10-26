@@ -100,7 +100,7 @@ test('escaping handles leading digits, dots, slashes and colons', () => {
 });
 
 test('content scan keeps only the classes a page uses', async () => {
-  const dir = await mkdtemp(path.join(tmpdir(), 'a11y-atomic-'));
+  const dir = await mkdtemp(path.join(tmpdir(), 'illustion-ui-'));
   await writeFile(path.join(dir, 'page.html'), '<div class="ax-flex ax-p-4 lg:ax-grid-cols-3 hover:ax-bg-primary"></div>');
   const small = await build({content: ['*.html'], cwd: dir});
   const utilitiesLayer = small.slice(small.indexOf('@layer utilities {'), small.indexOf('@layer a11y {'));
@@ -133,7 +133,7 @@ test('per page: only the classes a page uses, grid.css only when the page uses t
   const withGrid = await buildPage('<div class="ax-grid-wrapper"></div>');
   assert.ok(withGrid.includes('.ax-grid-wrapper{'));
   const core = await buildCore();
-  assert.ok(core.startsWith('/*! a11y-atomic core') && core.includes('@layer theme,base,components,atomic,utilities,a11y'));
+  assert.ok(core.startsWith('/*! Illustion UI core') && core.includes('@layer theme,base,components,atomic,utilities,a11y'));
   assert.ok(!core.includes('.ax-flex{'), 'core has no utilities');
 });
 
@@ -147,11 +147,11 @@ test('per page: atomic classes found in the HTML bring only their own rules', as
 
 test('inlinePage swaps the full bundle for core + page style, and is idempotent', async () => {
   const {inlinePage} = await import('../scripts/build.mjs');
-  const html = '<html><head><link rel="stylesheet" href="dist/a11y-atomic.css"></head><body></body></html>';
-  const once = inlinePage(html, '.ax-flex{display:flex}', '/css/a11y-core.css');
-  assert.ok(!once.includes('a11y-atomic.css'));
-  assert.ok(once.includes('<link rel="stylesheet" href="/css/a11y-core.css" data-ax-core><style data-ax-page>.ax-flex{display:flex}</style>'));
-  const twice = inlinePage(once, '.ax-block{display:block}', '/css/a11y-core.css');
+  const html = '<html><head><link rel="stylesheet" href="dist/illustionui.css"></head><body></body></html>';
+  const once = inlinePage(html, '.ax-flex{display:flex}', '/css/illustionui-core.css');
+  assert.ok(!once.includes('illustionui.css'));
+  assert.ok(once.includes('<link rel="stylesheet" href="/css/illustionui-core.css" data-ax-core><style data-ax-page>.ax-flex{display:flex}</style>'));
+  const twice = inlinePage(once, '.ax-block{display:block}', '/css/illustionui-core.css');
   assert.equal(twice.match(/data-ax-page/g).length, 1);
   assert.ok(twice.includes('.ax-block{display:block}') && !twice.includes('.ax-flex{display:flex}'));
 });
@@ -172,7 +172,7 @@ test('buildPages rewrites each page with its own CSS', async () => {
   await writeFile(path.join(dir, 'c.html'), '<html><head></head><body class="ax-flex"></body></html>');
   await buildPages(['c.html'], {cwd: dir});
   assert.ok((await readFile(path.join(dir, 'c.html'), 'utf8')).includes('.ax-flex{'), 'readable classes by default (smaller inline)');
-  assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).includes('--ax-color-text'));
+  assert.ok((await readFile(path.join(dir, 'css/illustionui-core.css'), 'utf8')).includes('--ax-color-text'));
   assert.equal(result.pages.length, 2);
 });
 
@@ -182,10 +182,10 @@ test('Eleventy perPage transform inlines each page and writes the core', async (
   let transform, after;
   plugin({addTransform: (name, fn) => { transform = fn; }, on: (e, fn) => { if (e === 'eleventy.after') after = fn; }}, {perPage: true, compile: true});
   const out = await transform.call({page: {outputPath: path.join(dir, 'index.html')}}, '<html><head></head><body class="ax-p-2"></body></html>');
-  assert.ok(/class="ax_[0-9a-z]+"/.test(out) && out.includes('padding:calc(var(--ax-spacing) * 2)') && out.includes('href="/css/a11y-core.css"'));
+  assert.ok(/class="ax_[0-9a-z]+"/.test(out) && out.includes('padding:calc(var(--ax-spacing) * 2)') && out.includes('href="/css/illustionui-core.css"'));
   assert.equal(await transform.call({page: {outputPath: 'feed.xml'}}, '<rss/>'), '<rss/>');
   await after({dir: {output: dir}});
-  assert.ok((await readFile(path.join(dir, 'css/a11y-core.css'), 'utf8')).length > 1000);
+  assert.ok((await readFile(path.join(dir, 'css/illustionui-core.css'), 'utf8')).length > 1000);
 });
 
 test('shadow DOM: document selectors are rewritten for :host', async () => {
@@ -196,7 +196,7 @@ test('shadow DOM: document selectors are rewritten for :host', async () => {
   assert.equal(shadowSelector(':is([data-ax-font="readable"], [data-ax-font="dyslexic"]) body p'), ':host(:is([data-ax-font="readable"], [data-ax-font="dyslexic"])) p');
   assert.equal(shadowSelector('.x1:hover'), '.x1:hover');
   assert.equal(toShadow('@media print { [data-ax-links="underline"] a, .y { color: red; } }'), '@media print { :host([data-ax-links="underline"]) a, .y { color: red; } }');
-  const generated = (await import('../dist/a11y-shadow.js')).default;
+  const generated = (await import('../dist/illustionui-shadow.js')).default;
   assert.ok(generated.includes(':host([data-ax-spacing="on"]) *') && !generated.includes('saturation') && !generated.includes(':root'));
 });
 
@@ -261,15 +261,15 @@ test('site mode: one shared stylesheet, short names for the most used classes', 
   assert.equal(padding[0][1], 'ax_0', 'most used class gets the shortest name');
   assert.ok(site.css.includes('--ax-color-text') && site.css.includes('@layer theme'), 'core included');
   assert.ok(!site.css.includes('{padding:calc(var(--ax-spacing) * 8)}'), 'only used classes');
-  const linked = linkSite(linkSite(site.pages['a.html'], '/css/a11y-site.css'), '/css/a11y-site.css');
+  const linked = linkSite(linkSite(site.pages['a.html'], '/css/illustionui-site.css'), '/css/illustionui-site.css');
   assert.equal(linked.match(/data-ax-site/g).length, 1, 'linking is idempotent');
 
   const dir = await mkdtemp(path.join(tmpdir(), 'a11y-site-'));
   for (const [f, h] of Object.entries(pages)) await writeFile(path.join(dir, f), h);
   const result = await buildSite(['*.html'], {cwd: dir});
   assert.equal(result.pages, 2);
-  assert.ok((await readFile(path.join(dir, 'b.html'), 'utf8')).includes('href="/css/a11y-site.css"'));
-  assert.ok((await readFile(path.join(dir, 'css/a11y-site.css'), 'utf8')).includes('@layer'));
+  assert.ok((await readFile(path.join(dir, 'b.html'), 'utf8')).includes('href="/css/illustionui-site.css"'));
+  assert.ok((await readFile(path.join(dir, 'css/illustionui-site.css'), 'utf8')).includes('@layer'));
 });
 
 test('Eleventy site mode compiles every page and links one shared stylesheet', async () => {
@@ -284,6 +284,6 @@ test('Eleventy site mode compiles every page and links one shared stylesheet', a
   try { await after({dir: {output: '.'}}); } finally { process.chdir(cwd); }
   const a = await readFile(path.join(dir, 'a.html'), 'utf8');
   assert.match(a, /<body class="ax_[0-9a-z]+">/);
-  assert.ok(a.includes('href="/css/a11y-site.css"'));
-  assert.ok((await readFile(path.join(dir, 'css/a11y-site.css'), 'utf8')).includes('--ax-color-text'));
+  assert.ok(a.includes('href="/css/illustionui-site.css"'));
+  assert.ok((await readFile(path.join(dir, 'css/illustionui-site.css'), 'utf8')).includes('--ax-color-text'));
 });
